@@ -1,5 +1,4 @@
 Global Integer Xmax, Xmin, Ymax, Ymin, Zmin, xpos, ypos, gap, radius, x, y, z, u, x1, x2, y1, y2
-Global String p$
 
 Function main
 	String indata$(0), receive$
@@ -40,7 +39,7 @@ Function main
     	y2 = Val(Trim$(indata$(4)))
    		Print "Mapping"
    	    
-		' mapping code here (unfinished)
+		' mapping code here   		
 		P111 = XY(100, 100, 100, 0) ' warning: mock up data
 		P112 = XY(200, 200, 100, 0) ' ====
 		P211 = XY(0, 0, 0, 0)
@@ -68,12 +67,12 @@ Function main
 	   	Go Here :X(x) :Y(y) :Z(z)
    EndIf
    
-   If indata$(0) = "M" Then
-     	p$ = Trim$(indata$(1))
-    
-   		Print "Going to ", p$
-	   	Go p$
-   EndIf
+'   If indata$(0) = "M" Then
+'     	p$ = Trim$(indata$(1))
+'    
+'   		Print "Going to ", p$
+'	   	Go p$
+'   EndIf
    
    Print #201, "SUCCESS"
   Loop
@@ -121,6 +120,12 @@ Function calibrate
 	
 	gap = 50
 	
+'	Move Here :X(Xmin) :Y(Ymin) :Z(Zmin)
+'	Move Here :X(Xmin) :Y(Ymax) :Z(Zmin)
+'	Move Here :X(Xmax) :Y(Ymax) :Z(Zmin)
+'	Move Here :X(Xmax) :Y(Ymin) :Z(Zmin)
+'	Move Here :X(Xmin) :Y(Ymin) :Z(Zmin)
+'	
 	For ypos = Ymin To Ymax Step gap
     	For xpos = Xmin To Xmax Step gap
         	Print "x:(", Trim$(Str$(xpos)), ") y:(", Trim$(Str$(ypos)), ")"
