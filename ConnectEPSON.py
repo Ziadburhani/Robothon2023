@@ -25,7 +25,7 @@ for data in places:
     print("result:", msg_rx)
     # do something else, like open gripper
     # talkToServo("g0")  # servo fully opened
-    # talkToServo("g100") $ servo fully closed
+    # talkToServo("g100") # servo fully closed
     # then move Z down
     # close the gripper according to the object size
     # then jump to the container position
