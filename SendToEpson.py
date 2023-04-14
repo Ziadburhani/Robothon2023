@@ -24,7 +24,7 @@ def sendToEpson(command):
     clientSocket.send(msg_tx.encode())
     msg_rx = clientSocket.recv(1023) # waiting for confirmation from robot
     print("Result: ", msg_rx)
-    sleep(1)
+    sleep(0.5)
 
 def Home():
     sendToEpson(0, 450, 850, 90) # change this to default home or camera position
