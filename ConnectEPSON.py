@@ -5,6 +5,7 @@
 import socket
 from time import sleep
 import numpy as np
+from TalkToServo import talkToServo # connect to servo gripper via USB serial
 
 ## Create a client socket
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM);
@@ -23,11 +24,14 @@ for data in places:
     msg_rx = clientSocket.recv(1023) # waiting for confirmation from robot
     print("result:", msg_rx)
     # do something else, like open gripper
+    # talkToServo("g0")  # servo fully opened
+    # talkToServo("g100") $ servo fully closed
     # then move Z down
     # close the gripper according to the object size
     # then jump to the container position
     # and release the item
     #etc
+    
     sleep(1)
 
 clientSocket.close # close the connection
