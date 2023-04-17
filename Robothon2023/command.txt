@@ -1,0 +1,128 @@
+> go here :z(900)
+> 
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 5
+> 
+!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 5
+> 
+> 
+> go 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> > motor On
+!!Error: 3100, Syntax error.
+> motor On
+
+
+> go here :x(-350)
+> go here :v(0)
+> 
+> go here :z(522)
+> go SurfaceCenter
+
+> > go SurfaceCenter +y(100) -x(100)
+!!Error: 3100, Syntax error.
+> 
+!!Error: 3100, Syntax error.
+> 
+> go SurfaceCenter -y(100) +x(100)
+> go SurfaceCenter
+> 
+> 
+> go BottomLeft
+!!Error: 10000, Command aborted by user
+> go BottomRight
+> 
+> go TopRight
+> go SurfaceCenter
+> go CameraPos
+> 
+> go TopLeft
+> 
+> 
+> go SurfaceCenter
+> 
+> 
+> 
+> 
+!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 3
+> 
+!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 3
+> 
+> 
+> 
+> 
+> 
+> 
+> motor Off
+> go here :y(150)
+> go here :u(-90)
+> go here :w(-180)
+> 
+> 
+!!Error: 3205, Point is not specified.
+> 
+!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
+> 
+> 
+> go here :y(166)
+> 
+> 
+> go here :x(-319)
+> 
+> 
+> 
+> go BottomRight +y(100)
+> 
+!!Error: 10000, Command aborted by user
+> go BottomLeft -y(100)
+> 
+> go here :x(-319)
+> go here :y(165)
+> 
+> go TopLeft -y(100)
+> go CameraPos
+> go BottomRight +y(100)
+> go here:U(90)
+stop
+!!Error: 3100, Syntax error.
+> > 
+> go here: U(-90)
+> go here: U(0)
+> go here: U(-90)
+!!Error: 4025, Cannot execute a motion command during emergency stop condition.
+> go here: U(-90)
+> go here: U(-90)
+> go here : x(-510)
+> go here:y(200)
+> go here: x(-550)
+
+go here: y(50)
+> 
+!!Error: 3100, Syntax error.
+> go here:z(900)
+> go here:z(850)
+> go here:z(900)
+> go here:x(-550)
+> go here: y(200)
+> go here:x(-510)
+> go here:z(900)
+> go here: x(-319)
+>  go here: y(165)
+> go here: v(0)
+>  go here: w(-180)
+>  go here: z(900)
+> go here:w(180)
+> 
+!!Error: 3100, Syntax error.
+> go here:z(700)
+> 
+> 
+> 
+> go here:x(-500)
+> go here:y(200)
+> 
+!!Error: 2318, Cannot execute a motion command when an error has been detected.
+> 
+!!Error: 2318, Cannot execute a motion command when an error has been detected.
+> 
