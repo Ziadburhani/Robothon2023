@@ -1,6 +1,7 @@
 // Robothon 2023 Team RobotechX MDX
 // by Judhi Prasetyo 06/04/2023
-// This is the code for controlling the gripper and getting distance from LIDAR
+// modified by Ziad Burhani & James Brazier for more granular opening
+// This is the code for controlling the gripper
 // expecting command from Python: G0/G50/G100 for gripper opening percentage
 // Serial speed to PC is 9600, CR/LF does not matter
 
@@ -48,7 +49,7 @@ void setup() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Fully opened");
-  Serial.println("Ready, enter command (eg: 'G0/G50/G100')");  // case insensitive
+  Serial.println("Ready, enter command (eg: 'G0/G40/G50/G70/G100')");  // case insensitive
 }
 
 void loop() {
@@ -64,9 +65,18 @@ void loop() {
       myservo.write(0);
       msg = "Fully opened";
     }
-    if (command == "gripper 50" || command == "g50") {
+    
+    if (command == "gripper 40" || command == "g40") {
+      myservo.write(75);
+      msg = "Picking Probe"; // this added to use the gripper for picking probe
+    }
+   if (command == "gripper 50" || command == "g50") {
       myservo.write(90);
       msg = "Half opened";
+    }
+    if (command == "gripper 70" || command == "g70") {
+      myservo.write(150);
+      msg = "Picking Plug";   //this added to use the gripper for picking plug
     }
     if (command == "gripper 100" || command == "g100") {
       myservo.write(165);
