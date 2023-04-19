@@ -20,10 +20,10 @@ clientSocket.connect(("127.0.0.1",2001)) # this is simulator address, change thi
 def sendToEpson(command):
     # Send data to robot
     msg_tx = command + "\r\n"
-    print("Sending: " + msg_tx)
+    print("Sending: " + command)
     clientSocket.send(msg_tx.encode())
     msg_rx = clientSocket.recv(1023) # waiting for confirmation from robot
-    print("Result: ", msg_rx)
+    print("Result: ", msg_rx , "\r\n")
     sleep(0.5)
 
 def Home():
