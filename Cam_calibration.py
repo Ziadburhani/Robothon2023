@@ -21,21 +21,23 @@ camera_pos = "-450 150 900 -90"
 
 sendToEpson("GO "+camera_pos)
 
-for Ypos in range(Ymin,Ymax+1,gap):
-    for Xpos in range(Xmin,Xmax+1,gap):
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
-        sendToEpson(command)
-        print("Open gripper") # open gripper
-        sleep(1)
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0"  # go to the calibration point
-        sendToEpson(command)
-        print("Close gripper") # close gripper
-        sleep(0.5)
-        print("Open gripper") # open gripper
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point again
-        sendToEpson(command)
+# for Ypos in range(Ymin,Ymax+1,gap):
+#     for Xpos in range(Xmin,Xmax+1,gap):
+#         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
+#         sendToEpson(command)
+#         print("Open gripper") # open gripper
+#         sleep(1)
+#         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0"  # go to the calibration point
+#         sendToEpson(command)
+#         print("Close gripper") # close gripper
+#         sleep(0.5)
+#         print("Open gripper") # open gripper
+#         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point again
+#         sendToEpson(command)
 
 sendToEpson("GO "+camera_pos)
+sleep(1)
+sendToEpson("M Click_M5")
 
 # define a video capture object
 cap = cv2.VideoCapture(2)
