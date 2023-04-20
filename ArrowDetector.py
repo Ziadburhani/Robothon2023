@@ -32,7 +32,7 @@ def hsv_threshold(image):
     cv2.imshow(window_detection_name, thresh)
     printHSVValues()
 
-frame = cv2.imread('images/redbox.jpg')
+frame = cv2.imread('images/screen.jpg')
 frame_HSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 hsv_threshold(frame_HSV)
 

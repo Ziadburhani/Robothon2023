@@ -2,7 +2,9 @@ import cv2
 import numpy as np
 
 images_folder = 'Latest Photos/'
-image = 'WIN_20230419_15_26_55_Pro.jpg'
+image = 'WIN_20230419_15_26_58_Pro.jpg'
+image2 = 'WIN_20230419_15_27_38_Pro.jpg'
+current_slider_position = 0
 
 # Step 1: Detect the red-box
 ### Use HSV color space to detect the red-box
@@ -70,7 +72,7 @@ def four_point_transform(image, pts):
 	# return the warped image
 	return warped
 
-def hsv_object_detector(image, low_hsv, high_hsv, kSize = 3, opening = True, canny = True):
+def hsv_object_detector(image, low_hsv, high_hsv, kSize = 3, opening = True, canny = True, return_max_contour = True, find_contours = True):
     kernel_size = (kSize, kSize)
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, kernel_size)
     hsv_image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
@@ -81,20 +83,26 @@ def hsv_object_detector(image, low_hsv, high_hsv, kSize = 3, opening = True, can
     canny_img = opening_img
     if canny is True:
         canny_img = cv2.Canny(opening_img, 100, 200)
-    contours, hierarchy = cv2.findContours(canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    c = max(contours, key=cv2.contourArea)
-    return c
+    if find_contours is True:
+        contours, hierarchy = cv2.findContours(canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        c = contours
+        if return_max_contour is True:
+            c = max(contours, key=cv2.contourArea)
+        return c
+    else:
+        return canny_img
      
 
 def detect_red_box(image, showImage = False):
+    # Crop to the relevant bottom-right corner to focus on the red-box
+    image = image[470:900, 900:1200]
     low_hsv = (0, 82, 142)
     high_hsv = (180, 255, 255)
-    c = hsv_object_detector(image, low_hsv, high_hsv, 3, True, True)
+    c = hsv_object_detector(image, low_hsv, high_hsv, 3, True, False, True)
     rect = cv2.minAreaRect(c)
     box = cv2.boxPoints(rect)
     box = np.int0(box)
     warped = four_point_transform(image, box)
-    print(warped.shape)
     if showImage is True:
         show_image('RedBox', warped)
     return warped
@@ -104,21 +112,30 @@ def detect_red_box(image, showImage = False):
 def detect_screen(image, showImage = False):
     low_hsv = (53, 0, 102)
     high_hsv = (154, 255, 255)
-    c = hsv_object_detector(image, low_hsv, high_hsv, 3, True, True)
+    c = hsv_object_detector(image, low_hsv, high_hsv, 3, True, False, True)
     rect = cv2.minAreaRect(c)
     box = cv2.boxPoints(rect)
     box = np.int0(box)
     warped = four_point_transform(image, box)
-    print(warped.shape)
     if showImage is True:
         show_image('Screen', warped)
     return warped
 
+
+def calculate_distance(slider_arrow_y, target_arrow_y, total_length, margin = 15, slider_length = 31):
+    total_length_of_slider = total_length - (margin * 2)
+    start = margin
+    end = margin + total_length_of_slider
+    current_position_of_slider = slider_arrow_y/end
+    target_position = target_arrow_y/end
+    percent_to_move = (target_position - current_position_of_slider)
+    distance = percent_to_move * slider_length
+    distance_to_move = target_position + distance
+    return current_position_of_slider, target_position, percent_to_move, distance_to_move
+
 # Step 3: Detect the arrows and calculate the relative movement: ArrowPosition (0.0 - 1.0)
 ### Within the screen, use the HSV colour space to detect the arrows
 ### The length of the slider is the same as the screen length (Convenient)
-def detect_relative_arrow_position(image, showImage = False):
-    
 
 # Step 4: Go to the slider and move accordingly
 ### Dimensions of the slider are known
@@ -126,8 +143,70 @@ def detect_relative_arrow_position(image, showImage = False):
 ### Move the slider according to ArrowPosition * TotalSliderLength
 ### E.g.: If TotalSliderLength = 4.5cm and ArrowPosition = 0.5 -> Move slider 2.25cm
 ### Remember new slider position
+# 31MM IS THE LENGTH OF THE SLIDER
 
+def calculate_first_arrow_position(image):
+    slider_arrow_y = -1
+    target_arrow_y = -1
+    low_hsv = (0, 0, 221)
+    high_hsv = (180, 100, 255)
+    image = image[0:image.shape[0],int(image.shape[1]/2):image.shape[1]]
+    contours = hsv_object_detector(image, low_hsv, high_hsv, 3, True, False, False)
+    contours = sorted(contours, key=cv2.contourArea, reverse=True)
+    arrow1 = contours[0]
+    arrow2 = contours[1]
+    M1 = cv2.moments(arrow1)
+    cx1 = int(M1['m10']/M1['m00'])
+    cy1 = int(M1['m01']/M1['m00'])
+    M2 = cv2.moments(arrow2)
+    cx2 = int(M2['m10']/M2['m00'])
+    cy2 = int(M2['m01']/M2['m00'])
+    # Lower X value is for the left arrow
+    if cx1 < cx2:
+        # Arrow 1 is the left arrow
+        slider_arrow_y = cy1
+        target_arrow_y = cy2
+    else:
+        slider_arrow_y = cy2
+        target_arrow_y = cy1
+    
+    current_position_of_slider, target_position, percent_to_move, distance_to_move = calculate_distance(slider_arrow_y, target_arrow_y, image.shape[0])
+    print("Current position of slider = {:.2f}, Target position = {:.2f}, % to move slider = {:.2f}".format(current_position_of_slider, target_position, percent_to_move))
+    return distance_to_move, target_arrow_y, percent_to_move
+
+# Step 5: Detect the second arrow and calculate the relative movement: ArrowPosition (0.0 - 1.0)
+### Within the screen, use the HSV colour space to detect the arrows
+### The length of the slider is the same as the screen length (Convenient)
+def calculate_second_arrow_position(current_slider_p, orig,image):
+    slider_arrow_y = current_slider_position
+    target_arrow_y = -1
+    low_hsv = (0, 0, 221)
+    high_hsv = (180, 100, 255)
+    
+    orig = orig[0:orig.shape[0],int(orig.shape[1]/2):orig.shape[1]]
+    image = image[0:image.shape[0],int(image.shape[1]/2):image.shape[1]] 
+    image = image[0:orig.shape[0],0:orig.shape[1]]
+    backup_image = image
+    orig = hsv_object_detector(orig, low_hsv, high_hsv, 3, True, False, False, False)
+    image = hsv_object_detector(image, low_hsv, high_hsv, 3, True, False, False, False)
+    final = cv2.subtract(image, orig)
+    contours, hierarchy = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    c = max(contours, key=cv2.contourArea)
+    M = cv2.moments(c)
+    cx = int(M['m10']/M['m00'])
+    cy = int(M['m01']/M['m00'])
+    slider_arrow_y = current_slider_p
+    target_arrow_y = cy
+    current_position_of_slider, target_position, percent_to_move, distance_to_move = calculate_distance(slider_arrow_y, target_arrow_y, image.shape[0])
+    print("Current position of slider = {:.2f}, Target position = {:.2f}, % to move slider = {:.2f}".format(current_position_of_slider, target_position, percent_to_move))
+    print("Distance to move the slider (in mm): {:.2f}".format(distance_to_move))
     
 image = load_image(images_folder+image)
-red_box = detect_red_box(image,showImage=True)
-screen = detect_screen(red_box, showImage=True)
+red_box = detect_red_box(image, True)
+screen = detect_screen(red_box, True)
+distance_to_move, current_slider_position, arrow_position = calculate_first_arrow_position(screen)
+print("Distance to move the slider (in mm): {:.2f}".format(distance_to_move))
+image2 = load_image(images_folder+image2)
+red_box2 = detect_red_box(image2, True)
+screen2 = detect_screen(red_box2, True)
+calculate_second_arrow_position(current_slider_position, screen, screen2)
