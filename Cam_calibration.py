@@ -39,8 +39,8 @@ print("Camera connected")
 camera_pos = "-450 150 900 -90"
 # sendToEpson("GO "+camera_pos)
 
-print("Open gripper") # open gripper
-response = arduino.communicate("g0")
+print("Open gripper") # open gripper halfway
+response = arduino.communicate("g50")
 print(response)
 sleep(1)
         
@@ -48,15 +48,15 @@ for Ypos in range(Ymin,Ymax+1,gap):
     for Xpos in range(Xmin,Xmax+1,gap):
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
         sendToEpson(command)
-        
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0"  # go to the calibration point
         sendToEpson(command)
+        input("Place a token under the gripper and press ENTER to continue")        
         print("Close gripper") # close gripper to align token
         response = arduino.communicate("g100")
         print(response)
         sleep(1)
-        print("Open gripper") # open gripper again
-        response = arduino.communicate("g0")
+        print("Open gripper") # open gripper halfway again
+        response = arduino.communicate("g50")
         print(response)
         sleep(1)
 
