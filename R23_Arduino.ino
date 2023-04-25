@@ -19,6 +19,8 @@ int maxAngle = 180;  // gripper fully closed
 Servo myservo;
 
 void setup() {
+  Serial.begin(9600);
+  Serial.println("Servo controller starting..");  
   myservo.attach(9, 500, 2500);
   lcd.init();
   lcd.backlight();
@@ -27,19 +29,21 @@ void setup() {
   lcd.print("Middlesex");
   lcd.setCursor(2, 1);
   lcd.print("University");
-  delay(2000);
-    lcd.clear();
+  Serial.println("Middlesex University Dubai");
+  delay(1000);
+  lcd.clear();
   lcd.setCursor(3, 0);
   lcd.print("Robothon");
   lcd.setCursor(7, 1);
   lcd.print("2023");
-  delay(2000);
+  Serial.println("Robothon 2023");
+  delay(1000);
   lcd.clear();
-  delay(4000);
-  Serial.begin(9600);
+  delay(1000);
+
   // check the servo opening & closing
   myservo.write(maxAngle);
-  Serial.println("Fully closed");
+  Serial.println("Gripper fully closed");
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Fully closed");
@@ -49,7 +53,8 @@ void setup() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Fully opened");
-  Serial.println("Ready, enter command (eg: 'G0/G40/G50/G70/G100')");  // case insensitive
+  Serial.println("Enter command (eg: 'G0/G40/G50/G70/G100')");  // case insensitive
+  Serial.println("Ready");
 }
 
 void loop() {
@@ -63,24 +68,24 @@ void loop() {
 
     if (command == "gripper 0" || command == "g0") {  // fully open
       myservo.write(0);
-      msg = "Fully opened";
+      msg = "0";
     }
-    
+
     if (command == "gripper 40" || command == "g40") {
       myservo.write(75);
-      msg = "Picking Probe"; // this added to use the gripper for picking probe
+      msg = "40"; // this added to use the gripper for picking probe
     }
-   if (command == "gripper 50" || command == "g50") {
+    if (command == "gripper 50" || command == "g50") {
       myservo.write(90);
-      msg = "Half opened";
+      msg = "50";
     }
     if (command == "gripper 70" || command == "g70") {
       myservo.write(150);
-      msg = "Picking Plug";   //this added to use the gripper for picking plug
+      msg = "70";   //this added to use the gripper for picking plug
     }
     if (command == "gripper 100" || command == "g100") {
       myservo.write(165);
-      msg = "Fully closed";
+      msg = "100";
     }
     Serial.println(msg);
     lcd.clear();

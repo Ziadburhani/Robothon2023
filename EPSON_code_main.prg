@@ -1,4 +1,5 @@
 Global Integer Xmax, Xmin, Ymax, Ymin, Zmin, xpos, ypos, gap, radius, x, y, z, u, x1, x2, y1, y2
+Global String p$
 
 Function main
 	String indata$(0), receive$
@@ -9,7 +10,7 @@ Function main
   	camZ = 850
 
 	Motor On
-	Power Low
+	Power High
 	Speed 50
 	SpeedR 50
 	Accel 50, 50
@@ -28,7 +29,7 @@ Function main
 
   Do
    Input #201, receive$
-   ParseStr LCase$(receive$), indata$(), " "
+   ParseStr receive$, indata$(), " " ' convert to lower case
    Print "Received message: ", receive$
    
    ' Mapping from world coordinate to local
@@ -48,6 +49,7 @@ Function main
 		
    EndIf
    
+   ' if the command is jump3
    If indata$(0) = "jump3" Then
      	x = Val(Trim$(indata$(1)))
     	y = Val(Trim$(indata$(2)))
@@ -58,7 +60,7 @@ Function main
 	   	Jump3 Here +Z(50), Here :X(0) :Y(y) :Z(z + 50), Here :X(x) :Y(y) :Z(z) :U(u)
    EndIf
    
-   If indata$(0) = "go" Then
+   If LCase$(indata$(0)) = "go" Then
      	x = Val(Trim$(indata$(1)))
     	y = Val(Trim$(indata$(2)))
 	    z = Val(indata$(3))
@@ -67,12 +69,12 @@ Function main
 	   	Go Here :X(x) :Y(y) :Z(z)
    EndIf
    
-'   If indata$(0) = "M" Then
-'     	p$ = Trim$(indata$(1))
-'    
-'   		Print "Going to ", p$
-'	   	Go p$
-'   EndIf
+   If LCase$(indata$(0)) = "m" Then
+     	p$ = Trim$(indata$(1))
+    
+   		Print "Going to ", p$
+	   	Go P(PNumber(p$))
+   EndIf
    
    Print #201, "SUCCESS"
   Loop
@@ -102,39 +104,43 @@ Function ErrFunc
   Send
 Fend
 
-Function calibrate
-	Motor On
-	Power Low
-	Speed 50
-	SpeedR 50
-	Accel 50, 50
-	SpeedS 50
-	AccelS 50, 50
-	
-	Xmax = 200
-	Xmin = -200
-	Ymax = 780
-	Ymin = 380
-	Zmin = 473.5
-	radius = 25
-	
-	gap = 50
-	
-'	Move Here :X(Xmin) :Y(Ymin) :Z(Zmin)
-'	Move Here :X(Xmin) :Y(Ymax) :Z(Zmin)
-'	Move Here :X(Xmax) :Y(Ymax) :Z(Zmin)
-'	Move Here :X(Xmax) :Y(Ymin) :Z(Zmin)
-'	Move Here :X(Xmin) :Y(Ymin) :Z(Zmin)
-'	
-	For ypos = Ymin To Ymax Step gap
-    	For xpos = Xmin To Xmax Step gap
-        	Print "x:(", Trim$(Str$(xpos)), ") y:(", Trim$(Str$(ypos)), ")"
-			Jump3 Here +Z(50), Here :X(xpos) :Y(ypos) :Z(Zmin + 50), Here :X(xpos) :Y(ypos) :Z(Zmin)
-			'drawCircle
-		Next
-	Next
-Fend
 Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
+Fend
+Function OpenDoor
+	'gripper open
+	Go Door0
+	Go Door1
+	Go Door2 CP
+	Go Door3 CP
+	Go Door5 CP
+	Go Door6 CP
+	Go Door6 -X(60) CP
+	Go Door4 CP
+	Go Door5
+	Go Door6
+Fend
+Function mapping
+	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
+	WorldBBX = 102.389
+	WorldBBY = 63.257
+	WorldKnobX = 214.938
+	WorldKnobY = 157.945
+	LocalBBX = 149.385
+	LocalBBY = 26.285
+	LocalKnobX = 166.023
+	LocalKnobY = 172.310
+
+	dZ = 600
+	dU = 3.174
+	dV = -178.16
+'	P(440) = XY(149.385, 26.285, 600, 79.302, 3.174, -178.165, 1) ' Blue button local
+'	P(441) = XY(166.023, 172.310, 600, 79.302, 3.174, -178.165, 1) ' Door knob local
+	P(450) = XY(102.389, 53.257, 600, 79.302, 3.174, -178.165) ' Blue button world
+	P(451) = XY(214.938, 157.945, 600, 79.302, 3.174, -178.165) ' Door knob local
+	SavePoints "robot1.pts"
+	
+	Local 1,(BBlocal:WorldBB),(DKlocal:WorldDK)
+	
 Fend

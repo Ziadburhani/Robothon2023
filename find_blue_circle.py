@@ -2,14 +2,16 @@ import numpy as np
 import cv2
 
 # define a video capture object
-vid = cv2.VideoCapture(0)
-vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
-vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
+# vid = cv2.VideoCapture(0)
+# vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
+# vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
 
-# Capture the video frame
-# by frame
-ret, image = vid.read()
-
+# # Capture the video frame
+# # by frame
+# ret, image = vid.read()
+image = cv2.imread('images/board1.jpg')
+cv2.imshow('image',image)
+cv2.waitKey(0)
 original = image.copy()
 image = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 lower = np.array([50, 40, 90], dtype="uint8") # blue values detected by https://imagecolorpicker.com/en

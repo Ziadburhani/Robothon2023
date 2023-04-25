@@ -1,5 +1,5 @@
-ENVT0100,LM:2023/04/17 10:32:15:728,DS:0000003037,CS:20570,MA:8C-C6-81-95-1E-6E,EI:           
-sActiveChild="Robothon.prg"
+ENVT0100,LM:2023/04/23 13:52:44:596,DS:0000003041,CS:24849,MA:8C-C6-81-95-1E-6E,EI:           
+sActiveChild="Robot Manager"
 bMdiMaximized=False
 nProgramFileCount=2
 ProgramFile1 {
@@ -15,7 +15,7 @@ ProgramFile1 {
 }
 ProgramFile2 {
 	sName="Robothon.prg"
-	bOpened=True
+	bOpened=False
 	nWinState=0
 	Window {
 		nLeft=64
@@ -47,19 +47,19 @@ CmdWindow {
 		nWidth=717
 		nHeight=407
 	}
-	nWinState=2
+	nWinState=0
 }
 RunWindow {
 	bOpened=False
 	Window {
-		nLeft=0
-		nTop=0
-		nWidth=743
-		nHeight=414
+		nLeft=490
+		nTop=65
+		nWidth=739
+		nHeight=407
 	}
-	nWinState=2
+	nWinState=0
 	nNumOfDisplays=1
-	nSplitterDistance=0
+	nSplitterDistance=363
 	Display1 {
 		nCamera=0
 		sSequences="1"
@@ -132,12 +132,12 @@ Macros {
 	}
 }
 RobotMgr {
-	bOpened=False
+	bOpened=True
 	Window {
-		nLeft=139
-		nTop=-19
-		nWidth=748
-		nHeight=521
+		nLeft=98
+		nTop=42
+		nWidth=747
+		nHeight=518
 	}
 }
 UserErrorEditor {
