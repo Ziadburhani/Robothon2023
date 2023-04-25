@@ -1,4 +1,5 @@
 import cv2
+import datetime
 import math
 from time import sleep
 import numpy as np
@@ -40,6 +41,9 @@ while(vid.isOpened()):
     # Capture the video frame by frame
     print("Capturing frame")
     ret, img = vid.read()
+    now = datetime.datetime.now()
+    filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
+    cv2.imwrite(filename, img)
     # img = cv2.imread('images/board1.jpg')
 
     # convert to HSV for color detection
@@ -80,12 +84,12 @@ while(vid.isOpened()):
     # Apply Hough transform on the blurred image. One for the blue button, one for the keyhole
     print("Detecting circles")
     detected_blue_circles = cv2.HoughCircles(gray_blue_blurred, 
-                    cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 75, #55
-                param2 = 20, minRadius = 19, maxRadius = 55)
+                    cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 45, #55
+                param2 = 10, minRadius = 19, maxRadius = 55)
 
     detected_bright_circles = cv2.HoughCircles(gray_bright_blurred, 
-                    cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 75, #55
-                param2 = 20, minRadius = 35, maxRadius = 55)
+                    cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 95, #55
+                param2 = 10, minRadius = 15, maxRadius = 65)
 
     # Draw circles if detected.
     print("Drawing circles")
@@ -108,7 +112,7 @@ while(vid.isOpened()):
         for pt2 in detected_bright_circles[0]:
             a2, b2, r2 = pt2[0], pt2[1], pt2[2]
             pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
-            if pixel_distance > 500 and pixel_distance < 800:
+            if pixel_distance > 00 and pixel_distance < 800:
                 print("Pixel distance : " + str(round(pixel_distance,0)) ) 
                 x2, y2 = calculateXY(a2, b2)
                 # Draw the circle
