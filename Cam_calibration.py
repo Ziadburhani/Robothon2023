@@ -73,7 +73,7 @@ ret, frame = cap.read()
 cimg = 'calibration_image.png'
 print("Capturing image")
 #cv2.imshow('calibration image',frame)
-#cv2.imwrite(cimg, frame)
+cv2.imwrite(cimg, frame)
 #cv2.destroyAllWindows()
 cap.release()
 print("Calibration image saved as " + cimg)

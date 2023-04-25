@@ -23,21 +23,21 @@ Ymin = 0
 Zmin = 525
 gap = 100
 
-gradX = 3.3378
-gradY = 3.325
-angle_deg = -3.62293
+gradX = 3.3222
+gradY = 3.3222
+angle_deg = -3.407
     
 
 def calculateXY(xc, yc):
-    yc = yc - 192
-    xc = xc - 481
+    yc = yc - 211 # top left Y pixel
+    xc = xc - 488 # top left X pixel
     angle_rad = math.radians(angle_deg)
     cos_val = math.cos(angle_rad)
     sin_val = math.sin(angle_rad)
     new_x = xc * cos_val - yc * sin_val
     new_y = xc * sin_val + yc * cos_val
-    calc_wx = round(-350 - new_y/gradY,2) # Y robot is x pixel
-    calc_wy = round(350 - new_x/gradX,2) # X robot is y pixel
+    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
+    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
     return calc_wx, calc_wy
 
 # Read image.
@@ -111,17 +111,32 @@ if detected_circles is not None:
     cimg = 'cal_image_corrected.png'
     #cv2.imwrite(cimg, img)
     cv2.waitKey(0)
-
-    # for pt in world_points:
-    #     Xpos, Ypos = pt[0], pt[1]
-    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
-    #     sendToEpson(command)
-    #     sleep(0.5)
-    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # go to 100mm above the calibration point
-    #     sendToEpson(command)
-    #     sleep(0.5)
-    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
-    #     sendToEpson(command)        
+    response = arduino.communicate("g50")
+    print(response)
+    sleep(0.7)
+                
+    for pt in world_points:
+        Xpos, Ypos = pt[0], pt[1]
+        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the detected point
+        sendToEpson(command)
+        sleep(0.2)
+        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # go to detection point
+        sendToEpson(command)
+        sleep(0.2)
+        response = arduino.communicate("g80") # close gripper
+        print(response)
+        sleep(0.5)
+        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # lift up
+        sendToEpson(command)
+        sleep(0.5)
+        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # put it down
+        sendToEpson(command)
+        sleep(0.2)
+        response = arduino.communicate("g50") # half open gripper
+        print(response)
+        sleep(0.5)
+        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
+        sendToEpson(command)        
         
 else:
     print("no circles detected!")
