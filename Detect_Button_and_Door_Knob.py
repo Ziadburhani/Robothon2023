@@ -21,8 +21,8 @@ def calculateXY(xc, yc):
     #new_y = round(new_y + 192,2)
     gradX = 3.335
     gradY = 3.33
-    calc_wx = round(-350 - new_y/gradY,2) # Y robot is x pixel
-    calc_wy = round(350 - new_x/gradX,2) # X robot is y pixel
+    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
+    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
     return calc_wx, calc_wy
                
 #define a video capture object
@@ -41,9 +41,9 @@ while(vid.isOpened()):
     # Capture the video frame by frame
     print("Capturing frame")
     ret, img = vid.read()
-    now = datetime.datetime.now()
-    filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
-    cv2.imwrite(filename, img)
+    # now = datetime.datetime.now()
+    # filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
+    # cv2.imwrite(filename, img)
     # img = cv2.imread('images/board1.jpg')
 
     # convert to HSV for color detection
@@ -52,8 +52,8 @@ while(vid.isOpened()):
     # ----------------- daylight --------------
     #lower_blue = np.array([75, 56, 56])
     #higher_blue = np.array([115, 255, 205])
-    #lower_blue = np.array([75, 72, 129])  
-    #higher_blue = np.array([115, 253, 245])
+    #lower_bright = np.array([75, 72, 129])  
+    #higher_b = np.array([115, 253, 245])
 
     # # --------------- most reliable params so far (29-05-2022) --------------
     # lower_blue = np.array([70, 108, 88])
@@ -64,9 +64,15 @@ while(vid.isOpened()):
     # --------------- new params (25-04-2023) --------------
     lower_blue = np.array([70, 108, 88])
     higher_blue = np.array([136, 255, 255])
-    lower_bright = np.array([0, 0, 0])
-    higher_bright = np.array([164, 58, 181])
+    lower_bright = np.array([0, 0, 100])
+    higher_bright = np.array([228, 60, 200])
 
+#    # --------------- using magnet (25-04-2023) --------------
+#     lower_blue = np.array([70, 108, 88])
+#     higher_blue = np.array([136, 255, 255])
+#     lower_bright = np.array([22, 80, 51])
+#     higher_bright = np.array([130, 143, 89])
+    
     # getting the range of blue color in frame
     blue_range = cv2.inRange(hsv, lower_blue, higher_blue)
     bright_range = cv2.inRange(hsv, lower_bright, higher_bright)
@@ -89,7 +95,7 @@ while(vid.isOpened()):
 
     detected_bright_circles = cv2.HoughCircles(gray_bright_blurred, 
                     cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 95, #55
-                param2 = 10, minRadius = 15, maxRadius = 65)
+                param2 = 10, minRadius = 25, maxRadius = 35)
 
     # Draw circles if detected.
     print("Drawing circles")
