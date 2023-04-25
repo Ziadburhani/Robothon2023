@@ -1,14 +1,14 @@
-ENVT0100,LM:2023/04/17 10:31:07:451,DS:0000007043,CS:03443,MA:8C-C6-81-95-1E-6E,EI:           
+ENVT0100,LM:2023/04/21 11:32:58:122,DS:0000007053,CS:14191,MA:8C-C6-81-95-1E-6E,EI:           
 SystemProperties {
 	sRCVersion="7.4.3"
 	sRCRevision=""
 	sGUID="4f649614-be16-4c82-8497-2fbc5eb2c20d"
 	sPath="C:\\EpsonRC70\\Projects\\Robothon2023\\"
 	sCreated="12/04/2023 1:29:47 PM"
-	sLastModified="4/15/2023 8:27:36 PM"
+	sLastModified="4/21/2023 3:32:58 PM"
 	bBuildComplete=False
 	bFirstBuildComplete=True
-	bRebuildRequired=True
+	bRebuildRequired=False
 	bClearControllerProject=False
 	bClearGlobalPreserves=False
 }
@@ -36,13 +36,13 @@ ProgramFile1 {
 	sName="Main.prg"
 	bCompiled=False
 	bStoreInController=True
-	sTimeSavedInController="4/12/2023 9:31:28 AM"
+	sTimeSavedInController="4/21/2023 10:09:19 AM"
 }
 ProgramFile2 {
 	sName="Robothon.prg"
-	bCompiled=False
+	bCompiled=True
 	bStoreInController=True
-	sTimeSavedInController="1/1/0001 12:00:00 AM"
+	sTimeSavedInController="4/21/2023 10:09:50 AM"
 }
 nIncludeFileCount=0
 nPointFileCount=1
@@ -50,7 +50,7 @@ PointFile1 {
 	sName="robot1.pts"
 	nRobot=1
 	bDefault=True
-	sTimeSavedInController="4/15/2023 4:38:43 PM"
+	sTimeSavedInController="4/21/2023 11:11:55 AM"
 }
 nForceFileCount=0
 OperatorSettings {
@@ -416,6 +416,6 @@ FGFile1 {
 }
 bFGCompiled=False
 Simulator {
-	sSimProjFile="C:\\EpsonRC70\\Simulator\\G6 Sample\\SimObjects.dat"
+	sSimProjFile="C:\\EpsonRC70\\Simulator\\SO733_VT60000072\\SimObjects.dat"
 }
 nPFFileCount=0

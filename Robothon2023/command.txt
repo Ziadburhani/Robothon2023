@@ -125,4 +125,12 @@ go here: y(50)
 !!Error: 2318, Cannot execute a motion command when an error has been detected.
 > 
 !!Error: 2318, Cannot execute a motion command when an error has been detected.
+> go here :u(-90) :v(0) :w(180)
+> 
+> P250 = xy(149.385, 26.285, 600, 79.302)
+> local 1, xy(149.385, 26.285, 600, 79.302): xy(102.389
+!!Error: 2513, Specified point label is not defined.
+> go here:u(-90)
+> 
+!!Error: 2318, Cannot execute a motion command when an error has been detected.
 > 
