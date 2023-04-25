@@ -15,7 +15,7 @@ import numpy as np
 import arduino_communication
 from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
-port = "COM3"
+port = "COM5"
 baudrate = 9600
 # Create an instance of the ArduinoCommunication class
 print("Opening connection with Arduino")
@@ -24,11 +24,10 @@ sleep(1)
 
 Xmax = -350
 Xmin = -550
-Ymax = 300
-Ymin = 0
-Zmin = 500 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
+Ymax = 350
+Ymin = 50
+Zmin = 525 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
 gap = 100
-
 # define a video capture object
 print("Connecting to camera...")
 camera_device = 2
@@ -50,25 +49,28 @@ for Xpos in range(Xmax,Xmin-1,-gap):
         sendToEpson(command)
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0"  # go to the calibration point
         sendToEpson(command)
-        input("Place a token under the gripper and press ENTER to continue")        
-        print("Close gripper") # close gripper to align token
-        response = arduino.communicate("g100")
-        print(response)
-        sleep(1)
-        print("Open gripper") # open gripper halfway again
-        response = arduino.communicate("g50")
-        print(response)
-        sleep(1)
-
+        while True:
+            key = input("Place a token under the gripper, press ENTER to align token or other key to move to the next point")        
+            if key == "":
+                print("Close gripper") # close gripper to align token
+                response = arduino.communicate("g80")
+                print(response)
+                sleep(0.7)
+                print("Open gripper") # open gripper halfway again
+                response = arduino.communicate("g50")
+                print(response)
+                sleep(0.5)    
+            else:
+                break
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point again
         sendToEpson(command)
 
-sendToEpson("GO "+camera_pos)
+sendToEpson("M Camera_Pos")
 sleep(1)
 
 # take a picture, show and save it to a file
 ret, frame = cap.read()
-cimg = 'images/calibration_image.png'
+cimg = 'calibration_image.png'
 print("Capturing image")
 #cv2.imshow('calibration image',frame)
 #cv2.imwrite(cimg, frame)
