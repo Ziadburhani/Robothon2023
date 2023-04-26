@@ -89,11 +89,11 @@ void loop() {
     }
     if (command == "gripper 90" || command == "g90") {
       myservo.write(157);
-      msg = "80";
+      msg = "90";
     }    
     if (command == "gripper 100" || command == "g100") {
       myservo.write(159);
-      msg = "80";
+      msg = "100";
     }
     Serial.println(msg);
     lcd.clear();
