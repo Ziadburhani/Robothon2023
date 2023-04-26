@@ -9,16 +9,36 @@
 # 4. Take a picture of the surface with tokens
 # 5. Run circle detection program to determine the pixel coordinates of the tokens
 
-import Settings
+import cv2
+from time import sleep
+import numpy as np
+import arduino_communication
+from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
+
+#port = "COM5" # Judhi's PC
+port = "COM8" # desktop PC
+baudrate = 9600
+# Create an instance of the ArduinoCommunication class
+print("Opening connection with Arduino")
+arduino = arduino_communication.ArduinoCommunication(port, baudrate)
+
+
+Xmax = -350
+Xmin = -550
+Ymax = 350
+Ymin = 50
+Zmin = 525 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
+gap = 100
 
 # define a video capture object
 print("Connecting to camera...")
-
+#cam_device = 3 # on Judhi's laptop
+cam_device = 0 # on lab's desktop
 cap = cv2.VideoCapture(cam_device)
 print("Camera connected")
 
-# sending robot to Camera position
-sendToEpson("M Camera_Pos")
+sendToEpson("m Camera_Pos")
+sleep(1)
 
 print("Open gripper") # open gripper halfway
 response = arduino.communicate("g50")

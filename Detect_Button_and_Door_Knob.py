@@ -1,20 +1,13 @@
 import cv2
-import Settings
+import datetime
+import math
 from time import sleep
-from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
+import numpy as np
+import arduino_communication
+#from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
-sendToEpson("M Camera_Pos")
+#sendToEpson("M Camera_Pos")
 sleep(1.5)
-
-#cam_device = 3 # on Judhi's laptop
-cam_device = 0 # on lab's desktop
-
-Xmax = -350
-Xmin = -550
-Ymax = 350
-Ymin = 50
-Zmin = 525 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
-gap = 100
 
 def calculateXY(xc, yc):
     yc = yc - 192
@@ -24,21 +17,27 @@ def calculateXY(xc, yc):
     sin_val = math.sin(angle_rad)
     new_x = xc * cos_val - yc * sin_val
     new_y = xc * sin_val + yc * cos_val
-    
-    gradX = 3.757       # take this from cal_image_corrected
-    gradY = 3.75        # take this from cal_image_corrected
+    #new_x = round(new_x + 481,2)
+    #new_y = round(new_y + 192,2)
+    gradX = 3.335
+    gradY = 3.33
     calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
     calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
     return calc_wx, calc_wy
                
 #define a video capture object
 print("Starting camera")
+#cam_device = 3 # on Judhi's laptop
+cam_device = 0 # on lab's desktop
 #vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
-vid = cv2.VideoCapture(cam_device) # for other systems
+vid = cv2.VideoCapture(0) # for other systems
 
 print("Setting video resolution")
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
 vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
+
+# Capture the video frame
+ret, img = vid.read()
 
 n_frame = 1 # frame counter
 

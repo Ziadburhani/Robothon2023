@@ -24,21 +24,23 @@ Ymin = 50
 Zmin = 523
 gap = 100
 
-gradX = 3.746
-gradY = 3.75
-angle_deg = -1.1203
+gradX = 3.72667 # take from cal_image_corrected
+gradY = 3.745 # take from cal_image_corrected
+angle_deg = -2.7939 # take from cal_image_corrected, add minus sign
+top_leftX = 254 # take from cal_image_corrected
+top_leftY = 132 # take from cal_image_corrected
     
 
 def calculateXY(xc, yc):
-    yc = yc - 134 # top left Y pixel
-    xc = xc - 215 # top left X pixel
+    xc = xc - top_leftX # top left X pixel
+    yc = yc - top_leftY # top left Y pixel
     angle_rad = math.radians(angle_deg)
     cos_val = math.cos(angle_rad)
     sin_val = math.sin(angle_rad)
     new_x = xc * cos_val - yc * sin_val
     new_y = xc * sin_val + yc * cos_val
     calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
-    calc_wy = round(43 + new_x/gradX,2) # X robot is y pixel
+    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
     return calc_wx, calc_wy
 
 # Read image.
@@ -107,9 +109,11 @@ if detected_circles is not None:
         cv2.putText(img, str(i) + ":[" + str(a) + ","+ str(b) + "] r=" + str(r), (a-r-20,b+r+30), cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),1 )
         cv2.putText(img, "(" + str(calc_wx) + ","+ str(calc_wy) + ")", (a - 100, b + 20), cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,240),1 )
         cv2.putText(img, "GradX="+ str(gradX) +",  GradY=" + str(gradY), (10,40), cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1 )
+        
     
     cv2.imshow("Corrected Circle", img)
     cv2.waitKey(0)
+    cv2.destroyAllWindows
     response = arduino.communicate("g50")
     print(response)
     sleep(0.7)
@@ -136,6 +140,9 @@ if detected_circles is not None:
         sleep(0.5)
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
         sendToEpson(command)        
+        k = input("Press enter to conitune..")
+        if k == " ":
+            break
         
 else:
     print("no circles detected!")
