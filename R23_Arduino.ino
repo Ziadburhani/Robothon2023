@@ -14,7 +14,7 @@ String msg;
 uint16_t dist;
 
 int minAngle = 0;   // gripper fully open
-int maxAngle = 180;  // gripper fully closed
+int maxAngle = 160;  // gripper fully closed
 
 Servo myservo;
 
@@ -53,7 +53,7 @@ void setup() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Fully opened");
-  Serial.println("Enter command (eg: 'G0/G40/G50/G70/G100')");  // case insensitive
+  Serial.println("Enter command (eg: 'G0/G40/G50/G70/G80/G100')");  // case insensitive
   Serial.println("Ready");
 }
 
@@ -83,9 +83,17 @@ void loop() {
       myservo.write(150);
       msg = "70";   //this added to use the gripper for picking plug
     }
+    if (command == "gripper 80" || command == "g80") {
+      myservo.write(155);
+      msg = "80";
+    }
+    if (command == "gripper 90" || command == "g90") {
+      myservo.write(157);
+      msg = "80";
+    }    
     if (command == "gripper 100" || command == "g100") {
-      myservo.write(165);
-      msg = "100";
+      myservo.write(159);
+      msg = "80";
     }
     Serial.println(msg);
     lcd.clear();
