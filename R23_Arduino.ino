@@ -87,8 +87,12 @@ void loop() {
       myservo.write(155);
       msg = "80";
     }
+    if (command == "gripper 90" || command == "g90") {
+      myservo.write(157);
+      msg = "80";
+    }    
     if (command == "gripper 100" || command == "g100") {
-      myservo.write(158);
+      myservo.write(159);
       msg = "80";
     }
     Serial.println(msg);
