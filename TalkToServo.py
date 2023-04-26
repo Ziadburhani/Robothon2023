@@ -2,7 +2,7 @@
 
 import serial
 import time
-SERVO_PORT = "COM3" # where the Arduino is connected to
+SERVO_PORT = "COM8" # where the Arduino is connected to
 
 arduino = serial.Serial(port=SERVO_PORT, timeout=0, baudrate=9600)
 

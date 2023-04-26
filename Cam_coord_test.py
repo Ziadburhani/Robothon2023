@@ -7,7 +7,8 @@ from SendToEpson import sendToEpson # connect to EPSON Robot and send command vi
 
 world_points = [x for x in range(12)]
 
-port = "COM5"
+#port = "COM5" # Judhi's PC
+port = "COM8" # desktop PC
 baudrate = 9600
 # Create an instance of the ArduinoCommunication class
 print("Opening connection with Arduino")
@@ -16,28 +17,28 @@ sleep(1)
 
 
 # world coordinate parameter
-Xmax = 200
-Xmin = 0
-Ymax = 300
-Ymin = 0
-Zmin = 525
+Xmax = -350
+Xmin = -550
+Ymax = 350
+Ymin = 50
+Zmin = 523
 gap = 100
 
-gradX = 3.3222
-gradY = 3.3222
-angle_deg = -3.407
+gradX = 3.746
+gradY = 3.75
+angle_deg = -1.1203
     
 
 def calculateXY(xc, yc):
-    yc = yc - 211 # top left Y pixel
-    xc = xc - 488 # top left X pixel
+    yc = yc - 134 # top left Y pixel
+    xc = xc - 215 # top left X pixel
     angle_rad = math.radians(angle_deg)
     cos_val = math.cos(angle_rad)
     sin_val = math.sin(angle_rad)
     new_x = xc * cos_val - yc * sin_val
     new_y = xc * sin_val + yc * cos_val
     calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
-    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
+    calc_wy = round(43 + new_x/gradX,2) # X robot is y pixel
     return calc_wx, calc_wy
 
 # Read image.
@@ -47,7 +48,8 @@ sendToEpson("M Camera_Pos")
 sleep(1)
         
 # define a video capture object
-vid = cv2.VideoCapture(3)
+print("Connecting to camera...")
+vid = cv2.VideoCapture(0)
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
 # vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
 #     # Capture the video frame
@@ -81,7 +83,6 @@ if detected_circles is not None:
     # convert the list of circles to a set to remove duplicates
     unique_circles = set((int(circle[0]), int(circle[1]), int(circle[2])) for circle in circles[0])
 
-
     # sort the circles based on their coordinates
     sorted_circles = sorted(unique_circles,  key=lambda circle: (circle[1], circle[0]))
 
@@ -108,8 +109,6 @@ if detected_circles is not None:
         cv2.putText(img, "GradX="+ str(gradX) +",  GradY=" + str(gradY), (10,40), cv2.FONT_HERSHEY_SIMPLEX,0.7,(255,255,255),1 )
     
     cv2.imshow("Corrected Circle", img)
-    cimg = 'cal_image_corrected.png'
-    #cv2.imwrite(cimg, img)
     cv2.waitKey(0)
     response = arduino.communicate("g50")
     print(response)

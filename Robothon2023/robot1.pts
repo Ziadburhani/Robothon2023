@@ -1,32 +1,32 @@
-ENVT0100,LM:2023/04/21 11:11:55:458,DS:0000015485,CS:15458,MA:8C-C6-81-95-1E-6E,EI:           
+ENVT0100,LM:2023/04/25 16:25:16:963,DS:0000013984,CS:16651,MA:E4-54-E8-53-F8-B1,EI:           
 sVersion="2.0.0"
 bDisplayR=False
 bDisplayS=False
 bDisplayT=False
 nNumberOfJoints=6
-nNumberOfPoints=48
+nNumberOfPoints=43
 Point1 {
 	nNumber=0
 	sLabel="Home_Pos"
 	sDescription=""
 	nUndefined=0
-	rX=77.818
-	rY=112.596
-	rZ=75.198
-	rU=-179.977
-	rV=-0.001
-	rW=-179.998
+	rX=-500
+	rY=200
+	rZ=700
+	rU=-90.005
+	rV=-0.002
+	rW=-179.999
 	rR=0
 	rS=0
 	rT=0
-	nLocal=1
+	nLocal=0
 	nHand=1
 	nElbow=1
 	nWrist=1
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
-	nJ6Flag=0
+	nJ6Flag=1
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False
@@ -36,16 +36,16 @@ Point2 {
 	sLabel="Camera_Pos"
 	sDescription=""
 	nUndefined=0
-	rX=77.819
-	rY=-10.445
-	rZ=300.49
-	rU=177.608
-	rV=-0.001
-	rW=-179.999
+	rX=-319
+	rY=210
+	rZ=850
+	rU=-90
+	rV=0
+	rW=-180
 	rR=0
 	rS=0
 	rT=0
-	nLocal=1
+	nLocal=0
 	nHand=1
 	nElbow=1
 	nWrist=1
@@ -68,7 +68,7 @@ Point3 {
 	rU=89.995
 	rV=-0.002
 	rW=-179.999
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -94,7 +94,7 @@ Point4 {
 	rU=89.994
 	rV=-0.003
 	rW=-179.999
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -120,7 +120,7 @@ Point5 {
 	rU=89.995
 	rV=-0.003
 	rW=-179.999
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -146,7 +146,7 @@ Point6 {
 	rU=89.995
 	rV=-0.003
 	rW=-179.999
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -172,7 +172,7 @@ Point7 {
 	rU=89.995
 	rV=-0.004
 	rW=-179.999
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -198,7 +198,7 @@ Point8 {
 	rU=88.513
 	rV=-0.005
 	rW=179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -224,7 +224,7 @@ Point9 {
 	rU=89.994
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -250,7 +250,7 @@ Point10 {
 	rU=89.994
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -276,7 +276,7 @@ Point11 {
 	rU=89.994
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -302,7 +302,7 @@ Point12 {
 	rU=177.818
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -328,7 +328,7 @@ Point13 {
 	rU=177.818
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -354,7 +354,7 @@ Point14 {
 	rU=177.818
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -380,7 +380,7 @@ Point15 {
 	rU=177.818
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -406,7 +406,7 @@ Point16 {
 	rU=177.818
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -432,7 +432,7 @@ Point17 {
 	rU=144.346
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -458,7 +458,7 @@ Point18 {
 	rU=144.346
 	rV=-0.003
 	rW=180
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -484,7 +484,7 @@ Point19 {
 	rU=-179.977
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -510,7 +510,7 @@ Point20 {
 	rU=-179.977
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -536,7 +536,7 @@ Point21 {
 	rU=-179.977
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -562,7 +562,7 @@ Point22 {
 	rU=-179.977
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -588,7 +588,7 @@ Point23 {
 	rU=-179.977
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -614,7 +614,7 @@ Point24 {
 	rU=-179.977
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -640,7 +640,7 @@ Point25 {
 	rU=-0.315
 	rV=84.262
 	rW=89.687
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -666,7 +666,7 @@ Point26 {
 	rU=-0.315
 	rV=84.262
 	rW=89.687
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -692,7 +692,7 @@ Point27 {
 	rU=-0.315
 	rV=84.262
 	rW=89.687
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -718,7 +718,7 @@ Point28 {
 	rU=-0.315
 	rV=84.262
 	rW=89.687
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -744,7 +744,7 @@ Point29 {
 	rU=87.315
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -770,7 +770,7 @@ Point30 {
 	rU=87.315
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -796,7 +796,7 @@ Point31 {
 	rU=87.315
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -822,7 +822,7 @@ Point32 {
 	rU=87.315
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -848,7 +848,7 @@ Point33 {
 	rU=87.315
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -874,7 +874,7 @@ Point34 {
 	rU=-1.971
 	rV=-0.001
 	rW=-179.998
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -900,7 +900,7 @@ Point35 {
 	rU=-2.025
 	rV=13.247
 	rW=179.538
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -926,7 +926,7 @@ Point36 {
 	rU=-2.025
 	rV=13.247
 	rW=179.538
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -952,7 +952,7 @@ Point37 {
 	rU=-2.025
 	rV=13.247
 	rW=179.538
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -978,7 +978,7 @@ Point38 {
 	rU=-2.025
 	rV=13.247
 	rW=179.538
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -1004,7 +1004,7 @@ Point39 {
 	rU=-2.025
 	rV=13.247
 	rW=179.538
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -1030,7 +1030,7 @@ Point40 {
 	rU=87.036
 	rV=5.858
 	rW=179.798
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -1056,7 +1056,7 @@ Point41 {
 	rU=87.036
 	rV=5.858
 	rW=179.798
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -1082,7 +1082,7 @@ Point42 {
 	rU=175.887
 	rV=0.036
 	rW=-178.049
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -1108,7 +1108,7 @@ Point43 {
 	rU=-179.988
 	rV=0.036
 	rW=-178.049
-	rR=0
+	rR=1
 	rS=0
 	rT=0
 	nLocal=1
@@ -1119,136 +1119,6 @@ Point43 {
 	nJ2Flag=0
 	nJ4Flag=0
 	nJ6Flag=0
-	rJ1Angle=0
-	rJ4Angle=0
-	bSimVisible=False
-}
-Point44 {
-	nNumber=995
-	sLabel="BottomLeft"
-	sDescription=""
-	nUndefined=0
-	rX=-350
-	rY=50
-	rZ=522
-	rU=-90
-	rV=0
-	rW=-180
-	rR=0
-	rS=0
-	rT=0
-	nLocal=0
-	nHand=1
-	nElbow=1
-	nWrist=1
-	nJ1Flag=0
-	nJ2Flag=0
-	nJ4Flag=0
-	nJ6Flag=1
-	rJ1Angle=0
-	rJ4Angle=0
-	bSimVisible=False
-}
-Point45 {
-	nNumber=996
-	sLabel="TopLeft"
-	sDescription=""
-	nUndefined=0
-	rX=-550
-	rY=50
-	rZ=522
-	rU=-90
-	rV=0
-	rW=180
-	rR=0
-	rS=0
-	rT=0
-	nLocal=0
-	nHand=1
-	nElbow=1
-	nWrist=1
-	nJ1Flag=0
-	nJ2Flag=0
-	nJ4Flag=0
-	nJ6Flag=1
-	rJ1Angle=0
-	rJ4Angle=0
-	bSimVisible=False
-}
-Point46 {
-	nNumber=997
-	sLabel="TopRight"
-	sDescription=""
-	nUndefined=0
-	rX=-550
-	rY=250
-	rZ=522
-	rU=-90
-	rV=0
-	rW=180
-	rR=0
-	rS=0
-	rT=0
-	nLocal=0
-	nHand=1
-	nElbow=1
-	nWrist=1
-	nJ1Flag=0
-	nJ2Flag=0
-	nJ4Flag=0
-	nJ6Flag=1
-	rJ1Angle=0
-	rJ4Angle=0
-	bSimVisible=False
-}
-Point47 {
-	nNumber=998
-	sLabel="BottomRight"
-	sDescription=""
-	nUndefined=0
-	rX=-350
-	rY=250
-	rZ=522
-	rU=-90
-	rV=0
-	rW=180
-	rR=0
-	rS=0
-	rT=0
-	nLocal=0
-	nHand=1
-	nElbow=1
-	nWrist=1
-	nJ1Flag=0
-	nJ2Flag=0
-	nJ4Flag=0
-	nJ6Flag=1
-	rJ1Angle=0
-	rJ4Angle=0
-	bSimVisible=False
-}
-Point48 {
-	nNumber=999
-	sLabel="SurfaceCenter"
-	sDescription=""
-	nUndefined=0
-	rX=-450
-	rY=150
-	rZ=522
-	rU=-90
-	rV=0
-	rW=-180
-	rR=0
-	rS=0
-	rT=0
-	nLocal=0
-	nHand=1
-	nElbow=1
-	nWrist=1
-	nJ1Flag=0
-	nJ2Flag=0
-	nJ4Flag=0
-	nJ6Flag=1
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False

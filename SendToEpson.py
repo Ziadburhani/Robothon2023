@@ -24,6 +24,7 @@ def sendToEpson(command):
     clientSocket.send(msg_tx.encode())
     msg_rx = clientSocket.recv(1023) # waiting for confirmation from robot
     print("Result: ", msg_rx , "\r\n")
+    return msg_rx
     sleep(0.5)
 
 def Home():

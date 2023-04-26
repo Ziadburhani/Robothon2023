@@ -7,15 +7,8 @@
 # GO <x y z u>
 # M <point_label>
 
-import cv2
-import serial
-from time import sleep
-import numpy as np
-from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
-import arduino_communication
+import Settings
 
-port = "COM3"
-baudrate = 9600
 # Create an instance of the ArduinoCommunication class
 print("Opening connection with Arduino")
 arduino = arduino_communication.ArduinoCommunication(port, baudrate)

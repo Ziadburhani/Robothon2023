@@ -1,7 +1,7 @@
 Global Integer Xmax, Xmin, Ymax, Ymin, Zmin, xpos, ypos, gap, radius, x, y, z, u, x1, x2, y1, y2
 Global String p$
 
-Function Main
+Function main
 	String indata$(0), receive$
   	Integer i, camX, camY, camZ
   	
@@ -19,8 +19,9 @@ Function Main
 	
 ' going to camera position
   Go Here :X(camX) :Y(camY) :Z(camZ) :U(0) :V(0) :W(180)
-  SetNet #201, "192.168.150.2", 2001, CRLF
-'  SetNet #201, "127.0.0.1", 2001, CRLF
+
+'  SetNet #201, "192.168.150.2", 2001, CRLF
+  SetNet #201, "127.0.0.1", 2001, CRLF
   OpenNet #201 As Server
   Print "Robot ready, listening to network"
   WaitNet #201
@@ -107,19 +108,19 @@ Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
 Fend
-'Function OpenDoor
-'	'gripper open
-'	Go Door0
-'	Go Door1
-'	Go Door2 CP
-'	Go Door3 CP
-'	Go Door5 CP
-'	Go Door6 CP
-'	Go Door6 -X(60) CP
-'	Go Door4 CP
-'	Go Door5
-'	Go Door6
-'Fend
+Function OpenDoor
+	'gripper open
+	Go Door0
+	Go Door1
+	Go Door2 CP
+	Go Door3 CP
+	Go Door5 CP
+	Go Door6 CP
+	Go Door6 -X(60) CP
+	Go Door4 CP
+	Go Door5
+	Go Door6
+Fend
 Function mapping
 	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
 	WorldBBX = 102.389
@@ -130,6 +131,7 @@ Function mapping
 	LocalBBY = 26.285
 	LocalKnobX = 166.023
 	LocalKnobY = 172.310
+
 	dZ = 600
 	dU = 3.174
 	dV = -178.16
@@ -142,3 +144,6 @@ Function mapping
 	Local 1,(BBlocal:WorldBB),(DKlocal:WorldDK)
 	
 Fend
+
+
+
