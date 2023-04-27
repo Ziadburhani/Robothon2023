@@ -252,7 +252,7 @@ while(vid.isOpened()):
             print("Knob:")
             print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(knob_radius))
 
-            print("World [" + str(x2) + ","+ str(y2)+ "]"))
+            print("World [" + str(x2) + ","+ str(y2)+ "]")
             print("MAKE SURE ROBOT IS READY!")
             print("Press 'g' to start robot")
             print("Press 'q' to quit")

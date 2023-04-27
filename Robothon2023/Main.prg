@@ -8,11 +8,11 @@ Function main
 
 	Motor On
 	Power High
-	Speed 50
-	SpeedR 50
-	Accel 50, 50
-	SpeedS 50
-	AccelS 50, 50
+	Speed 20
+	SpeedR 20
+	Accel 20, 20
+	SpeedS 20
+	AccelS 20, 20
 	
 ' going to camera position
   Go Camera_Pos
@@ -129,26 +129,34 @@ Function drawCircle
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
 Fend
 Function mapping
-	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
-	WorldBBX = 102.389
-	WorldBBY = 63.257
-	WorldKnobX = 214.938
-	WorldKnobY = 157.945
-	LocalBBX = 149.385
-	LocalBBY = 26.285
-	LocalKnobX = 166.023
-	LocalKnobY = 172.310
+	Real WorldBBX, WorldBBY, WorldKnobX, WorldKnobY
+'	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
+'	WorldBBX = -533
+'	WorldBBY = 289
+'	WorldKnobX = -535
+'	WorldKnobY = 137
+'	LocalBBX = 149.385
+'	LocalBBY = 26.285
+'	LocalKnobX = 166.023
+'	LocalKnobY = 172.310
+'
+'	dZ = 600
+'	dU = 3.174
+'	dV = -178.16
+''	P(440) = XY(149.385, 26.285, 600, 79.302, 3.174, -178.165, 1) ' Blue button local
+''	P(441) = XY(166.023, 172.310, 600, 79.302, 3.174, -178.165, 1) ' Door knob local
+'	P(450) = XY(102.389, 53.257, 600, 79.302, 3.174, -178.165) ' Blue button world
+'	P(451) = XY(214.938, 157.945, 600, 79.302, 3.174, -178.165) ' Door knob local
+'	SavePoints "robot1.pts"
 
-	dZ = 600
-	dU = 3.174
-	dV = -178.16
-'	P(440) = XY(149.385, 26.285, 600, 79.302, 3.174, -178.165, 1) ' Blue button local
-'	P(441) = XY(166.023, 172.310, 600, 79.302, 3.174, -178.165, 1) ' Door knob local
-	P(450) = XY(102.389, 53.257, 600, 79.302, 3.174, -178.165) ' Blue button world
-	P(451) = XY(214.938, 157.945, 600, 79.302, 3.174, -178.165) ' Door knob local
-	' SavePoints "robot1.pts"
-	
-	Local 1,(BBlocal:WorldBB),(DKlocal:WorldDK)
+'	P330 = XY(-553.833, 281.953, 524.696, -90)
+'	P331 = XY(-535.787, 137.820, 534.730, -90)
+'	P332 = Here :X(-553.833) :Y(280.155)
+'	P333 = Here :X(-535.094) :Y(137.820)
+	P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue
+	P333 = Here :X(-505.9) :Y(204.18) :Z(521) ' knob
+	'Local 3,(P330:P332),(P331:P333)
+	Local 3,(LBB:P332),(LK:P333)
 	
 Fend
 Function go_click_m5
