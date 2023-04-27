@@ -188,17 +188,17 @@ while(vid.isOpened()):
                     cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 45, #55
                 param2 = 10, minRadius = 19, maxRadius = 55)
 
-    detected_bright_circles = cv2.HoughCircles(gray_bright_blurred, 
-                    cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 95, #55
-                param2 = 10, minRadius = 25, maxRadius = 35)
+    # detected_bright_circles = cv2.HoughCircles(gray_bright_blurred, 
+    #                 cv2.HOUGH_GRADIENT, 0.5, 1000, param1 = 95, #55
+    #             param2 = 10, minRadius = 25, maxRadius = 35)
 
     # Draw circles if detected.
     print("Drawing circles")
-    if detected_blue_circles is not None and detected_bright_circles is not None:
+    if detected_blue_circles is not None:
         # Convert the circle parameters a, b and r to integers.
         detected_blue_circles = np.uint16(np.around(detected_blue_circles))
-        detected_bright_circles = np.uint16(np.around(detected_bright_circles))
-
+        print(detected_blue_circles)
+        
         for pt in detected_blue_circles[0]:
             a1, b1, r1 = pt[0], pt[1], pt[2]
             x1, y1 = calculateXY(a1, b1)
@@ -210,66 +210,54 @@ while(vid.isOpened()):
             cv2.putText(img, "Blue (" + str(a1) + ","+ str(b1) + ") r=" + str(r1), (a1+10,b1+r1+2), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,0),2 )
             cv2.putText(img, "World [" + str(x1) + ","+ str(y1)+ "]", (a1+10,b1+r1+50), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,100),2 )
 
-        # for pt2 in detected_bright_circles[0]:
-        #     a2, b2, r2 = pt2[0], pt2[1], pt2[2]
-        #     pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
-        #     if pixel_distance > 00 and pixel_distance < 800:
-        #         print("Pixel distance : " + str(round(pixel_distance,0)) ) 
-        #         x2, y2 = calculateXY(a2, b2)
-        #         # Draw the circle
-        #         cv2.circle(img, (a2, b2), r2, (0, 255, 0), 2)
-        #         # Draw the center of the circle 
-        #         cv2.circle(img, (a2, b2), 1, (0, 0, 255), 3)
-        #         # add text label
-        #         cv2.putText(img, "Bright (" + str(a2) + ","+ str(b2) + ") r=" + str(r2), (a2+r2+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
-        #         cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+r2+50), cv2.FONT_HERSHEY_SIMPLEX,1,(50,200,200),2 )
+        contr = increase_contrast(img)
         
-    contr = increase_contrast(img)
-    
-    # Find the door first
-    x, y, w, h = detect_door(contr)
+        # Find the door first
+        x, y, w, h = detect_door(contr)
 
-    # If a door is found, detect the knob and draw it on the original
-    if x != 0:
-        # knob_center and knob_readius are your pixel values for the door-knob
-        # Maybe the radius isn't as important, but the center should be useful
-        knob_center, knob_radius  = detect_knob(img, x, y, w, h)
-        a2,b2 = knob_center
-        x2, y2 = calculateXY(a2, b2)
-        # Draw both and show the image, just for fun.
-        if knob_radius != 0:
-            cv2.circle(img, knob_center, 5, (255, 0, 0), -1)
-            cv2.circle(img, knob_center, knob_radius, (0, 255, 0), 3)
-            cv2.putText(img, "Knob (" + str(a2) + ","+ str(b2) + ") r=" + str(knob_radius), (a2+knob_radius+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
-            cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+knob_radius+50), cv2.FONT_HERSHEY_SIMPLEX,1,(50,200,200),2 )
-        # add label for human input to start the robot OR quit OR recapture image
-        cv2.putText(img, "Press 'g' = start robot, 'q' = quit, other key = recapture", (50,100), cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,255,255),2)
-        
-        
-        # check the distance between the Blue button and the Keyhole
-        pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
-        print("Pixel distance : " + str(round(pixel_distance,0)) ) 
-        # resize the image to show
-        img_r = cv2.resize(img,(860,540))
-        cv2.imshow("Detected Circle", img_r)
+        # If a door is found, detect the knob and draw it on the original
+        if x != 0:
+            # knob_center and knob_readius are your pixel values for the door-knob
+            # Maybe the radius isn't as important, but the center should be useful
+            knob_center, knob_radius  = detect_knob(img, x, y, w, h)
+            a2,b2 = knob_center
+            x2, y2 = calculateXY(a2, b2)
+            # Draw both and show the image, just for fun.
+            if knob_radius != 0:
+                cv2.circle(img, knob_center, 5, (255, 0, 0), -1)
+                cv2.circle(img, knob_center, knob_radius, (0, 255, 0), 3)
+                cv2.putText(img, "Knob (" + str(a2) + ","+ str(b2) + ") r=" + str(knob_radius), (a2+knob_radius+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
+                cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+knob_radius+50), cv2.FONT_HERSHEY_SIMPLEX,1,(50,200,200),2 )
+            # add label for human input to start the robot OR quit OR recapture image
+            cv2.putText(img, "Press 'g' = start robot, 'q' = quit, other key = recapture", (50,100), cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,255,255),2)
+            
+            # check the distance between the Blue button and the Keyhole
+            pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
+            print("Pixel distance : " + str(round(pixel_distance,0)) ) 
+            # resize the image to show
+            img_r = cv2.resize(img,(860,540))
+            cv2.imshow("Detected Circle", img_r)
 
-        # points only valid if the distance above is more than 550 pixels (FHD) 
-        # if (pixel_distance > 450) :
-        #     print("Blue Button:")
-        #     print("Pixel is at x=" + str(a1) + "  y="+ str(b1) + " r=" + str(r1))
-        #     x, y = calculateXY(a1, b1)
-        #     print("World coordinate is at x mm= " + str(x) + "  y mm= "+ str(y))
-        #     print("-----")
-        #     print("Keyhole:")
-        #     print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(r2))
-        #     x1, y1 = calculateXY(a2, b2)
-        #     print("World coordinate is at x mm= " + str(x1) + "  y mm= "+ str(y1))
-        #     print("MAKE SURE ROBOT IS READY!")
-        #     print("Press 'g' to start robot")
-        #     print("Press 'q' to quit")
-        #     print("Any other key to re-capture image")
-        # waiting for human's input
-        k = cv2.waitKey(0)
-        # if human selected to quit
-        if k == ord('q'):
-            break
+            print("Blue Button:")
+            print("Pixel is at x=" + str(a1) + "  y="+ str(b1) + " r=" + str(r1))
+            x, y = calculateXY(a1, b1)
+            print("World coordinate is at x mm= " + str(x) + "  y mm= "+ str(y))
+            print("-----")
+            print("Keyhole:")
+            print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(r2))
+            x1, y1 = calculateXY(a2, b2)
+            print("World coordinate is at x mm= " + str(x1) + "  y mm= "+ str(y1))
+            print("MAKE SURE ROBOT IS READY!")
+            print("Press 'g' to start robot")
+            print("Press 'q' to quit")
+            print("Any other key to re-capture image")
+            # waiting for human's input
+            k = cv2.waitKey(0)
+            # if human selected to quit
+            if k == ord('q'):
+                break
+        else:
+            print("Door not found!")
+    else:
+        print("No circles deteccted") 
+        
