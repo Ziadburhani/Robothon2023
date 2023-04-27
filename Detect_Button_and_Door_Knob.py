@@ -9,22 +9,112 @@ import arduino_communication
 #sendToEpson("M Camera_Pos")
 sleep(1.5)
 
+gradX = 3.72667 # take from cal_image_corrected
+#gradY = 3.735 # take from cal_image_corrected
+gradY = 3.74 # take from cal_image_corrected
+#angle_deg = -2.7939 # take from cal_image_corrected, add minus sign
+angle_deg = -2.8 # take from cal_image_corrected, add minus sign
+top_leftX = 253 # take from cal_image_corrected
+top_leftY = 135 # take from cal_image_corrected
+    
+
 def calculateXY(xc, yc):
-    yc = yc - 192
-    xc = xc - 481
-    angle_rad = math.radians(-3.622)
+    xc = xc - top_leftX # top left X pixel
+    yc = yc - top_leftY # top left Y pixel
+    angle_rad = math.radians(angle_deg)
     cos_val = math.cos(angle_rad)
     sin_val = math.sin(angle_rad)
     new_x = xc * cos_val - yc * sin_val
     new_y = xc * sin_val + yc * cos_val
-    #new_x = round(new_x + 481,2)
-    #new_y = round(new_y + 192,2)
-    gradX = 3.335
-    gradY = 3.33
-    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
+    calc_wx = round(-576 + new_y/gradY,2) # Y robot is x pixel
     calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
+    
     return calc_wx, calc_wy
-               
+
+
+def increase_contrast(img, clipLimit = 2.0, tileGridSize=(120,12)):
+    lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    l_channel, a, b = cv2.split(lab)
+
+    # Applying CLAHE to L-channel
+    clahe = cv2.createCLAHE(clipLimit, tileGridSize)
+    cl = clahe.apply(l_channel)
+    
+    # merge the CLAHE enhanced L-channel with the a and b channel
+    limg = cv2.merge((cl,a,b))
+    
+    # Converting image from LAB Color model to BGR color spcae
+    enhanced_img = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
+    
+    return enhanced_img
+
+def detect_door(image):
+    x = y = w = h = 0
+    
+    # Step 1: Preprocessing
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Apply Gaussian blur
+    blurred = cv2.GaussianBlur(gray, (11, 11), 0)
+
+    # Threshold with an optimal value
+    t,thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)
+
+    # Step 2: Morphological operations
+    kernel = np.ones((5, 5), np.uint8)
+    eroded = cv2.erode(thresh, kernel, iterations=1)
+    dilated = cv2.dilate(eroded, kernel, iterations=1)
+
+    # Step 3: Contour detection
+    contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Step 4: Bounding box and filtering based on area and aspect ratio
+    # Since our door is roughly a square
+    for contour in contours:
+        area = cv2.contourArea(contour)
+        t_x, t_y, t_w, t_h = cv2.boundingRect(contour)
+        aspect_ratio = float(t_w)/t_h    
+        if 90000 < area < 180000 and 0.75 < aspect_ratio < 1.25:
+            x = t_x
+            y = t_y
+            w = t_w
+            h = t_h
+            break
+    return x, y, w, h
+
+def detect_knob(image, x, y, w, h):
+    # Set center and radius to 0
+    center = radius = 0
+    
+    # Create an image of the same size as the original
+    # Set it to all black, and just replace the door in the
+    # correct position.
+    # This is done so that the coordinates match the original image
+    size = image.shape[0], image.shape[1], 3
+    final = np.zeros(size, np.uint8)
+    final[y:y+w, x:x+h] = contr[y:y+w, x:x+h]
+    final = increase_contrast(final, 1.5)
+    
+    # Convert to grayscale, apply a bilateral filter
+    f_gray = cv2.cvtColor(final, cv2.COLOR_BGR2GRAY)
+    f_blur = cv2.bilateralFilter(f_gray, 9, 150, 150)
+    
+    # Find circles. Parameters here ensure that the circles are far apart
+    # Of a certain size, and use the correct Canny thresholds
+    rows = f_blur.shape[0]
+    circles = cv2.HoughCircles(f_blur, cv2.HOUGH_GRADIENT, 1, rows, param1=100, param2=10,minRadius=20, maxRadius=30)
+    
+    # If we've found even one circle, that's our guy.
+    # Just look at the first and return the center and radius.
+    if circles is not None:
+        circles = np.uint16(np.around(circles))
+        for i in circles[0, :]:
+            center = (i[0], i[1])
+            radius = i[2]
+            break
+    return center, radius
+              
 #define a video capture object
 print("Starting camera")
 #cam_device = 3 # on Judhi's laptop
@@ -120,22 +210,41 @@ while(vid.isOpened()):
             cv2.putText(img, "Blue (" + str(a1) + ","+ str(b1) + ") r=" + str(r1), (a1+10,b1+r1+2), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,0),2 )
             cv2.putText(img, "World [" + str(x1) + ","+ str(y1)+ "]", (a1+10,b1+r1+50), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,100),2 )
 
-        for pt2 in detected_bright_circles[0]:
-            a2, b2, r2 = pt2[0], pt2[1], pt2[2]
-            pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
-            if pixel_distance > 00 and pixel_distance < 800:
-                print("Pixel distance : " + str(round(pixel_distance,0)) ) 
-                x2, y2 = calculateXY(a2, b2)
-                # Draw the circle
-                cv2.circle(img, (a2, b2), r2, (0, 255, 0), 2)
-                # Draw the center of the circle 
-                cv2.circle(img, (a2, b2), 1, (0, 0, 255), 3)
-                # add text label
-                cv2.putText(img, "Bright (" + str(a2) + ","+ str(b2) + ") r=" + str(r2), (a2+r2+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
-                cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+r2+50), cv2.FONT_HERSHEY_SIMPLEX,1,(50,200,200),2 )
+        # for pt2 in detected_bright_circles[0]:
+        #     a2, b2, r2 = pt2[0], pt2[1], pt2[2]
+        #     pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
+        #     if pixel_distance > 00 and pixel_distance < 800:
+        #         print("Pixel distance : " + str(round(pixel_distance,0)) ) 
+        #         x2, y2 = calculateXY(a2, b2)
+        #         # Draw the circle
+        #         cv2.circle(img, (a2, b2), r2, (0, 255, 0), 2)
+        #         # Draw the center of the circle 
+        #         cv2.circle(img, (a2, b2), 1, (0, 0, 255), 3)
+        #         # add text label
+        #         cv2.putText(img, "Bright (" + str(a2) + ","+ str(b2) + ") r=" + str(r2), (a2+r2+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
+        #         cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+r2+50), cv2.FONT_HERSHEY_SIMPLEX,1,(50,200,200),2 )
         
+    contr = increase_contrast(img)
+    
+    # Find the door first
+    x, y, w, h = detect_door(contr)
+
+    # If a door is found, detect the knob and draw it on the original
+    if x != 0:
+        # knob_center and knob_readius are your pixel values for the door-knob
+        # Maybe the radius isn't as important, but the center should be useful
+        knob_center, knob_radius  = detect_knob(img, x, y, w, h)
+        a2,b2 = knob_center
+        x2, y2 = calculateXY(a2, b2)
+        # Draw both and show the image, just for fun.
+        if knob_radius != 0:
+            cv2.circle(img, knob_center, 5, (255, 0, 0), -1)
+            cv2.circle(img, knob_center, knob_radius, (0, 255, 0), 3)
+            cv2.putText(img, "Knob (" + str(a2) + ","+ str(b2) + ") r=" + str(knob_radius), (a2+knob_radius+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
+            cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+knob_radius+50), cv2.FONT_HERSHEY_SIMPLEX,1,(50,200,200),2 )
         # add label for human input to start the robot OR quit OR recapture image
         cv2.putText(img, "Press 'g' = start robot, 'q' = quit, other key = recapture", (50,100), cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,255,255),2)
+        
         
         # check the distance between the Blue button and the Keyhole
         pixel_distance = np.sqrt((int(a2)-int(a1))**2 + (int(b2)-int(b1))**2)
