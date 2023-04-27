@@ -26,15 +26,15 @@ def rotate_point(x, y, angle_deg):
     return new_x, new_y
 
 # Read image.
-img = cv2.imread('original_cal.png', cv2.IMREAD_COLOR)
+#img = cv2.imread('original_cal.png', cv2.IMREAD_COLOR)
 
 # define a video capture object
-# vid = cv2.VideoCapture(3)
-# vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
-# vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
-#     # Capture the video frame
-#     # by frame
-# ret, img = vid.read()
+vid = cv2.VideoCapture(0)
+vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
+vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
+    # Capture the video frame
+    # by frame
+ret, img = vid.read()
   
 # Convert to grayscale.
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)

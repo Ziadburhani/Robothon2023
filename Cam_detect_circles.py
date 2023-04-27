@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import math
 from time import sleep
-from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
+#from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
 # world coordinate parameter
 Xmax = -350
@@ -28,10 +28,10 @@ def rotate_point(x, y, angle_deg):
     return new_x, new_y
 
 # sending robot to Camera position
-sendToEpson("M Camera_Pos")
+#sendToEpson("M Camera_Pos")
 sleep(2)
-cam_point = sendToEpson("P")
-print(cam_point)
+#cam_point = sendToEpson("P")
+#print(cam_point)
 
 # Read image.
 # img = cv2.imread('original_cal.png', cv2.IMREAD_COLOR)

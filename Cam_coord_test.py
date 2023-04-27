@@ -8,7 +8,7 @@ from SendToEpson import sendToEpson # connect to EPSON Robot and send command vi
 world_points = [x for x in range(12)]
 
 #port = "COM5" # Judhi's PC
-port = "COM8" # desktop PC
+port = "COM9" # desktop PC
 baudrate = 9600
 # Create an instance of the ArduinoCommunication class
 print("Opening connection with Arduino")
@@ -114,35 +114,35 @@ if detected_circles is not None:
     cv2.imshow("Corrected Circle", img)
     cv2.waitKey(0)
     cv2.destroyAllWindows
-    response = arduino.communicate("g50")
-    print(response)
-    sleep(0.7)
+    # response = arduino.communicate("g50")
+    # print(response)
+    # sleep(0.7)
                 
-    for pt in world_points:
-        Xpos, Ypos = pt[0], pt[1]
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the detected point
-        sendToEpson(command)
-        sleep(0.2)
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # go to detection point
-        sendToEpson(command)
-        sleep(0.2)
-        response = arduino.communicate("g80") # close gripper
-        print(response)
-        sleep(0.5)
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # lift up
-        sendToEpson(command)
-        sleep(0.5)
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # put it down
-        sendToEpson(command)
-        sleep(0.2)
-        response = arduino.communicate("g50") # half open gripper
-        print(response)
-        sleep(0.5)
-        command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
-        sendToEpson(command)        
-        k = input("Press enter to conitune..")
-        if k == " ":
-            break
+    # for pt in world_points:
+    #     Xpos, Ypos = pt[0], pt[1]
+    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the detected point
+    #     sendToEpson(command)
+    #     sleep(0.2)
+    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # go to detection point
+    #     sendToEpson(command)
+    #     sleep(0.2)
+    #     response = arduino.communicate("g80") # close gripper
+    #     print(response)
+    #     sleep(0.5)
+    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # lift up
+    #     sendToEpson(command)
+    #     sleep(0.5)
+    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0" # put it down
+    #     sendToEpson(command)
+    #     sleep(0.2)
+    #     response = arduino.communicate("g50") # half open gripper
+    #     print(response)
+    #     sleep(0.5)
+    #     command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
+    #     sendToEpson(command)        
+    #     k = input("Press enter to conitune..")
+    #     if k == " ":
+    #         break
         
 else:
     print("no circles detected!")

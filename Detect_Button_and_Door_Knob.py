@@ -9,13 +9,14 @@ import arduino_communication
 #sendToEpson("M Camera_Pos")
 sleep(1.5)
 
+#gradX = 3.72667 # take from cal_image_corrected
 gradX = 3.72667 # take from cal_image_corrected
 #gradY = 3.735 # take from cal_image_corrected
-gradY = 3.74 # take from cal_image_corrected
+gradY = 3.735 # take from cal_image_corrected
 #angle_deg = -2.7939 # take from cal_image_corrected, add minus sign
 angle_deg = -2.8 # take from cal_image_corrected, add minus sign
-top_leftX = 253 # take from cal_image_corrected
-top_leftY = 135 # take from cal_image_corrected
+top_leftX = 251 # take from cal_image_corrected
+top_leftY = 145 # take from cal_image_corrected
     
 
 def calculateXY(xc, yc):
@@ -26,11 +27,10 @@ def calculateXY(xc, yc):
     sin_val = math.sin(angle_rad)
     new_x = xc * cos_val - yc * sin_val
     new_y = xc * sin_val + yc * cos_val
-    calc_wx = round(-576 + new_y/gradY,2) # Y robot is x pixel
+    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
     calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
     
     return calc_wx, calc_wy
-
 
 def increase_contrast(img, clipLimit = 2.0, tileGridSize=(120,12)):
     lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
@@ -114,6 +114,8 @@ def detect_knob(image, x, y, w, h):
             radius = i[2]
             break
     return center, radius
+
+
               
 #define a video capture object
 print("Starting camera")
@@ -202,6 +204,8 @@ while(vid.isOpened()):
         for pt in detected_blue_circles[0]:
             a1, b1, r1 = pt[0], pt[1], pt[2]
             x1, y1 = calculateXY(a1, b1)
+            # compensate x for blue button here
+            x1 = x1 - 1
             # Draw the circle
             cv2.circle(img, (a1, b1), r1, (0, 255, 0), 2)
             # Draw the center of the circle
@@ -222,6 +226,8 @@ while(vid.isOpened()):
             knob_center, knob_radius  = detect_knob(img, x, y, w, h)
             a2,b2 = knob_center
             x2, y2 = calculateXY(a2, b2)
+            # compensate here
+            x2 = x2 + 1
             # Draw both and show the image, just for fun.
             if knob_radius != 0:
                 cv2.circle(img, knob_center, 5, (255, 0, 0), -1)
@@ -240,13 +246,13 @@ while(vid.isOpened()):
 
             print("Blue Button:")
             print("Pixel is at x=" + str(a1) + "  y="+ str(b1) + " r=" + str(r1))
-            x, y = calculateXY(a1, b1)
-            print("World coordinate is at x mm= " + str(x) + "  y mm= "+ str(y))
+
+            print("World [" + str(x1) + ","+ str(y1)+ "]")
             print("-----")
-            print("Keyhole:")
-            print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(r2))
-            x1, y1 = calculateXY(a2, b2)
-            print("World coordinate is at x mm= " + str(x1) + "  y mm= "+ str(y1))
+            print("Knob:")
+            print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(knob_radius))
+
+            print("World [" + str(x2) + ","+ str(y2)+ "]"))
             print("MAKE SURE ROBOT IS READY!")
             print("Press 'g' to start robot")
             print("Press 'q' to quit")
@@ -259,5 +265,5 @@ while(vid.isOpened()):
         else:
             print("Door not found!")
     else:
-        print("No circles deteccted") 
+        print("No circles detected") 
         
