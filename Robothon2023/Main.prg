@@ -1,13 +1,10 @@
 Global Integer Xmax, Xmin, Ymax, Ymin, Zmin, xpos, ypos, gap, radius, x, y, z, u, x1, x2, y1, y2
-Global String p$
+Global String p$, px1$, px2$, py1$, py2$
 
 Function main
 	String indata$(0), receive$
   	Integer i, camX, camY, camZ
   	
-  	camX = 0
-  	camY = 450
-  	camZ = 850
 
 	Motor On
 	Power High
@@ -18,7 +15,7 @@ Function main
 	AccelS 50, 50
 	
 ' going to camera position
-  Go Here :X(camX) :Y(camY) :Z(camZ) :U(0) :V(0) :W(180)
+  Go Camera_Pos
 
 '  SetNet #201, "192.168.150.2", 2001, CRLF
   SetNet #201, "127.0.0.1", 2001, CRLF
@@ -76,7 +73,30 @@ Function main
 	   	Go P(PNumber(p$))
    EndIf
    
-   Print #201, "SUCCESS"
+   If LCase$(indata$(0)) = "p" Then
+   		P333 = Here
+   		Print "Current location is ", P333
+	   	Print #201, P333
+   EndIf
+   
+   If LCase$(indata$(0)) = "c" Then
+     	px1$ = Trim$(indata$(1))
+        py1$ = Trim$(indata$(2))
+        px1$ = Trim$(indata$(3))
+        py1$ = Trim$(indata$(4))
+        
+   		Print "Mapping local coordinate to: ", px1$, ",", py1$
+   		'Local 1,(blue_point:Door_Orginal_Pick),(door_point:Home_Pos)
+   		'Local 1, (blue_point : int(py$))), (door_point : here :x(int(px2$)) :y(int(py2$)))
+	   	Go P(PNumber(p$))
+   EndIf
+   
+   If LCase$(indata$(0)) = "click_m5" Then
+   		go_click_m5
+   	EndIf
+   
+	P333 = Here
+	Print #201, P333
   Loop
 
   Exit Function
@@ -108,19 +128,6 @@ Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
 Fend
-Function OpenDoor
-	'gripper open
-	Go Door0
-	Go Door1
-	Go Door2 CP
-	Go Door3 CP
-	Go Door5 CP
-	Go Door6 CP
-	Go Door6 -X(60) CP
-	Go Door4 CP
-	Go Door5
-	Go Door6
-Fend
 Function mapping
 	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
 	WorldBBX = 102.389
@@ -139,11 +146,151 @@ Function mapping
 '	P(441) = XY(166.023, 172.310, 600, 79.302, 3.174, -178.165, 1) ' Door knob local
 	P(450) = XY(102.389, 53.257, 600, 79.302, 3.174, -178.165) ' Blue button world
 	P(451) = XY(214.938, 157.945, 600, 79.302, 3.174, -178.165) ' Door knob local
-	SavePoints "robot1.pts"
+	' SavePoints "robot1.pts"
 	
 	Local 1,(BBlocal:WorldBB),(DKlocal:WorldDK)
 	
 Fend
+Function go_click_m5
+	Go Approach_M5
+	Go Click_M5
+	Wait (0.5)
+	Go Approach_M5
+Fend
+Function go_press_buttons
+	Go Approach_Button
+	Go Press_Blue
+	Wait (0.5)
+	Go Approach_Button
+	Go Press_Red
+	Wait (0.5)
+	Go Approach_Button
+Fend
+Function go_press_blue_button
+	Go Approach_Button
+	Go Press_Blue
+	Wait (0.5)
+	Go Approach_Button
+Fend
 
+Function go_open_door
+	Go Approach_Door_OrginalPos
+	Go Door_Orginal_Pick
+	Go Door_Open1
+	Go Door_Open2 CP
+	Go Door_Open3 CP
+	Go Door_Open4 CP
+	Go Door_Open5 CP
+	Go Door_Open6
+	Go Door_Open7 CP
+	Go Door_Open8
+Fend
+Function go_probe1
+	' make sure gripper is open g0
+	Go Approach_probe
+	Go Probe_Pick0
+	' close the gripper here
+Fend
+Function go_probe2
+	Go probe_pick1
+	Go probe_pick2
+	Go probe_pick3
+	Go probe_pick4
+	Go probe_pick5
+	Wait (2)
+	Go probe_pick6
+	Wait (1)
+	Go Probe_Pick7
+	Go probe_pick4
+	Go probe_place1
+	Go probe_place2
+	Go probe_place3
+Fend
+Function go_probe_drop
+	Go probe_place1
+	Go probe_place2
+	Go probe_place3
+Fend
+Function go_approach_plug1
+    Go Approach_Plug_orginalPos
+	Go Plug_OrginalPos
+	'Close the Gripper
+	
+Fend
+Function go_approach_plug2
+	Go Unplug_OrginalPos
+	Go Approach_Plug_DestinationPos
+	Go Plug_DestinationPos
+	Go Plug_DestinationTurn
+	' Open the Gripper
+Fend
+Function go_approach_plug3
+	Go Plug_FinishedUp
+Fend
+	
+Function go_approach_cable
+	' must open g50
+	Go Approach_Cable
+	Go Approach_Grabbing_Cable
+Fend
+Function go_wind_cable
+	Go Cable1
+	Go Cable2
+	Go Cable3
+	Go Cable4
+	Go Cable5
+	Go Cable6
+	Go Cable7
+	Go Cable8
+	Go Cable9
+	Go Cable10
+	Go Cable11
+	Go Cable12
+	Go Cable4
+	Go Cable5
+	Go Cable6
+	Go Cable7
+	Go Cable8
+	Go Cable9
+	Go Cable10
+	Go Cable11
+	'Go Cable12
+	'Go Cable4
+	'Go Cable5
+	'Go Cable6
+	'Go Cable7
+	'Go AlignProbe1
+	'Go AlignProbe2
+	'Go AlignProbe3
+	' open g70 from here and continue with catch probe
+Fend
+Function go_catch_probe
+	Go CatchProbe1
+	Go CatchProbe2
+	' close g80 here and continue with stow
+Fend
+Function go_stow
+	Go Stow1
+	Go Stow2
+	Go Stow3
+	Go Stow4
+	Go Stow5
+	'Go Stow6
+	'Wait (1)
+	'Go Stow7
+	' open g0
+Fend
+Function go_press_red_button
+	' make sure gripper is closed g80
+	Go Stow_Finished
+	Go Approach_Button
+	Go Press_Red
+	Wait (0.5)
+	Go Approach_Button
+Fend
+Function slide(distance As Int32)
+	Go Here +X(distance)
+Fend
+	
 
 

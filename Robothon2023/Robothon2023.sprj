@@ -1,11 +1,11 @@
-ENVT0100,LM:2023/04/25 16:28:12:628,DS:0000006920,CS:22368,MA:E4-54-E8-53-F8-B1,EI:           
+ENVT0100,LM:2023/04/27 00:48:43:542,DS:0000006922,CS:31302,MA:E4-54-E8-53-F8-B1,EI:           
 SystemProperties {
 	sRCVersion="7.4.3"
 	sRCRevision=""
 	sGUID="5f3d5e0a-6554-4243-86f7-98006c8e521f"
 	sPath="C:\\EpsonRC70\\Projects\\Robothon2023\\"
 	sCreated="25/04/2023 8:11:15 PM"
-	sLastModified="25/04/2023 8:25:05 PM"
+	sLastModified="27/04/2023 4:48:43 AM"
 	bBuildComplete=False
 	bFirstBuildComplete=True
 	bRebuildRequired=False
@@ -36,7 +36,7 @@ ProgramFile1 {
 	sName="Main.prg"
 	bCompiled=False
 	bStoreInController=True
-	sTimeSavedInController="25/04/2023 4:11:23 PM"
+	sTimeSavedInController="26/04/2023 11:39:44 PM"
 }
 nIncludeFileCount=0
 nPointFileCount=1
@@ -44,7 +44,7 @@ PointFile1 {
 	sName="robot1.pts"
 	nRobot=1
 	bDefault=True
-	sTimeSavedInController="25/04/2023 4:25:16 PM"
+	sTimeSavedInController="27/04/2023 12:40:54 AM"
 }
 nForceFileCount=0
 OperatorSettings {

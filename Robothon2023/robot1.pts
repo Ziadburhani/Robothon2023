@@ -1,4 +1,4 @@
-ENVT0100,LM:2023/04/26 22:56:10:730,DS:0000022874,CS:18505,MA:E4-54-E8-53-F8-B1,EI:           
+ENVT0100,LM:2023/04/27 00:40:54:183,DS:0000022883,CS:20851,MA:E4-54-E8-53-F8-B1,EI:           
 sVersion="2.0.0"
 bDisplayR=False
 bDisplayS=False
@@ -296,12 +296,12 @@ Point12 {
 	sLabel="Approach_Slider"
 	sDescription=""
 	nUndefined=0
-	rX=17.456
-	rY=49.276
-	rZ=33.475
-	rU=86.69
-	rV=-0.164
-	rW=-179.529
+	rX=29.302
+	rY=55.395
+	rZ=18.293
+	rU=179.023
+	rV=-0.165
+	rW=-179.532
 	rR=0
 	rS=0
 	rT=0
@@ -312,7 +312,7 @@ Point12 {
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
-	nJ6Flag=1
+	nJ6Flag=0
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False
@@ -322,12 +322,12 @@ Point13 {
 	sLabel="Slider_StartPos"
 	sDescription=""
 	nUndefined=0
-	rX=17.453
-	rY=49.267
-	rZ=-4.04
-	rU=86.69
-	rV=-0.164
-	rW=-179.529
+	rX=29.301
+	rY=55.396
+	rZ=-1.67
+	rU=179.023
+	rV=-0.165
+	rW=-179.532
 	rR=0
 	rS=0
 	rT=0
@@ -338,7 +338,7 @@ Point13 {
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
-	nJ6Flag=1
+	nJ6Flag=0
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False
@@ -1778,9 +1778,9 @@ Point69 {
 	sLabel="Stow5"
 	sDescription=""
 	nUndefined=0
-	rX=130.851
-	rY=224.374
-	rZ=1.168
+	rX=131.805
+	rY=225.681
+	rZ=-0.348
 	rU=-173.114
 	rV=-1.577
 	rW=-179.778
@@ -1804,9 +1804,9 @@ Point70 {
 	sLabel="Stow6"
 	sDescription=""
 	nUndefined=0
-	rX=104.729
-	rY=220.443
-	rZ=1.86
+	rX=109.688
+	rY=225.681
+	rZ=-0.348
 	rU=-173.114
 	rV=-1.577
 	rW=-179.778
@@ -1830,9 +1830,9 @@ Point71 {
 	sLabel="Stow7"
 	sDescription=""
 	nUndefined=0
-	rX=82.441
-	rY=220.443
-	rZ=1.861
+	rX=109.688
+	rY=225.681
+	rZ=-0.348
 	rU=-173.114
 	rV=-1.577
 	rW=-179.778
