@@ -147,7 +147,7 @@ def calculate_distance(slider_arrow_y, target_arrow_y, total_length, margin = 15
 
 def calculate_first_arrow_position(image):
     slider_arrow_y = -1
-    target_arrow_y = -1
+    first_target_arrow_y = -1
     low_hsv = (0, 0, 221)
     high_hsv = (180, 100, 255)
     image = image[0:image.shape[0],int(image.shape[1]/2):image.shape[1]]
@@ -165,20 +165,20 @@ def calculate_first_arrow_position(image):
     if cx1 < cx2:
         # Arrow 1 is the left arrow
         slider_arrow_y = cy1
-        target_arrow_y = cy2
+        first_target_arrow_y = cy2
     else:
         slider_arrow_y = cy2
-        target_arrow_y = cy1
+        first_target_arrow_y = cy1
     
-    current_position_of_slider, target_position, percent_to_move, distance_to_move = calculate_distance(slider_arrow_y, target_arrow_y, image.shape[0])
-    print("Current position of slider = {:.2f}, Target position = {:.2f}, % to move slider = {:.2f}".format(current_position_of_slider, target_position, percent_to_move))
-    return distance_to_move, target_arrow_y, percent_to_move
+    slider_starting_position, target_position, percent_to_move, absolute_distance_in_mm = calculate_distance(slider_arrow_y, first_target_arrow_y, image.shape[0])
+    print("Current position of slider = {:.2f}, Target position = {:.2f}, % to move slider = {:.2f}".format(slider_starting_position, target_position, percent_to_move))
+    return abs(absolute_distance_in_mm), slider_arrow_y
 
 # Step 5: Detect the second arrow and calculate the relative movement: ArrowPosition (0.0 - 1.0)
 ### Within the screen, use the HSV colour space to detect the arrows
 ### The length of the slider is the same as the screen length (Convenient)
 def calculate_second_arrow_position(current_slider_p, orig,image):
-    slider_arrow_y = current_slider_position
+    slider_arrow_y = -1
     target_arrow_y = -1
     low_hsv = (0, 0, 221)
     high_hsv = (180, 100, 255)
@@ -198,15 +198,15 @@ def calculate_second_arrow_position(current_slider_p, orig,image):
     slider_arrow_y = current_slider_p
     target_arrow_y = cy
     current_position_of_slider, target_position, percent_to_move, distance_to_move = calculate_distance(slider_arrow_y, target_arrow_y, image.shape[0])
-    print("Current position of slider = {:.2f}, Target position = {:.2f}, % to move slider = {:.2f}".format(current_position_of_slider, target_position, percent_to_move))
-    print("Distance to move the slider (in mm): {:.2f}".format(distance_to_move))
+    return abs(distance_to_move)
     
 image = load_image(images_folder+image)
 red_box = detect_red_box(image, True)
 screen = detect_screen(red_box, True)
-distance_to_move, current_slider_position, arrow_position = calculate_first_arrow_position(screen)
-print("Distance to move the slider (in mm): {:.2f}".format(distance_to_move))
+absolute_distance_in_mm, slider_starting_position = calculate_first_arrow_position(screen)
+print("Distance to move the slider (in mm): {:.2f}".format(absolute_distance_in_mm))
 image2 = load_image(images_folder+image2)
 red_box2 = detect_red_box(image2, True)
 screen2 = detect_screen(red_box2, True)
-calculate_second_arrow_position(current_slider_position, screen, screen2)
+absolute_distance_in_mm2 = calculate_second_arrow_position(slider_starting_position, screen, screen2)
+print("Distance to move the slider (in mm): {:.2f}".format(absolute_distance_in_mm2))
