@@ -210,7 +210,7 @@ def calculate_second_arrow_position(current_slider_p, orig,image):
     backup_image = image
     orig = hsv_object_detector(orig, low_hsv, high_hsv, 3, True, False, False, False)
     image = hsv_object_detector(image, low_hsv, high_hsv, 3, True, False, False, False)
-    final = cv2.subtract(image, orig)
+    final = cv2.subtract(image, orig) 
     contours, hierarchy = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     c = max(contours, key=cv2.contourArea)
     M = cv2.moments(c)
