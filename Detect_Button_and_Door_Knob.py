@@ -129,7 +129,7 @@ vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
 vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
 
 # Capture the video frame
-ret, img = vid.read()
+# ret, img = vid.read()
 
 n_frame = 1 # frame counter
 
@@ -137,11 +137,11 @@ while(vid.isOpened()):
     print("=======Ready to capture=======")   
     # Capture the video frame by frame
     print("Capturing frame")
-    ret, img = vid.read()
+    # ret, img = vid.read()
     # now = datetime.datetime.now()
     # filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
     # cv2.imwrite(filename, img)
-    # img = cv2.imread('images/board1.jpg')
+    img = cv2.imread('images/BOARD9.jpg')
 
     # convert to HSV for color detection
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
