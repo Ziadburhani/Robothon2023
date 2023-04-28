@@ -103,7 +103,7 @@ def detect_knob(image, x, y, w, h):
     # Find circles. Parameters here ensure that the circles are far apart
     # Of a certain size, and use the correct Canny thresholds
     rows = f_blur.shape[0]
-    circles = cv2.HoughCircles(f_blur, cv2.HOUGH_GRADIENT, 1, rows, param1=100, param2=10,minRadius=20, maxRadius=30)
+    circles = cv2.HoughCircles(f_blur, cv2.HOUGH_GRADIENT, 1, rows, param1=100, param2=10,minRadius=20, maxRadius=90)
     
     # If we've found even one circle, that's our guy.
     # Just look at the first and return the center and radius.
