@@ -2,17 +2,17 @@ import cv2
 import numpy as np
 import math
 from time import sleep
-#from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
+from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
 # world coordinate parameter
 Xmax = -350
 Xmin = -550
-Ymax = 350
+Ymax = 250
 Ymin = 50
-gap = 100
+gap = 200
 
-world_points = [x for x in range(12)]
-pixel_points = [x for x in range(12)]
+world_points = [x for x in range(4)]
+pixel_points = [x for x in range(4)]
 
 def get_rotation_angle(x1, y1, x2, y2):
     dx = x2 - x1
@@ -28,9 +28,9 @@ def rotate_point(x, y, angle_deg):
     return new_x, new_y
 
 # sending robot to Camera position
-#sendToEpson("M Camera_Pos")
+sendToEpson("M Camera_Pos")
 sleep(2)
-#cam_point = sendToEpson("P")
+cam_point = sendToEpson("P")
 #print(cam_point)
 
 # Read image.
@@ -112,18 +112,18 @@ if detected_circles is not None:
     origin_y = pixel_points[0][1]
     
     #rot = get_rotation_angle(origin_x,origin_y,pixel_points[3][0],pixel_points[3][1])
-    rot = get_rotation_angle(pixel_points[8][0],pixel_points[8][1],pixel_points[11][0],pixel_points[11][1])
+    rot = get_rotation_angle(pixel_points[0][0],pixel_points[0][1],pixel_points[1][0],pixel_points[1][1])
     print("Rotation angle ",rot," degree")
     cv2.putText(img, "Rotation angle "+ str(rot) +" degree", (10,20), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,255),2 )
     #img = cv2.resize(img, (1280,768))  
     #gradX = 3.3333
     #gradY = 3.3333
-    ref_x1, ref_y1 = rotate_point(pixel_points[3][0] - origin_x, pixel_points[3][1] - origin_y, -rot)
-    ref_x2, ref_y2 = rotate_point(pixel_points[8][0] - origin_x, pixel_points[8][1] - origin_y, -rot)
-    gradX = abs(pixel_points[3][0] - origin_x) / 300
-    gradY = abs(pixel_points[8][1] - origin_y) / 200
+    ref_x1, ref_y1 = rotate_point(pixel_points[1][0] - origin_x, pixel_points[1][1] - origin_y, -rot)
+    ref_x2, ref_y2 = rotate_point(pixel_points[2][0] - origin_x, pixel_points[2][1] - origin_y, -rot)
+    gradX = abs(pixel_points[1][0] - origin_x) / abs(Xmax-Xmin)
+    gradY = abs(pixel_points[2][1] - origin_y) / abs(Ymax-Ymin)
         
-    for p in range(0,12):
+    for p in range(0,4):
         c_px = pixel_points[p][0] 
         c_py = pixel_points[p][1] 
         c_wx = world_points[p][0]

@@ -25,10 +25,10 @@ arduino = arduino_communication.ArduinoCommunication(port, baudrate)
 
 Xmax = -350
 Xmin = -550
-Ymax = 350
+Ymax = 250
 Ymin = 50
 Zmin = 523 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
-gap = 100
+gap = 200
 
 # define a video capture object
 print("Connecting to camera...")
