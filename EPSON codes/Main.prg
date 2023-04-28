@@ -142,29 +142,6 @@ Fend
 	
 Function mapping
 	Real WorldBBX, WorldBBY, WorldKnobX, WorldKnobY
-'	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
-'	WorldBBX = -533
-'	WorldBBY = 289
-'	WorldKnobX = -535
-'	WorldKnobY = 137
-'	LocalBBX = 149.385
-'	LocalBBY = 26.285
-'	LocalKnobX = 166.023
-'	LocalKnobY = 172.310
-'
-'	dZ = 600
-'	dU = 3.174
-'	dV = -178.16
-''	P(440) = XY(149.385, 26.285, 600, 79.302, 3.174, -178.165, 1) ' Blue button local
-''	P(441) = XY(166.023, 172.310, 600, 79.302, 3.174, -178.165, 1) ' Door knob local
-'	P(450) = XY(102.389, 53.257, 600, 79.302, 3.174, -178.165) ' Blue button world
-'	P(451) = XY(214.938, 157.945, 600, 79.302, 3.174, -178.165) ' Door knob local
-'	SavePoints "robot1.pts"
-
-'	P330 = XY(-553.833, 281.953, 524.696, -90)
-'	P331 = XY(-535.787, 137.820, 534.730, -90)
-'	P332 = Here :X(-553.833) :Y(280.155)
-'	P333 = Here :X(-535.094) :Y(137.820)
 	P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue
 	P333 = Here :X(-505.9) :Y(204.18) :Z(521) ' knob
 	'Local 3,(P330:P332),(P331:P333)
