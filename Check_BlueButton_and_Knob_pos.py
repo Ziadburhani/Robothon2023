@@ -4,9 +4,9 @@ import math
 from time import sleep
 import numpy as np
 import arduino_communication
-#from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
+from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
-#sendToEpson("M Camera_Pos")
+sendToEpson("M Camera_Pos")
 sleep(1.5)
    
 gradX = 4.21 # take from cal_image_corrected
@@ -115,7 +115,6 @@ def detect_knob(image, x, y, w, h):
     return center, radius
 
 
-
               
 #define a video capture object
 print("Starting camera")
@@ -127,7 +126,7 @@ vid = cv2.VideoCapture(0) # for other systems
 print("Setting video resolution")
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
 vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
-sleep(1)
+sleep(1.5)
 
 n_frame = 1 # frame counter
 
@@ -136,9 +135,9 @@ while(vid.isOpened()):
     # Capture the video frame by frame
     print("Capturing frame")
     ret, img = vid.read()
-    now = datetime.datetime.now()
-    filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
-    cv2.imwrite(filename, img)
+    # now = datetime.datetime.now()
+    # filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
+    # cv2.imwrite(filename, img)
     # img = cv2.imread('images/BOARD9.jpg')
 
     # convert to HSV for color detection
@@ -202,7 +201,8 @@ while(vid.isOpened()):
         for pt in detected_blue_circles[0]:
             a1, b1, r1 = pt[0], pt[1], pt[2]
             x1, y1 = calculateXY(a1, b1)
-
+            # compensate x for blue button here
+            x1 = x1 - 1
             # Draw the circle
             cv2.circle(img, (a1, b1), r1, (0, 255, 0), 2)
             # Draw the center of the circle
@@ -258,6 +258,12 @@ while(vid.isOpened()):
             k = cv2.waitKey(0)
             # if human selected to quit
             if k == ord('q'):
+                break
+            # if human selecting g
+            if k == ord('g'):
+                sendToEpson("go "+ str(x1) + " "+ str(y1)+ " 550")
+                input("Press ENTER to continue..")
+                sendToEpson("go "+ str(x2) + " "+ str(y2)+ " 550")
                 break
         else:
             print("Door not found!")

@@ -23,12 +23,13 @@ print("Opening connection with Arduino")
 arduino = arduino_communication.ArduinoCommunication(port, baudrate)
 
 
-Xmax = -350
+Xmax = -450
 Xmin = -550
-Ymax = 350
+Ymax = 250
 Ymin = 50
 Zmin = 523 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
-gap = 100
+gapY = 200
+gapX = 100
 
 # define a video capture object
 print("Connecting to camera...")
@@ -45,8 +46,8 @@ response = arduino.communicate("g50")
 print(response)
 sleep(1)
         
-for Xpos in range(Xmax,Xmin-1,-gap):
-    for Ypos in range(Ymax,Ymin-1,-gap):
+for Xpos in range(Xmax,Xmin-1,-gapX):
+    for Ypos in range(Ymax,Ymin-1,-gapY):
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin+100) + " 0" # go to 100mm above the calibration point
         sendToEpson(command)
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0"  # go to the calibration point
