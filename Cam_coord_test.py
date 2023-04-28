@@ -17,18 +17,19 @@ sleep(1)
 
 
 # world coordinate parameter
-Xmax = -350
+Xmax = -450
 Xmin = -550
-Ymax = 350
+Ymax = 250
 Ymin = 50
-Zmin = 523
-gap = 100
+Zmin = 523 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
+gapY = 200
+gapX = 100
 
-gradX = 4.21 # take from cal_image_corrected
-gradY = 4.185# take from cal_image_corrected
+gradX = 9.84 # take from cal_image_corrected
+gradY = 2.48# take from cal_image_corrected
 angle_deg = 0 # take from cal_image_corrected, add minus sign
-top_leftX = 328 # take from cal_image_corrected
-top_leftY = 105 # take from cal_image_corrected
+top_leftX = 284 # take from cal_image_corrected
+top_leftY = 319 # take from cal_image_corrected
     
 
 def calculateXY(xc, yc):

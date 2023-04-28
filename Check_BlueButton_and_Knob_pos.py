@@ -29,6 +29,7 @@ def calculateXY(xc, yc):
     
     return calc_wx, calc_wy
 
+
 def increase_contrast(img, clipLimit = 2.0, tileGridSize=(120,12)):
     lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
     l_channel, a, b = cv2.split(lab)
@@ -53,10 +54,10 @@ def detect_door(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # Apply Gaussian blur
-    blurred = cv2.GaussianBlur(gray, (11, 11), 0)
+    blurred = cv2.GaussianBlur(gray, (15, 15), 0)
 
     # Threshold with an optimal value
-    t,thresh = cv2.threshold(blurred, 60, 255, cv2.THRESH_BINARY)
+    t,thresh = cv2.threshold(blurred, 128, 255, cv2.THRESH_BINARY)
 
     # Step 2: Morphological operations
     kernel = np.ones((5, 5), np.uint8)
@@ -71,13 +72,14 @@ def detect_door(image):
     for contour in contours:
         area = cv2.contourArea(contour)
         t_x, t_y, t_w, t_h = cv2.boundingRect(contour)
-        aspect_ratio = float(t_w)/t_h    
-        if 90000 < area < 180000 and 0.75 < aspect_ratio < 1.25:
+        aspect_ratio = float(t_w)/t_h  
+        if 140000 < area < 240000 and 0.75 < aspect_ratio < 1.5:
+            cv2.drawContours(image, [contour], -1, (0, 255, 0), 3)
             x = t_x
             y = t_y
             w = t_w
             h = t_h
-            break
+    #show_image('i', image)
     return x, y, w, h
 
 def detect_knob(image, x, y, w, h):
@@ -90,8 +92,8 @@ def detect_knob(image, x, y, w, h):
     # This is done so that the coordinates match the original image
     size = image.shape[0], image.shape[1], 3
     final = np.zeros(size, np.uint8)
-    final[y:y+w, x:x+h] = contr[y:y+w, x:x+h]
-    final = increase_contrast(final, 1.5)
+    final[y:y+h, x:x+w] = contr[y:y+h, x:x+w]
+    #final = increase_contrast(final, 1.5)
     
     # Convert to grayscale, apply a bilateral filter
     f_gray = cv2.cvtColor(final, cv2.COLOR_BGR2GRAY)
@@ -100,7 +102,7 @@ def detect_knob(image, x, y, w, h):
     # Find circles. Parameters here ensure that the circles are far apart
     # Of a certain size, and use the correct Canny thresholds
     rows = f_blur.shape[0]
-    circles = cv2.HoughCircles(f_blur, cv2.HOUGH_GRADIENT, 1, rows, param1=100, param2=10,minRadius=20, maxRadius=90)
+    circles = cv2.HoughCircles(f_blur, cv2.HOUGH_GRADIENT, 1, rows, param1=100, param2=10,minRadius=20, maxRadius=60)
     
     # If we've found even one circle, that's our guy.
     # Just look at the first and return the center and radius.

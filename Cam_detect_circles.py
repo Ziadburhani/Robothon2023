@@ -5,11 +5,18 @@ from time import sleep
 from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
 # world coordinate parameter
-Xmax = -350
+Xmax = -450
 Xmin = -550
 Ymax = 250
 Ymin = 50
-gap = 200
+gapX = 100
+gapY = 200
+
+gradX = 4.21 # take from cal_image_corrected
+gradY = 4.185# take from cal_image_corrected
+angle_deg = 0 # take from cal_image_corrected, add minus sign
+top_leftX = 333 # take from cal_image_corrected
+top_leftY = 108 # take from cal_image_corrected
 
 world_points = [x for x in range(4)]
 pixel_points = [x for x in range(4)]
@@ -26,6 +33,21 @@ def rotate_point(x, y, angle_deg):
     new_x = x * cos_val - y * sin_val
     new_y = x * sin_val + y * cos_val
     return new_x, new_y
+
+
+def calculateXY(xc, yc):
+    xc = xc - top_leftX # top left X pixel
+    yc = yc - top_leftY # top left Y pixel
+    angle_rad = math.radians(angle_deg)
+    cos_val = math.cos(angle_rad)
+    
+    sin_val = math.sin(angle_rad)
+    new_x = xc * cos_val - yc * sin_val
+    new_y = xc * sin_val + yc * cos_val
+    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
+    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
+    
+    return calc_wx, calc_wy
 
 # sending robot to Camera position
 sendToEpson("M Camera_Pos")
@@ -102,11 +124,11 @@ if detected_circles is not None:
         cv2.putText(img, "(" + str(wx) + ","+ str(wy) + ")", (a-r-80,b+r-50), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,255),2 )
         print(str(i) + ": " + str(a) + "\t\t"+ str(b) + "\t\t" + str(wx) + "\t\t" + str(wy) )
 
-        wy = wy + gap
+        wy = wy + gapY
         if column > 3:
             column = 0
             wy = Ymin
-            wx = wx + gap
+            wx = wx + gapX
 
     origin_x = pixel_points[0][0]
     origin_y = pixel_points[0][1]
@@ -133,12 +155,13 @@ if detected_circles is not None:
         new_y = int(round(new_y + origin_y))
         #gradX = abs(c_px - origin_x) / abs(Ymax-Ymin)
         #gradY = abs(c_py - origin_y) / abs(Xmax - Xmin)
-        calc_wx = round(Xmin + (new_y - origin_y)/gradX,2) # Y robot is x pixel
-        calc_wy = round(Ymin + (new_x - origin_x)/gradY,2) # X robot is y pixel
+        calc_wx, calc_wy =calculateXY(c_px, c_py)
+        #calc_wx = round(Xmin + (new_y - origin_y)/gradX,2) # Y robot is x pixel
+        #calc_wy = round(Ymin + (new_x - origin_x)/gradY,2) # X robot is y pixel
         print(str(c_wx) + "," + str(c_wy) + "," + str(c_px) + "," + str(c_py) + " " + str(new_x) + "," + str(new_y) + " " + str(calc_wx) + "," +str(calc_wy))
         cv2.circle(img, (new_x, new_y), 5, (255, 0, 0), 3)
         cv2.putText(img, "[" + str(new_x) + ","+ str(new_y) + "]", (new_x - 40, new_y - 10), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),2 )
-        cv2.putText(img, "(" + str(calc_wx) + ","+ str(calc_wy) + ")", (c_px - 100, c_py + 20), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,240),2 )
+        cv2.putText(img, "(" + str(calc_wx) + ","+ str(calc_wy) + ")", (c_px - 100, c_py + 40), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,240),2 )
         cv2.putText(img, "GradX="+ str(gradX) +",  GradY=" + str(gradY), (10,40), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),2 )
         cv2.putText(img, "Camera position="+ str(cam_point), (10,60), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),2 )
     cv2.imshow("Corrected Circle", img)
