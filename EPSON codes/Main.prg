@@ -79,24 +79,28 @@ Function main
 	   	Print #201, P333
    EndIf
    
-   If LCase$(indata$(0)) = "c" Then
+   If LCase$(indata$(0)) = "t" Then ' map the coordinate
      	px1$ = Trim$(indata$(1))
         py1$ = Trim$(indata$(2))
-        px1$ = Trim$(indata$(3))
-        py1$ = Trim$(indata$(4))
+        px2$ = Trim$(indata$(3))
+        py2$ = Trim$(indata$(4))
         
-   		Print "Mapping local coordinate to: ", px1$, ",", py1$
-   		'Local 1,(blue_point:Door_Orginal_Pick),(door_point:Home_Pos)
-   		'Local 1, (blue_point : int(py$))), (door_point : here :x(int(px2$)) :y(int(py2$)))
-	   	Go P(PNumber(p$))
+   		Print "Mapping world coordinate to local"
+   		Print "Blue button:", px1$, ",", py1$, "  Knob:", px2$, ",", px2$
+		Real ZOffset
+		ZOffset = 521
+		P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue	
+		P333 = Here :X(-505.9) :Y(204.18) :Z(ZOffset) ' knob
+		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
    EndIf
    
    If LCase$(indata$(0)) = "click_m5" Then
    		go_click_m5
    	EndIf
    
-	P333 = Here
-	Print #201, P333
+	P777 = Here
+	Print #201, P777
+	
   Loop
 
   Exit Function
@@ -128,6 +132,14 @@ Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
 Fend
+Function translate(WBBX As Integer, WBBY As Integer, WKX As Integer, WKY As Integer) ' translating coordinates
+	Real ZOffset
+	ZOffset = 521
+	P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue	
+	P333 = Here :X(-505.9) :Y(204.18) :Z(ZOffset) ' knob
+	Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
+Fend
+	
 Function mapping
 	Real WorldBBX, WorldBBY, WorldKnobX, WorldKnobY
 '	Real LocalBBX, LocalBBY, LocalKnobX, LocalKnobY, WorldBBX, WorldBBY, WorldKnobX, WorldKnobY, dZ, dU, dV
@@ -180,11 +192,10 @@ Function go_press_blue_button
 	Wait (0.5)
 	Go Approach_Button
 Fend
-
 Function go_open_door
 	Go Approach_Door_OrginalPos
 	Go Door_Orginal_Pick
-	Go Door_Open1
+	Go DOor_Open1
 	Go Door_Open2 CP
 	Go Door_Open3 CP
 	Go Door_Open4 CP
