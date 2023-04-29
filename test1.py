@@ -2,7 +2,6 @@ import cv2
 from time import sleep
 import numpy as np
 from Settings import gripper
-from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
 # --- click M5 button
 def m5():
@@ -13,21 +12,19 @@ def bb():
     sendToEpson("go_press_blue_button")
     
 # --- move sliders
-def slider():
+def slide():
     sendToEpson("go_check_display")
     # take picture here to get slider value
     # then grab the slider and move it accordingly
-    sendToEpson("go_approach_slider")
-    gripper(90)
-    sendToEpson("go_slide(16)")
+    sleep(1)
     gripper(50)
-    sendToEpson("go_check_display")
-    # take picture again to get slider value
-    # then grab the slider and move it accordingly
     sendToEpson("go_approach_slider")
+    sleep(1)
     gripper(90)
-    sendToEpson("go_slide(5)")
+    sleep(1)
+    sendToEpson("go_slide 16")
     gripper(50)
+
 
 # --- open the door            
 def door():
@@ -37,10 +34,14 @@ def door():
 # --- move the probe's plug
 def plug():
     gripper(50)
+    sleep(1.5)
     sendToEpson("go_approach_plug1")
     gripper(90)
+    sleep(1.5)
     sendToEpson("go_approach_plug2")
+    sleep(1.5)
     gripper(50)
+    sleep(0.5)
     sendToEpson("go_approach_plug3")
 
 # --- take probe, probe in, drop probe
@@ -61,17 +62,17 @@ def rb():
     sendToEpson("go_press_red_button")
     
 # ==== main actions
-sendToEpson("m Camera_Pos")
-gripper(80)
+#sendToEpson("m Camera_Pos")
+#gripper(80)
 # get world coordinates here
 sendToEpson("local -528.546 276.747 -558.129 134.783")
 
-m5()
-bb()
-slider()
-door()
+#m5()
+#bb()
+#slide()
+#door()
 plug()
-probe()
-cable()
-stow()
-rb()
+# probe()
+# cable()
+# stow()
+# rb()

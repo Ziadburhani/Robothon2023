@@ -7,13 +7,13 @@ import numpy as np
 # gradX = 2.84 # take from cal_image_corrected
 # gradY = 2.44 # take from cal_image_corrected
 angle_deg = 0 # take from cal_image_corrected, add minus sign
-tl_X, tl_Y = 284, 319 # take from cal_image_corrected
-tr_X, tr_Y = 1268, 319
+tl_X, tl_Y = 284, 318 # take from cal_image_corrected
+tr_X, tr_Y = 1268, 318
 bl_X, bl_Y = 284, 807
-br_X, br_Y = 1284, 807
+br_X, br_Y = 1268, 807
 
-Y_len = 100
-X_len = 200
+Y_len = 200
+X_len = 100
 
 gradX = X_len / (tr_X - tl_X)
 gradY = Y_len / (bl_Y - tl_Y)
@@ -28,8 +28,8 @@ def calculateXY(xc, yc):
     calc_wy = 50 + round( xc * gradX, 2) # X robot is y pixel 
     return calc_wx, calc_wy
 
-px1, py1 = (1452, 464)
-px2, py2 = (744, 360)
+px1, py1 = (1465, 302) # blue button pixel
+px2, py2 = (74, 271)
 px3, py3 = (1268,319)
 
 wx1, wy1 = calculateXY(px1,py1)
@@ -41,7 +41,7 @@ print(wx2, wy2)
 print(wx3, wy3)
 
 actual_x1, actual_y1 = (-528.546, 276.747)
-actual_x2, actual_y2 = (-558.129, 134.785)
+actual_x2, actual_y2 = (-559.394, 144.089)
 actual_x3, actual_y3 = (-550, 250)
 
 print("Gap blue button", (actual_x1 - wx1, actual_y1 - wy1) )

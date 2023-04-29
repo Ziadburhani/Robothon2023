@@ -5,10 +5,14 @@ import socket
 from time import sleep
 import numpy as np
 
+ip_adddress = "192.168.150.2" # real robot
+# ip_adddress = "127.0.0.1" # simulator robot
+
 ## Create a client socket
 clientSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ## Connect to the EPSON robot
-clientSocket.connect(("127.0.0.1",2001)) # this is simulator address, change this according to your robot address
+clientSocket.connect((ip_adddress,2001))
+#clientSocket.connect(("127.0.0.1",2001)) # this is simulator address, change this according to your robot address
 #clientSocket.connect(("192.168.150.2",2001)) # this is the EPSON RC7+ simulator on localhost
 
 # format of the coordinate is "x y z u" where u is the wrist rotation angle

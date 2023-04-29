@@ -97,28 +97,28 @@ if detected_circles is not None:
     origin_x = pixel_points[0][0]
     origin_y = pixel_points[0][1]
     
-    rot = get_rotation_angle(origin_x,origin_y,pixel_points[3][0],pixel_points[3][1])
-    print("Rotation angle ",rot," degree")
-    cv2.putText(img, "Rotation angle "+ str(rot) +" degree", (10,20), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,255),2 )
+    #rot = get_rotation_angle(origin_x,origin_y,pixel_points[3][0],pixel_points[3][1])
+    #print("Rotation angle ",rot," degree")
+    #cv2.putText(img, "Rotation angle "+ str(rot) +" degree", (10,20), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,255),2 )
     #img = cv2.resize(img, (1280,768))  
     
-    for p in range(0,12):
-        c_px = pixel_points[p][0] 
-        c_py = pixel_points[p][1] 
-        c_wx = world_points[p][0]
-        c_wy = world_points[p][1]
-        new_x, new_y = rotate_point(c_px - origin_x, c_py - origin_y, -rot)
-        new_x = int(round(new_x + origin_x))
-        new_y = int(round(new_y + origin_y))
-        gradX = 3.322
-        gradY = 3.322
-        calc_wx = round(Xmin + (new_y - origin_y)/gradX,2) # Y robot is x pixel
-        calc_wy = round(Ymin + (new_x - origin_x)/gradY,2) # X robot is y pixel
-        print(str(c_wx) + "," + str(c_wy) + "," + str(c_px) + "," + str(c_py) + " " + str(new_x) + "," + str(new_y) + " " + str(calc_wx) + "," +str(calc_wy))
-        cv2.circle(img, (new_x, new_y), 5, (255, 0, 0), 3)
-        cv2.putText(img, "[" + str(new_x) + ","+ str(new_y) + "]", (new_x - 40, new_y - 10), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),2 )
-        cv2.putText(img, "(" + str(calc_wx) + ","+ str(calc_wy) + ")", (c_px - 100, c_py + 20), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,240),2 )
-        cv2.putText(img, "GradX="+ str(gradX) +",  GradY=" + str(gradY), (10,40), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),2 )
+    # for p in range(0,12):
+    #     c_px = pixel_points[p][0] 
+    #     c_py = pixel_points[p][1] 
+    #     c_wx = world_points[p][0]
+    #     c_wy = world_points[p][1]
+    #     new_x, new_y = rotate_point(c_px - origin_x, c_py - origin_y, -rot)
+    #     new_x = int(round(new_x + origin_x))
+    #     new_y = int(round(new_y + origin_y))
+    #     gradX = 3.322
+    #     gradY = 3.322
+    #     calc_wx = round(Xmin + (new_y - origin_y)/gradX,2) # Y robot is x pixel
+    #     calc_wy = round(Ymin + (new_x - origin_x)/gradY,2) # X robot is y pixel
+    #     print(str(c_wx) + "," + str(c_wy) + "," + str(c_px) + "," + str(c_py) + " " + str(new_x) + "," + str(new_y) + " " + str(calc_wx) + "," +str(calc_wy))
+    #     cv2.circle(img, (new_x, new_y), 5, (255, 0, 0), 3)
+    #     cv2.putText(img, "[" + str(new_x) + ","+ str(new_y) + "]", (new_x - 40, new_y - 10), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),2 )
+    #     cv2.putText(img, "(" + str(calc_wx) + ","+ str(calc_wy) + ")", (c_px - 100, c_py + 20), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,255,240),2 )
+    #     cv2.putText(img, "GradX="+ str(gradX) +",  GradY=" + str(gradY), (10,40), cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,255,255),2 )
     
     cv2.imshow("Corrected Circle", img)
     cimg = 'cal_image_corrected.png'

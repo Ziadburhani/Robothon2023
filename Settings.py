@@ -5,8 +5,8 @@ import math
 from time import sleep
 import numpy as np
 
-port = "COM3" # Judhi's PC
-#port = "COM8" # desktop PC
+#port = "COM3" # Judhi's PC
+port = "COM9" # desktop PC
 baudrate = 9600
 # Create an instance of the ArduinoCommunication class
 print("Opening connection with Arduino")

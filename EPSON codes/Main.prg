@@ -28,23 +28,7 @@ Function main
    ParseStr receive$, indata$(), " " ' convert to lower case
    Print "Received message: ", receive$
    
-   ' Mapping from world coordinate to local
-   If indata$(0) = "C" Then
-     	x1 = Val(Trim$(indata$(1)))
-    	y1 = Val(Trim$(indata$(2)))
-     	x2 = Val(Trim$(indata$(3)))
-    	y2 = Val(Trim$(indata$(4)))
-   		Print "Mapping"
-   	    
-		' mapping code here   		
-		P111 = XY(100, 100, 100, 0) ' warning: mock up data
-		P112 = XY(200, 200, 100, 0) ' ====
-		P211 = XY(0, 0, 0, 0)
-		P212 = XY(300, 300, 300, 0)
-        Local 1,(P111:P211),(P112:P212)
-		
-   EndIf
-   
+  
    ' if the command is jump3
    If indata$(0) = "jump3" Then
      	x = Val(Trim$(indata$(1)))
@@ -88,7 +72,7 @@ Function main
    		Print "Blue button:", px1$, ",", py1$, "  Knob:", px2$, ",", px2$
 		Real ZOffset
 		ZOffset = 521
-		P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue	
+		P332 = Here :X(-404.57) :Y(306.76) :Z(ZOffset) ' blue	
 		P333 = Here :X(-505.9) :Y(204.18) :Z(ZOffset) ' knob
 		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
    EndIf
@@ -102,6 +86,11 @@ Function main
 	If LCase$(indata$(0)) = "go_press_blue_button" Then
    		go_press_blue_button
    	EndIf
+
+   	
+	If LCase$(indata$(0)) = "go_approach_slider" Then
+   		go_approach_slider
+   	EndIf
    	
 	If LCase$(indata$(0)) = "go_check_display" Then
    		go_check_display
@@ -109,7 +98,7 @@ Function main
    	
 	If LCase$(indata$(0)) = "go_slide" Then
 		Real mm
-		mm = Val(Trim$(indata$(2)))
+		mm = Val(Trim$(indata$(1)))
    		go_slide(mm)
    	EndIf
    	
@@ -350,8 +339,10 @@ Function go_press_red_button
 	Wait (0.5)
 	Go Approach_Button
 Fend
-Function go_slide(distance As Int32)
-	Go Slider_StartPos +X(distance)
+Function go_slide(distance As Real)
+	If distance >= 0 And distance <= 31 Then
+		Go Slider_StartPos +X(distance)
+	EndIf
 Fend
 Function go_check_display
 	Go Display_Pic
