@@ -112,8 +112,10 @@ def get_coord():
     while(vid.isOpened()):
         print("=======Ready to capture=======")   
         # Capture the video frame by frame
-        print("Capturing frame")
-        ret, img = vid.read()
+        #print("Capturing frame")
+        #ret, img = vid.read()
+        print("using existing image")
+        img = cv2.imread("last_detected_image.png")
         #now = datetime.datetime.now()
         #filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
         filename = "last_detected_image.png"
