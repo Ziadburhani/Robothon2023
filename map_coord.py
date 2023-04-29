@@ -136,10 +136,10 @@ def get_coord():
     while(vid.isOpened()):
         print("=======Ready to capture=======")   
         # Capture the video frame by frame
-        #print("Capturing frame")
-        #ret, img = vid.read()
-        print("using existing image")
-        img = cv2.imread("last_detected_image.png")
+        print("Capturing frame")
+        ret, img = vid.read()
+        #print("using existing image")
+        #img = cv2.imread("last_detected_image.png")
         #now = datetime.datetime.now()
         #filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
         filename = "last_detected_image.png"
@@ -198,7 +198,7 @@ def get_coord():
                 a1, b1, r1 = pt[0], pt[1], pt[2]
                 x1, y1 = Settings.calculateXY(a1, b1)
                 # compensate x for blue button here
-                x1 = x1 - 1
+                x1 = x1 + 1
                 # Draw the circle
                 cv2.circle(img, (a1, b1), r1, (0, 255, 0), 2)
                 # Draw the center of the circle
@@ -224,7 +224,8 @@ def get_coord():
                 a2,b2 = knob_center
                 x2, y2 = Settings.calculateXY(a2, b2)
                 # compensate here
-                x2 = x2 + 1
+                x2 = x2 + 1.5
+                y2 = y2 + 0.5
                 # Draw both and show the image, just for fun.
                 if knob_radius != 0:
                     cv2.circle(img, knob_center, 5, (255, 0, 0), -1)

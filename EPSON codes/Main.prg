@@ -197,10 +197,10 @@ Fend
 	
 Function mapping
 	Real WorldBBX, WorldBBY, WorldKnobX, WorldKnobY
-	P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue
-	P333 = Here :X(-505.9) :Y(204.18) :Z(521) ' knob
+	P141 = Here :X(-548.939) :Y(280.265) :Z(523) ' blue
+	P140 = Here :X(-534.897) :Y(132.697) :Z(523) ' knob
 	'Local 3,(P330:P332),(P331:P333)
-	Local 3,(LBB:P332),(LK:P333)
+	Local 3,(LBB:P141),(LK:P140)
 	
 Fend
 Function go_click_m5
@@ -350,6 +350,7 @@ Fend
 Function go_approach_slider
 	' make sure gripper is open
 	Go Approach_Slider
+
 	Go Slider_StartPos
 Fend
 
