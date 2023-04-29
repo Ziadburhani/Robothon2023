@@ -17,18 +17,19 @@ from SendToEpson import sendToEpson # connect to EPSON Robot and send command vi
 # format of the coordinate is "x y z u" where u is the wrist rotation angle
 places = ["100 400 600 0", "0 500 500 0", "-100 600 400 0"]
 
-for data in places:
-    # Send data to robot
-    sendToEpson("JUMP3 " + data)
-    # then do something else, like open gripper:
-    # talkToServo("g0")  # servo fully opened
-    # talkToServo("g100") # servo fully closed
-    # then move Z down
-    # close the gripper according to the object size
-    # then jump to the container position
-    # and release the item
-    #etc
+# for data in places:
+#     # Send data to robot
+#     sendToEpson("JUMP3 " + data)
+#     # then do something else, like open gripper:
+#     # talkToServo("g0")  # servo fully opened
+#     # talkToServo("g100") # servo fully closed
+#     # then move Z down
+#     # close the gripper according to the object size
+#     # then jump to the container position
+#     # and release the item
+#     #etc
     
-    sleep(1)
+#     sleep(1)
 
 
+sendToEpson("e " + "open_door")

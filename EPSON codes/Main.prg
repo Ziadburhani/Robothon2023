@@ -4,7 +4,6 @@ Global String p$, px1$, px2$, py1$, py2$
 Function main
 	String indata$(0), receive$
   	Integer i, camX, camY, camZ
-  	
 
 	Motor On
 	Power High
@@ -79,7 +78,7 @@ Function main
 	   	Print #201, P333
    EndIf
    
-   If LCase$(indata$(0)) = "t" Then ' map the coordinate
+   If LCase$(indata$(0)) = "local" Then ' map to local coordinate
      	px1$ = Trim$(indata$(1))
         py1$ = Trim$(indata$(2))
         px2$ = Trim$(indata$(3))
@@ -94,9 +93,76 @@ Function main
 		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
    EndIf
    
-   If LCase$(indata$(0)) = "click_m5" Then
+ 
+	' --------- tasks -------
+	If LCase$(indata$(0)) = "go_click_m5" Then
    		go_click_m5
    	EndIf
+   	
+	If LCase$(indata$(0)) = "go_press_blue_button" Then
+   		go_press_blue_button
+   	EndIf
+   	
+	If LCase$(indata$(0)) = "go_check_display" Then
+   		go_check_display
+   	EndIf
+   	
+	If LCase$(indata$(0)) = "go_slide" Then
+		Real mm
+		mm = Val(Trim$(indata$(2)))
+   		go_slide(mm)
+   	EndIf
+   	
+   	If LCase$(indata$(0)) = "go_approach_plug1" Then
+   		go_approach_plug1
+   	EndIf
+   	
+   	If LCase$(indata$(0)) = "go_approach_plug2" Then
+   		go_approach_plug2
+   	EndIf
+   	
+   	If LCase$(indata$(0)) = "go_approach_plug3" Then
+   		go_approach_plug3
+   	EndIf
+   	
+	If LCase$(indata$(0)) = "go_open_door" Then
+   		go_open_door
+   	EndIf
+   	
+	If LCase$(indata$(0)) = "go_probe1" Then
+   		go_probe1
+   	EndIf
+   	
+	If LCase$(indata$(0)) = "go_probe2" Then
+   		go_probe2
+   	EndIf
+   	
+ 	If LCase$(indata$(0)) = "go_probe_drop" Then
+   		go_probe_drop
+   	EndIf
+   	 	
+   	If LCase$(indata$(0)) = "go_approach_cable" Then
+   		go_approach_cable
+   	EndIf
+
+   	If LCase$(indata$(0)) = "go_wind_cable" Then
+   		go_wind_cable
+   	EndIf
+
+	If LCase$(indata$(0)) = "go_catch_probe" Then
+   		go_catch_probe
+   	EndIf
+   	
+	If LCase$(indata$(0)) = "go_stow" Then
+   		go_stow
+   	EndIf
+
+	If LCase$(indata$(0)) = "go_press_red_button" Then
+   		go_press_red_button
+   	EndIf
+	' --------- end tasks -------
+   
+   
    
 	P777 = Here
 	Print #201, P777
@@ -284,9 +350,11 @@ Function go_press_red_button
 	Wait (0.5)
 	Go Approach_Button
 Fend
-Function slide(distance As Int32)
+Function go_slide(distance As Int32)
 	Go Here +X(distance)
 Fend
-	
+Function go_check_display
+	Go Display_Pic
+Fend
 
 
