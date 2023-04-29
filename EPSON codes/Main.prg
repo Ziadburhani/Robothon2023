@@ -217,7 +217,7 @@ Fend
 Function go_click_m5
 	Go Approach_M5
 	Go Click_M5
-	Wait (0.5)
+	Wait (0.2)
 	Go Approach_M5
 Fend
 Function go_press_buttons
@@ -232,7 +232,7 @@ Fend
 Function go_press_blue_button
 	Go Approach_Button
 	Go Press_Blue
-	Wait (0.5)
+	Wait (0.2)
 	Go Approach_Button
 Fend
 Function go_open_door
@@ -351,10 +351,14 @@ Function go_press_red_button
 	Go Approach_Button
 Fend
 Function go_slide(distance As Int32)
-	Go Here +X(distance)
+	Go Slider_StartPos +X(distance)
 Fend
 Function go_check_display
 	Go Display_Pic
 Fend
-
+Function go_approach_slider
+	' make sure gripper is open
+	Go Approach_Slider
+	Go Slider_StartPos
+Fend
 

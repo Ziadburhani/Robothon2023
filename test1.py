@@ -35,6 +35,7 @@ def door():
     sendToEpson("go_open_door")
     
 # --- move the probe's plug
+def plug():
     gripper(50)
     sendToEpson("go_approach_plug1")
     gripper(90)
@@ -42,10 +43,35 @@ def door():
     gripper(50)
     sendToEpson("go_approach_plug3")
 
+# --- take probe, probe in, drop probe
+def probe():
+    #probing sequence here
+    sendToEpson("go_probe1")
+    
+# --- wind cable
+def cable():
+    sendToEpson("go_wind_cable")
+    
+# --- stow
+def stow():
+    sendToEpson("go_stow")
+    
+# --- press red button
+def rb():
+    sendToEpson("go_press_red_button")
+    
 # ==== main actions
 sendToEpson("m Camera_Pos")
 gripper(80)
 # get world coordinates here
 sendToEpson("local -528.546 276.747 -558.129 134.783")
 
+m5()
 bb()
+slider()
+door()
+plug()
+probe()
+cable()
+stow()
+rb()
