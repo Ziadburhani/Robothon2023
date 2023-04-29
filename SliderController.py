@@ -1,11 +1,11 @@
 import cv2
 from slider_task import *
 
-DEBUG_MODE = False
+DEBUG_MODE = True
 
 images_folder = 'Saturday_images/'
-first_image = 'REDBOX_20230429_162941.png'
-second_image = 'REDBOX_20230429_162958.png'
+first_image = 'REDBOX_20230429_162715.png'
+second_image = 'REDBOX_20230429_162813.png'
 
 first_arrow = cv2.imread(images_folder + first_image)
 first_arrow_distance = get_target(first_arrow, None, DEBUG_MODE)

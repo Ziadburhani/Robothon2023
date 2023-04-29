@@ -27,6 +27,28 @@ def increase_contrast(img, clipLimit = 2.0, tileGridSize=(120,12)):
     
     return enhanced_img
 
+def show_image(title,file):
+    cv2.imshow(title,file)
+    cv2.waitKey(0)
+    cv2.destroyWindow(title)
+    cv2.waitKey(1)
+
+def increase_contrast(img, clipLimit = 2.0, tileGridSize=(120,12)):
+    lab= cv2.cvtColor(img, cv2.COLOR_BGR2LAB)
+    l_channel, a, b = cv2.split(lab)
+
+    # Applying CLAHE to L-channel
+    clahe = cv2.createCLAHE(clipLimit, tileGridSize)
+    cl = clahe.apply(l_channel)
+    
+    # merge the CLAHE enhanced L-channel with the a and b channel
+    limg = cv2.merge((cl,a,b))
+    
+    # Converting image from LAB Color model to BGR color spcae
+    enhanced_img = cv2.cvtColor(limg, cv2.COLOR_LAB2BGR)
+    
+    return enhanced_img
+
 def detect_door(image):
     x = y = w = h = 0
     
@@ -73,7 +95,7 @@ def detect_knob(image, x, y, w, h):
     # This is done so that the coordinates match the original image
     size = image.shape[0], image.shape[1], 3
     final = np.zeros(size, np.uint8)
-    final[y:y+h, x:x+w] = contr[y:y+h, x:x+w]
+    final[y:y+h, x:x+w] = image[y:y+h, x:x+w]
     #final = increase_contrast(final, 1.5)
     
     # Convert to grayscale, apply a bilateral filter
@@ -94,6 +116,8 @@ def detect_knob(image, x, y, w, h):
             radius = i[2]
             break
     return center, radius
+
+
 
 def get_coord():
     print("Starting camera")
@@ -178,13 +202,17 @@ def get_coord():
                 # Draw the center of the circle
                 cv2.circle(img, (a1, b1), 1, (0, 0, 255), 3)
                 # add text label
+                a1 = round(a1, 2)
+                b1 = round(b1, 2)
+                x1 = round(x1, 2)
+                y1 = round(y1, 2)
                 cv2.putText(img, "Blue (" + str(a1) + ","+ str(b1) + ") r=" + str(r1), (a1+10,b1+r1+2), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,0),2 )
-                cv2.putText(img, "World [" + str(x1) + ","+ str(y1)+ "]", (a1+10,b1+r1+50), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,100),2 )
+                cv2.putText(img, "World [" + str(x1) + ","+ str(y1)+ "]", (a1+10,b1+r1-50), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,100),2 )
 
-            contr = increase_contrast(img)
+            #contr = increase_contrast(img)
             
             # Find the door first
-            x, y, w, h = detect_door(contr)
+            x, y, w, h = detect_door(img)
 
             # If a door is found, detect the knob and draw it on the original
             if x != 0:

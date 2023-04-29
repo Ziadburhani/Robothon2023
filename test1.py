@@ -4,13 +4,16 @@ import numpy as np
 from Settings import gripper
 from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 from map_coord import get_coord
+from slider_task import *
 
 # --- click M5 button
 def m5():
+    gripper(80)
     sendToEpson("go_click_m5")
 
 # --- press blue button
 def bb():
+    gripper(80)
     sendToEpson("go_press_blue_button")
     
 # --- move sliders
@@ -18,6 +21,7 @@ def slide():
     sendToEpson("go_check_display")
     # take picture here to get slider value
     # then grab the slider and move it accordingly
+    # distance = get_target(current_image=img, None)
     sleep(1)
     gripper(50)
     sendToEpson("go_approach_slider")
@@ -70,14 +74,16 @@ def rb():
 
 x1,y1,x2,y2 = get_coord()
 
-print(x1,y1,x2,y2)
-sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
+#x1,y1,x2,y2 = 1464,302,741,271
 
-#m5()
-#bb()
-#slide()
-#door()
-plug()
+print(x1,y1,x2,y2)
+#sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
+
+# m5()
+# bb()
+# slide()
+# door()
+# plug()
 # probe()
 # cable()
 # stow()
