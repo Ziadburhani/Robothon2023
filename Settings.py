@@ -4,6 +4,7 @@ import datetime
 import math
 from time import sleep
 import numpy as np
+from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
 
 #port = "COM3" # Judhi's PC
 port = "COM9" # desktop PC
@@ -16,25 +17,28 @@ sleep(1)
 def gripper(n):
     arduino.communicate("g"+str(n))
     print("Gripper ",n)
+    sleep(2)    
     return(n)
 
 def calculateXY(xc, yc):
     # take values from calibration result
-    gradX = 4.21 
-    gradY = 4.185
-    angle_deg = 0 # 0 for no rotation, camera y-axis perfectly aligned with robot y-axis
-    top_leftX = 333
-    top_leftY = 108
+    tl_x, tl_y = 284, 318 # take from cal_image_corrected
+    tr_x, tr_y = 1268, 317
+    bl_x, bl_y = 284, 807
+    br_x, br_y = 1270, 808
 
-    xc = xc - top_leftX # top left X pixel
-    yc = yc - top_leftY # top left Y pixel
-    angle_rad = math.radians(angle_deg)
-    cos_val = math.cos(angle_rad)
-    
-    sin_val = math.sin(angle_rad)
-    new_x = xc * cos_val - yc * sin_val
-    new_y = xc * sin_val + yc * cos_val
-    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
-    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
-    
+    Y_len = 200
+    X_len = 100
+
+    gradX = (tr_x - tl_x) / Y_len
+    gradY = (bl_y - tl_y) / X_len
+
+    print("gradX", gradX)
+    print("gradY", gradX)
+
+    xc = xc - tl_x # top left X pixel
+    yc = yc - tl_y # top left Y pixel
+    calc_wx = -550.3 + round( yc / gradY, 2) # Y robot is x pixel
+    calc_wy = 51.2 + round( xc / gradX, 2) # X robot is y pixel 
     return calc_wx, calc_wy
+

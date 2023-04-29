@@ -2,6 +2,8 @@ import cv2
 from time import sleep
 import numpy as np
 from Settings import gripper
+from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
+from map_coord import get_coord
 
 # --- click M5 button
 def m5():
@@ -65,7 +67,11 @@ def rb():
 #sendToEpson("m Camera_Pos")
 #gripper(80)
 # get world coordinates here
-sendToEpson("local -528.546 276.747 -558.129 134.783")
+
+x1,y1,x2,y2 = get_coord()
+
+print(x1,y1,x2,y2)
+sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 
 #m5()
 #bb()
