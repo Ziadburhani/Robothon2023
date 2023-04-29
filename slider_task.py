@@ -88,7 +88,7 @@ def __hsv_object_detector__(image, low_hsv, high_hsv, kSize = 3, opening = True,
 
 def __detect_red_box__(image, showImage = False):
     # Crop to the relevant bottom-right corner to focus on the red-box
-    image = image[470:900, 900:1200]
+    #image = image[470:900, 900:1200]
     low_hsv = (0, 82, 142)
     high_hsv = (180, 255, 255)
     c = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, True)
@@ -108,7 +108,13 @@ def __detect_screen__(image, showImage = False):
 ### Relative dimensions of the screen w.r.t. the red box are fixed
     low_hsv = (53, 0, 102)
     high_hsv = (154, 255, 255)
-    c = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, True)
+    thresh = __hsv_object_detector__(image, low_hsv, high_hsv, 3, opening=True, canny=False, return_max_contour=False,find_contours=False)
+    kernel_size = (15, 15)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, kernel_size)
+    dilate_img = cv2.dilate(thresh, kernel, iterations=2)
+    eroded_img = cv2.erode(dilate_img, kernel, iterations=2)
+    contours,_ = cv2.findContours(eroded_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    c = max(contours, key=cv2.contourArea)
     rect = cv2.minAreaRect(c)
     box = cv2.boxPoints(rect)
     box = np.int0(box)
@@ -150,26 +156,16 @@ def __calculate_first_arrow_position__(image):
     ### Remember new slider position
     # 31MM IS THE LENGTH OF THE SLIDER
     first_target_arrow_y = -1
-    low_hsv = (0, 0, 221)
-    high_hsv = (180, 100, 255)
-    image = image[0:image.shape[0],int(image.shape[1]/2):image.shape[1]]
+    low_hsv = (0,0,212)
+    high_hsv = (179,61,255)
+    image = image[0:image.shape[0],int(image.shape[1]/1.5):image.shape[1]]
     final = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, False, False)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=cv2.contourArea, reverse=True)
     arrow1 = contours[0]
-    arrow2 = contours[1]
     M1 = cv2.moments(arrow1)
-    cx1 = int(M1['m10']/M1['m00'])
     cy1 = int(M1['m01']/M1['m00'])
-    M2 = cv2.moments(arrow2)
-    cx2 = int(M2['m10']/M2['m00'])
-    cy2 = int(M2['m01']/M2['m00'])
-    # Lower X value is for the left arrow
-    if cx1 < cx2:
-        # Arrow 1 is the left arrow
-        first_target_arrow_y = cy2
-    else:
-        first_target_arrow_y = cy1
+    first_target_arrow_y = cy1
     absolute_distance_in_mm = __calculate_distance__(first_target_arrow_y, image.shape[0])
     return abs(absolute_distance_in_mm)
 
@@ -180,16 +176,20 @@ def __calculate_second_arrow_position__(previous,current):
     second_target_arrow_y = -1
     low_hsv = (0, 0, 221)
     high_hsv = (180, 100, 255)
-    previous = previous[0:previous.shape[0],int(previous.shape[1]/2):previous.shape[1]]
-    current = current[0:current.shape[0],int(current.shape[1]/2):current.shape[1]] 
-    current = current[0:previous.shape[0],0:previous.shape[1]]
+    previous = previous[0:previous.shape[0],int(previous.shape[1]/1.5):previous.shape[1]]
+    current = current[0:current.shape[0],int(current.shape[1]/1.5):current.shape[1]] 
     previous = __hsv_object_detector__(previous, low_hsv, high_hsv, 3, True, False, False, False)
     current = __hsv_object_detector__(current, low_hsv, high_hsv, 3, True, False, False, False)
-    final = cv2.subtract(current, previous)
+    previous_height, previous_width = previous.shape[0],previous.shape[1]
+    current_height, current_width = current.shape[0],current.shape[1]
+    min_height = min(previous_height, current_height)
+    min_width = min(previous_width, current_width)
+    cropped_previous = previous[0:min_height, 0:min_width]
+    cropped_current = current[0:min_height, 0:min_width]
+    final = cv2.subtract(cropped_current, cropped_previous)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     c = max(contours, key=cv2.contourArea)
     M = cv2.moments(c)
-    cx = int(M['m10']/M['m00'])
     cy = int(M['m01']/M['m00'])
     second_target_arrow_y = cy
     absolute_distance_in_mm = __calculate_distance__(second_target_arrow_y, current.shape[0])
@@ -200,14 +200,14 @@ def __calculate_second_arrow_position__(previous,current):
 ########### PUBLIC FUNCTION ############
 ########################################
 ########################################
-def get_target(current_image, previous_image = None):
+def get_target(current_image, previous_image = None, DEBUG_MODE = False):
     absolute_distance_in_mm = -1
-    curent_red_box = __detect_red_box__(current_image)
-    current_screen = __detect_screen__(curent_red_box)
+    curent_red_box = __detect_red_box__(current_image, DEBUG_MODE)
+    current_screen = __detect_screen__(curent_red_box, DEBUG_MODE)
     absolute_distance_in_mm = __calculate_first_arrow_position__(current_screen)
     if previous_image is not None:
-        previous_red_box = __detect_red_box__(previous_image)
-        previous_screen = __detect_screen__(previous_red_box)
+        previous_red_box = __detect_red_box__(previous_image, DEBUG_MODE)
+        previous_screen = __detect_screen__(previous_red_box, DEBUG_MODE)
         absolute_distance_in_mm = __calculate_second_arrow_position__(previous_screen, current_screen)
     return absolute_distance_in_mm
 
