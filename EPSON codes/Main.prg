@@ -63,17 +63,18 @@ Function main
    EndIf
    
    If LCase$(indata$(0)) = "local" Then ' map to local coordinate
-     	px1$ = Trim$(indata$(1))
-        py1$ = Trim$(indata$(2))
-        px2$ = Trim$(indata$(3))
-        py2$ = Trim$(indata$(4))
+   		Real px1, py1, px2, py2
+     	px1 = Val(Trim$(indata$(1)))
+        py1 = Val(Trim$(indata$(2)))
+        px2 = Val(Trim$(indata$(3)))
+        py2 = Val(Trim$(indata$(4)))
         
    		Print "Mapping world coordinate to local"
-   		Print "Blue button:", px1$, ",", py1$, "  Knob:", px2$, ",", px2$
+   		Print "Blue button:", px1, ",", py1, "  Knob:", px2, ",", px2
 		Real ZOffset
-		ZOffset = 521
-		P332 = Here :X(-404.57) :Y(306.76) :Z(ZOffset) ' blue	
-		P333 = Here :X(-505.9) :Y(204.18) :Z(ZOffset) ' knob
+		ZOffset = 522
+		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
+		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' knob
 		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
    EndIf
    
@@ -187,22 +188,7 @@ Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
 Fend
-Function translate(WBBX As Integer, WBBY As Integer, WKX As Integer, WKY As Integer) ' translating coordinates
-	Real ZOffset
-	ZOffset = 521
-	P332 = Here :X(-404.57) :Y(306.76) :Z(521) ' blue	
-	P333 = Here :X(-505.9) :Y(204.18) :Z(ZOffset) ' knob
-	Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
-Fend
 	
-Function mapping
-	Real WorldBBX, WorldBBY, WorldKnobX, WorldKnobY
-	P141 = Here :X(-548.939) :Y(280.265) :Z(523) ' blue
-	P140 = Here :X(-534.897) :Y(132.697) :Z(523) ' knob
-	'Local 3,(P330:P332),(P331:P333)
-	Local 3,(LBB:P141),(LK:P140)
-	
-Fend
 Function go_click_m5
 	Go Approach_M5
 	Go Click_M5
