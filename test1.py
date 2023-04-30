@@ -6,6 +6,39 @@ from SendToEpson import sendToEpson # connect to EPSON Robot and send command vi
 from map_coord import get_coord
 from slider_task import *
 
+# ----------
+# remember to open the camera throughout the session for faster response!
+# ---------
+
+# Main.prg
+# =======
+
+# 	If LCase$(indata$(0)) = "go_slide" Then
+# 		Real mm
+# 		mm = Val(Trim$(indata$(1)))
+#    		go_slide(mm)
+#    	EndIf
+   	
+#  	If LCase$(indata$(0)) = "go_tool_up" Then
+#    		go_tool_up
+#    	EndIf
+
+# Function go_slide(distance As Real)
+# 	Real d
+# 	If distance >= 0 And distance <= 31 Then
+# 		For d = distance - 2 To distance + 2
+# 			Go Slider_StartPos +X(d)
+# 			Wait (0.3)
+# 		Next
+# 		Go Slider_StartPos
+# 	EndIf
+# Fend
+
+# Function go_tool_up
+# 	' make sure the gripper is open 
+# 		Go Here +Z(20)
+# Fend
+
 # --- click M5 button
 def m5():
     gripper(80)
@@ -21,17 +54,44 @@ def bb():
 def slide():
     sendToEpson("go_check_display")
     # take picture here to get slider value
+    vid = cv2.VideoCapture(0)
+    while(vid.isOpened()):
+        ret, img1 = vid.read()
+    target1 = get_target(img1, None)
+    print("First arrow distance = {:.2f} mm".format(target1))
     # then grab the slider and move it accordingly
-    # distance = get_target(current_image=img, None)
     sleep(1)
     gripper(50)
-    sendToEpson("go_approach_slider")
+    sendToEpson("go_approach_slider") # start location
     sleep(1)
-    gripper(90)
+    gripper(70)
     sleep(1)
-    sendToEpson("go_slide 16")
+    #sendToEpson("go_slide 16")
+    sendToEpson("go slide " + target1)
+    sleep(1)
+    # gripper will go back to Slider_start position
     gripper(50)
-
+    sendToEpson("go_check_display")
+    # take picture here to get slider value
+    vid = cv2.VideoCapture(0)
+    while(vid.isOpened()):
+        ret, img2 = vid.read()
+    target2 = get_target(img2, None)
+    print("First arrow distance = {:.2f} mm".format(target2))
+    # then grab the slider and move it accordingly
+    sleep(1)
+    gripper(50)
+    sendToEpson("go_approach_slider") # start location
+    sleep(1)
+    gripper(70)
+    sleep(1)
+    #sendToEpson("go_slide 16")
+    sendToEpson("go slide " + target2)
+    # gripper will go back to Slider_start position
+    sleep(1)
+    gripper(50)
+    sendToEpson("go_slide_above " + target1)
+    
 
 # --- open the door            
 def door():

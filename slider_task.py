@@ -77,6 +77,7 @@ def __hsv_object_detector__(image, low_hsv, high_hsv, kSize = 3, opening = True,
     canny_img = opening_img
     if canny is True:
         canny_img = cv2.Canny(opening_img, 100, 200)
+    #__show_image__('c',canny_img)
     if find_contours is True:
         contours, hierarchy = cv2.findContours(canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         c = contours
@@ -141,6 +142,9 @@ def __calculate_distance__(target_y, screen_length, margin = 15, slider_length =
     normalised_position = 1 - normalised_position
 
     distance = normalised_position * slider_length
+    # print(effective_target_y)
+    # print(effective_slider_length)
+    # print(normalised_position)
     return distance
 
 def __calculate_first_arrow_position__(image):
@@ -156,8 +160,8 @@ def __calculate_first_arrow_position__(image):
     ### Remember new slider position
     # 31MM IS THE LENGTH OF THE SLIDER
     first_target_arrow_y = -1
-    low_hsv = (0,0,212)
-    high_hsv = (179,61,255)
+    low_hsv = (0, 0, 221)
+    high_hsv = (180, 100, 255)
     image = image[0:image.shape[0],int(image.shape[1]/1.5):image.shape[1]]
     final = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, False, False)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -187,6 +191,7 @@ def __calculate_second_arrow_position__(previous,current):
     cropped_previous = previous[0:min_height, 0:min_width]
     cropped_current = current[0:min_height, 0:min_width]
     final = cv2.subtract(cropped_current, cropped_previous)
+    #__show_image__('f', final)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     c = max(contours, key=cv2.contourArea)
     M = cv2.moments(c)
