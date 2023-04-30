@@ -191,7 +191,7 @@ def __calculate_second_arrow_position__(previous,current):
     cropped_previous = previous[0:min_height, 0:min_width]
     cropped_current = current[0:min_height, 0:min_width]
     final = cv2.subtract(cropped_current, cropped_previous)
-    #__show_image__('f', final)
+    #__show_image__('Subtracted', final)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     c = max(contours, key=cv2.contourArea)
     M = cv2.moments(c)
@@ -199,6 +199,19 @@ def __calculate_second_arrow_position__(previous,current):
     second_target_arrow_y = cy
     absolute_distance_in_mm = __calculate_distance__(second_target_arrow_y, current.shape[0])
     return abs(absolute_distance_in_mm)
+
+def __check_if_task_completed__(image, showImage = False):
+    low_hsv = (32,67,46)
+    high_hsv = (160,255,168)
+    current = image[0:image.shape[0],int(image.shape[1]/2):image.shape[1]]
+    current = __hsv_object_detector__(current, low_hsv, high_hsv, 3, True, False, False, False)
+    white_pixels = cv2.countNonZero(current)
+    if showImage is True:
+        __show_image__('StripDetector', current)
+        print(white_pixels)
+    if white_pixels < 300:
+        return False
+
 
 ########################################
 ########################################
@@ -209,21 +222,14 @@ def get_target(current_image, previous_image = None, DEBUG_MODE = False):
     absolute_distance_in_mm = -1
     curent_red_box = __detect_red_box__(current_image, DEBUG_MODE)
     current_screen = __detect_screen__(curent_red_box, DEBUG_MODE)
-    absolute_distance_in_mm = __calculate_first_arrow_position__(current_screen)
     if previous_image is not None:
-        previous_red_box = __detect_red_box__(previous_image, DEBUG_MODE)
-        previous_screen = __detect_screen__(previous_red_box, DEBUG_MODE)
-        absolute_distance_in_mm = __calculate_second_arrow_position__(previous_screen, current_screen)
+        is_second_step_needed = __check_if_task_completed__(current_screen, DEBUG_MODE)
+        if is_second_step_needed is False:
+            absolute_distance_in_mm = -1
+        else:
+            previous_red_box = __detect_red_box__(previous_image, DEBUG_MODE)
+            previous_screen = __detect_screen__(previous_red_box, DEBUG_MODE)
+            absolute_distance_in_mm = __calculate_second_arrow_position__(previous_screen, current_screen)
+    else:
+        absolute_distance_in_mm = __calculate_first_arrow_position__(current_screen)
     return absolute_distance_in_mm
-
-
-    
-
-    
-    
-
-    
-
-
-
-
