@@ -85,24 +85,34 @@ Function main
    	EndIf
    	
 	If LCase$(indata$(0)) = "go_press_blue_button" Then
+		Speed 50
    		go_press_blue_button
    	EndIf
 
    	
 	If LCase$(indata$(0)) = "go_approach_slider" Then
-   		go_approach_slider
+		Speed 15
+		Real starting_pos
+		starting_pos = Val(Trim$(indata$(1)))
+   		go_approach_slider(starting_pos)
    	EndIf
    	
 	If LCase$(indata$(0)) = "go_check_display" Then
+		Speed 50
    		go_check_display
    	EndIf
    	
 	If LCase$(indata$(0)) = "go_slide" Then
+		Speed 20
 		Real mm
 		mm = Val(Trim$(indata$(1)))
    		go_slide(mm)
    	EndIf
    	
+ 	If LCase$(indata$(0)) = "go_tool_up" Then
+   		go_tool_up
+   	EndIf
+
    	If LCase$(indata$(0)) = "go_approach_plug1" Then
    		go_approach_plug1
    	EndIf
@@ -221,6 +231,7 @@ Function go_open_door
 	Go Door_Open6
 	Go Door_Open7 CP
 	Go Door_Open8
+	Go Door_Finished
 Fend
 Function go_probe1
 	' make sure gripper is open g0
@@ -302,8 +313,8 @@ Function go_wind_cable
 	' open g70 from here and continue with catch probe
 Fend
 Function go_catch_probe
-	Go CatchProbe1
-	Go CatchProbe2
+	'Go CatchProbe1
+	'Go CatchProbe2
 	' close g80 here and continue with stow
 Fend
 Function go_stow
@@ -326,17 +337,27 @@ Function go_press_red_button
 	Go Approach_Button
 Fend
 Function go_slide(distance As Real)
+	Real d
 	If distance >= 0 And distance <= 31 Then
-		Go Slider_StartPos +X(distance)
+		For d = distance - 2 To distance + 3
+			Go Slider_StartPos +X(d) CP
+			Wait (0.3)
+		Next
+		Go Slider_StartPos
 	EndIf
 Fend
 Function go_check_display
 	Go Display_Pic
 Fend
-Function go_approach_slider
+Function go_approach_slider(StartPoint As Real)
 	' make sure gripper is open
-	Go Approach_Slider
-
-	Go Slider_StartPos
+	If StartPoint >= 0 And StartPoint < 31 Then
+		Go Approach_Slider +X(StartPoint)
+		Wait (1)
+		Go Approach_Slider +X(StartPoint) -Z(26.5)
+	EndIf
 Fend
-
+Function go_tool_up
+	' make sure the gripper is open 
+		Go Here +Z(26.5)
+Fend

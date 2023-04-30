@@ -119,22 +119,21 @@ def detect_knob(image, x, y, w, h):
 
 
 
-def get_coord():
-    print("Starting camera")
-    #cam_device = 3 # on Judhi's laptop
-    cam_device = 0 # on lab's desktop
-    #vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
-    vid = cv2.VideoCapture(0) # for other systems
+def get_coord(vid):
+    # print("Starting camera")
+    # #cam_device = 3 # on Judhi's laptop
+    # cam_device = 0 # on lab's desktop
+    # #vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
+    # vid = cv2.VideoCapture(0) # for other systems
 
-    print("Setting video resolution")
-    vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
-    vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
-    sleep(1.5)
+    # print("Setting video resolution")
+    # vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
+    # vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
+    # sleep(1.5)
 
     n_frame = 1 # frame counter
 
-    while(vid.isOpened()):
-        print("=======Ready to capture=======")   
+    while(1): 
         # Capture the video frame by frame
         print("Capturing frame")
         ret, img = vid.read()
@@ -197,8 +196,8 @@ def get_coord():
             for pt in detected_blue_circles[0]:
                 a1, b1, r1 = pt[0], pt[1], pt[2]
                 x1, y1 = Settings.calculateXY(a1, b1)
-                # compensate x for blue button here
-                x1 = x1 + 1
+                # compensate for blue button here
+                x1 = x1 + 0.5
                 # Draw the circle
                 cv2.circle(img, (a1, b1), r1, (0, 255, 0), 2)
                 # Draw the center of the circle
@@ -223,7 +222,7 @@ def get_coord():
                 knob_center, knob_radius  = detect_knob(img, x, y, w, h)
                 a2,b2 = knob_center
                 x2, y2 = Settings.calculateXY(a2, b2)
-                # compensate here
+                # compensate knob position here
                 x2 = x2 + 1.5
                 y2 = y2 + 0.5
                 # Draw both and show the image, just for fun.
