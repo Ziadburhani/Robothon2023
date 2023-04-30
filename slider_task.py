@@ -136,7 +136,7 @@ def __detect_screen__(image, showImage = False):
     else:
         return None
 
-def __calculate_distance__(target_y, screen_length, margin = 15, slider_length = 31):
+def __calculate_distance__(target_y, screen_length, margin = 8, slider_length = 31):
     # There's a margin of 15px since the targets always appear to have some gap from the edges
     # Remove 2 x margin from the total length
     effective_slider_length = screen_length - (margin * 2)
@@ -156,6 +156,10 @@ def __calculate_distance__(target_y, screen_length, margin = 15, slider_length =
     # print(normalised_position)
     return distance
 
+def __remove_padding__(image, padding = 5):
+    image = image[0:image.shape[0],padding:image.shape[1]-padding]
+    return image
+
 def __calculate_first_arrow_position__(image):
     # Step 3: Detect the arrows and calculate the relative movement: ArrowPosition (0.0 - 1.0)
     ### Within the screen, use the HSV colour space to detect the arrows
@@ -173,12 +177,16 @@ def __calculate_first_arrow_position__(image):
     high_hsv = (180, 100, 255)
     image = image[0:image.shape[0],int(image.shape[1]/1.5):image.shape[1]]
     final = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, False, False)
+    final = __remove_padding__(final)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if len(contours) > 0:
         contours = sorted(contours, key=cv2.contourArea, reverse=True)
         arrow1 = contours[0]
         M1 = cv2.moments(arrow1)
         cy1 = int(M1['m01']/M1['m00'])
+        # cx1 = int(M1['m10']/M1['m00'])
+        # cv2.circle(final, (cx1,cy1),5,(0, 0, 0),-1)
+        # __show_image__('detection',final)
         first_target_arrow_y = cy1
         absolute_distance_in_mm = __calculate_distance__(first_target_arrow_y, image.shape[0])
         return abs(absolute_distance_in_mm)
@@ -209,6 +217,9 @@ def __calculate_second_arrow_position__(previous,current):
         c = max(contours, key=cv2.contourArea)
         M = cv2.moments(c)
         cy = int(M['m01']/M['m00'])
+        #cx = int(M['m10']/M['m00'])
+        #cv2.circle(final, (cx,cy),5,(0, 0, 0),-1)
+        #__show_image__('detection',final)
         second_target_arrow_y = cy
         absolute_distance_in_mm = __calculate_distance__(second_target_arrow_y, current.shape[0])
         return abs(absolute_distance_in_mm)
