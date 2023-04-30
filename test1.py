@@ -50,6 +50,7 @@ def slide(cam):
         print("Camera error")
         exit(1)
     target1 = get_target(img1, None)
+    target1 = 16
     target1 = round(target1,0)
     print("First arrow distance = {:.2f} mm".format(target1))
     if (target1 > 2):
@@ -58,7 +59,7 @@ def slide(cam):
         sleep(1)
         gripper(50)
         sendToEpson("go_approach_slider 0") # start location 0
-        sleep(5) # important
+        sleep(2) # important
         gripper(70)
         sleep(0.5)
         # #sendToEpson("go_slide 16")
@@ -73,7 +74,7 @@ def slide(cam):
             print("Capturing slider's target2")
             for capture in range(0,5):
                 ret, img2 = cam.read()
-                sleep(0.25)
+                sleep(0.5)
         else:
             print("Camera error")
             exit(1)
@@ -85,7 +86,7 @@ def slide(cam):
             sleep(1)
             gripper(50)
             sendToEpson("go_approach_slider " + str(target1)) # start location
-            sleep(1)
+            sleep(2)
             gripper(70)
             sleep(2)
             # #sendToEpson("go_slide 16")
@@ -169,10 +170,10 @@ sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 m5()
 bb()
 slide(cam)
-plug()
-door()
-probe()
-cable()
-stow()
-rb()
-sendToEpson("M Camera_Pos ")
+# plug()
+# door()
+# probe()
+# cable()
+# stow()
+# rb()
+# sendToEpson("M Camera_Pos ")
