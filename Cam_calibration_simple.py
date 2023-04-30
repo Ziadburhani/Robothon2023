@@ -18,8 +18,8 @@ from Settings import gripper
 
 Xmax = -450
 Xmin = -550
-Ymax = 250
-Ymin = 50
+Ymax = 275
+Ymin = 75
 Zmin = 523 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
 gapY = 200
 gapX = 100

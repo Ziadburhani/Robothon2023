@@ -9,10 +9,10 @@ import numpy as np
 
 def calculateXY(xc, yc):
     # take values from calibration result
-    tl_x, tl_y = 284, 318 # take from cal_image_corrected
-    tr_x, tr_y = 1268, 317
-    bl_x, bl_y = 284, 807
-    br_x, br_y = 1270, 808
+    tl_x, tl_y = 384, 327 # take from cal_image_corrected
+    tr_x, tr_y = 1369, 327
+    bl_x, bl_y = 384, 821
+    br_x, br_y = 1371, 820
     
     x_ctr = int(1920/2)
     y_ctr = int(1080/2)
@@ -37,7 +37,7 @@ def calculateXY(xc, yc):
     xc = xc - tl_x # top left X pixel
     yc = yc - tl_y # top left Y pixel
     calc_wx = -550 + round( yc / gradY, 2) # Y robot is x pixel
-    calc_wy = 50.955 + round( xc / gradX, 2) # X robot is y pixel 
+    calc_wy = 75 + round( xc / gradX, 2) # X robot is y pixel 
     return calc_wx, calc_wy
 
 px1, py1 = (1465, 302) # blue button pixel
@@ -46,8 +46,8 @@ px2, py2 = (741, 271) # blue button pixel
 wX1, wY1 = calculateXY(px1,py1)
 wX2, wY2 = calculateXY(px2,py2)
 
-print(wX1, wY1)
-print(wX2, wY2)
+# print("go here :x("+wX1+") :y("+wY1+") :z(550)")
+# print("go here :x("+wX2+") :y("+wY2+") :z(550)")
 
 actual_X1, actual_Y1 = (-554.315, 291.638)
 actual_X2, actual_Y2 = (-559.394, 144.089)

@@ -16,17 +16,36 @@ top_leftX = 333 # take from cal_image_corrected
 top_leftY = 108 # take from cal_image_corrected
 
 def calculateXY(xc, yc):
-    xc = xc - top_leftX # top left X pixel
-    yc = yc - top_leftY # top left Y pixel
-    angle_rad = math.radians(angle_deg)
-    cos_val = math.cos(angle_rad)
+    # take values from calibration result
+    tl_x, tl_y = 384, 327 # take from cal_image_corrected
+    tr_x, tr_y = 1369, 327
+    bl_x, bl_y = 384, 821
+    br_x, br_y = 1371, 820
     
-    sin_val = math.sin(angle_rad)
-    new_x = xc * cos_val - yc * sin_val
-    new_y = xc * sin_val + yc * cos_val
-    calc_wx = round(-550 + new_y/gradY,2) # Y robot is x pixel
-    calc_wy = round(50 + new_x/gradX,2) # X robot is y pixel
+    x_ctr = int(1920/2)
+    y_ctr = int(1080/2)
     
+    dx = (xc - x_ctr)/100
+    dy = (yc - y_ctr)/170
+    
+    xc = xc + dx
+    yc = yc + dy
+    
+    print("dx,dy=",dx,dy)
+
+    Y_len = 200
+    X_len = 100
+
+    gradX = (tr_x - tl_x) / Y_len
+    gradY = (bl_y - tl_y) / X_len
+
+    # print("gradX", gradX)
+    # print("gradY", gradY)
+
+    xc = xc - tl_x # top left X pixel
+    yc = yc - tl_y # top left Y pixel
+    calc_wx = -550 + round( yc / gradY, 2) # Y robot is x pixel
+    calc_wy = 75 + round( xc / gradX, 2) # X robot is y pixel 
     return calc_wx, calc_wy
 
 
@@ -250,6 +269,8 @@ while(vid.isOpened()):
             print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(knob_radius))
             print("World [" + str(x2) + ","+ str(y2)+ "]")
             #sendToEpson("T "+str(x1)+" "+str(y1)+" "+str(x2)+" "+str(y2))
+            print("go here :x("+str(x1)+") :y("+str(y1)+") :z(550)")
+            print("go here :x("+str(x2)+") :y("+str(y2)+") :z(550)")
             print("MAKE SURE ROBOT IS READY!")
             print("Press 'g' to start robot")
             print("Press 'q' to quit")

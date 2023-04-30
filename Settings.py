@@ -22,10 +22,10 @@ def gripper(n):
 
 def calculateXY(xc, yc):
     # take values from calibration result
-    tl_x, tl_y = 280, 330 # take from cal_image_corrected
-    tr_x, tr_y = 1259, 329
-    bl_x, bl_y = 279, 821
-    br_x, br_y = 1262, 819
+    tl_x, tl_y = 384, 327 # take from cal_image_corrected
+    tr_x, tr_y = 1369, 327
+    bl_x, bl_y = 384, 821
+    br_x, br_y = 1371, 820
     
     x_ctr = int(1920/2)
     y_ctr = int(1080/2)
@@ -50,6 +50,7 @@ def calculateXY(xc, yc):
     xc = xc - tl_x # top left X pixel
     yc = yc - tl_y # top left Y pixel
     calc_wx = -550 + round( yc / gradY, 2) # Y robot is x pixel
-    calc_wy = 50.955 + round( xc / gradX, 2) # X robot is y pixel 
+    calc_wy = 75 + round( xc / gradX, 2) # X robot is y pixel 
     return calc_wx, calc_wy
+
 

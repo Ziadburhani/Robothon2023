@@ -14,8 +14,8 @@ def ConnectCamera():
     print("Connecting to camera...")
     #cam_device = 3 # on Judhi's laptop
     cam_device = 0 # on lab's desktop
-    #vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
-    vid = cv2.VideoCapture(0) # for other systems
+    vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
+    #vid = cv2.VideoCapture(cam_device) # for other systems
     print("Camera connected")
     print("Setting video resolution")
     vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
@@ -54,9 +54,9 @@ def slide(cam):
     sleep(1)
     gripper(50)
     sendToEpson("go_approach_slider 0") # start location 0
-    sleep(1)
+    sleep(5) # important
     gripper(70)
-    sleep(1)
+    sleep(0.5)
     # #sendToEpson("go_slide 16")
     sendToEpson("go_slide " + str(target1))
     sleep(1)
@@ -99,10 +99,10 @@ def door():
 # --- move the probe's plug
 def plug():
     gripper(50)
-    sleep(1.5)
     sendToEpson("go_approach_plug1")
-    gripper(90)
     sleep(1.5)
+    gripper(80)
+    sleep(0.8)
     sendToEpson("go_approach_plug2")
     sleep(1.5)
     gripper(50)
@@ -138,9 +138,9 @@ sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 
 m5()
 bb()
-slide(cam)
-# door()
-# plug()
+#slide(cam)
+door()
+#plug()
 # probe()
 # cable()
 # stow()

@@ -14,13 +14,13 @@ String msg;
 uint16_t dist;
 
 int minAngle = 0;   // gripper fully open
-int maxAngle = 160;  // gripper fully closed
+int maxAngle = 155;  // gripper fully closed
 
 Servo myservo;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Servo controller starting..");  
+  Serial.println("Servo controller starting..");
   myservo.attach(9, 500, 2500);
   lcd.init();
   lcd.backlight();
@@ -30,16 +30,16 @@ void setup() {
   lcd.setCursor(2, 1);
   lcd.print("University");
   Serial.println("Middlesex University Dubai");
-  delay(1000);
+  delay(300);
   lcd.clear();
   lcd.setCursor(3, 0);
   lcd.print("Robothon");
   lcd.setCursor(7, 1);
   lcd.print("2023");
   Serial.println("Robothon 2023");
-  delay(1000);
+  delay(500);
   lcd.clear();
-  delay(1000);
+  delay(100);
 
   // check the servo opening & closing
   myservo.write(maxAngle);
@@ -65,7 +65,6 @@ void loop() {
     String command = Serial.readString();
     command.trim();         // get rid of extra spaces or CR/LF if there's any
     command.toLowerCase();  // always convert to lowercase (case insensitive)
-
     if (command == "gripper 0" || command == "g0") {  // fully open
       myservo.write(0);
       msg = "0";
@@ -79,8 +78,16 @@ void loop() {
       myservo.write(90);
       msg = "50";
     }
+    if (command == "gripper 60" || command == "g60") {
+      myservo.write(100);
+      msg = "60";   //this added to use the gripper for slider
+    }
+    if (command == "gripper 65" || command == "g65g50") {
+      myservo.write(120);
+      msg = "65";   //this added to use the gripper for slider
+    }    
     if (command == "gripper 70" || command == "g70") {
-      myservo.write(150);
+      myservo.write(140);
       msg = "70";   //this added to use the gripper for picking plug
     }
     if (command == "gripper 80" || command == "g80") {
@@ -88,11 +95,13 @@ void loop() {
       msg = "80";
     }
     if (command == "gripper 90" || command == "g90") {
-      myservo.write(157);
-      msg = "90";
-    }    
-    if (command == "gripper 100" || command == "g100") {
       myservo.write(159);
+      msg = "90";
+    }
+    if (command == "gripper 100" || command == "g100") {
+
+      myservo.attach(9, 500, 2500);
+      myservo.write(165);
       msg = "100";
     }
     Serial.println(msg);

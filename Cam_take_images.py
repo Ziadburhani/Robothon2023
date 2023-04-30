@@ -22,7 +22,7 @@ while(vid.isOpened()):
     print("Capturing frame")
     ret, img = vid.read()
     now = datetime.datetime.now()
-    filename = now.strftime("CAL_%Y%m%d_%H%M%S.png")
+    filename = now.strftime("SLIDE_COMPLETE_%Y%m%d_%H%M%S.png")
     cv2.imwrite(filename, img)
     img_r = cv2.resize(img,(860,540))
     cv2.imshow("Detected Circle", img_r)
