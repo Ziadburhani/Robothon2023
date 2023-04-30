@@ -79,11 +79,14 @@ def __hsv_object_detector__(image, low_hsv, high_hsv, kSize = 3, opening = True,
         canny_img = cv2.Canny(opening_img, 100, 200)
     #__show_image__('c',canny_img)
     if find_contours is True:
-        contours, hierarchy = cv2.findContours(canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, _ = cv2.findContours(canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         c = contours
-        if return_max_contour is True:
-            c = max(contours, key=cv2.contourArea)
-        return c
+        if len(c) > 0:
+            if return_max_contour is True:
+                c = max(contours, key=cv2.contourArea)
+            return c
+        else:
+            return None
     else:
         return canny_img
 
@@ -93,16 +96,19 @@ def __detect_red_box__(image, showImage = False):
     low_hsv = (0, 82, 142)
     high_hsv = (180, 255, 255)
     c = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, True)
-    rect = cv2.minAreaRect(c)
-    box = cv2.boxPoints(rect)
-    box = np.int0(box)
-    warped = __four_point_transform__(image, box)
-    if showImage is True:
-        cv2.imshow('RedBox', warped)
-        cv2.waitKey(0)
-        cv2.destroyWindow('RedBox')
-        cv2.waitKey(1)
-    return warped
+    if c is not None:
+        rect = cv2.minAreaRect(c)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        warped = __four_point_transform__(image, box)
+        if showImage is True:
+            cv2.imshow('RedBox', warped)
+            cv2.waitKey(0)
+            cv2.destroyWindow('RedBox')
+            cv2.waitKey(1)
+        return warped
+    else:
+        return None
 
 def __detect_screen__(image, showImage = False):
 # Step 2: Detect the screen within the red-box
@@ -115,17 +121,20 @@ def __detect_screen__(image, showImage = False):
     dilate_img = cv2.dilate(thresh, kernel, iterations=2)
     eroded_img = cv2.erode(dilate_img, kernel, iterations=2)
     contours,_ = cv2.findContours(eroded_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    c = max(contours, key=cv2.contourArea)
-    rect = cv2.minAreaRect(c)
-    box = cv2.boxPoints(rect)
-    box = np.int0(box)
-    warped = __four_point_transform__(image, box)
-    if showImage is True:
-        cv2.imshow('Screen', warped)
-        cv2.waitKey(0)
-        cv2.destroyWindow('Screen')
-        cv2.waitKey(1)
-    return warped
+    if len(contours) > 0:
+        c = max(contours, key=cv2.contourArea)
+        rect = cv2.minAreaRect(c)
+        box = cv2.boxPoints(rect)
+        box = np.int0(box)
+        warped = __four_point_transform__(image, box)
+        if showImage is True:
+            cv2.imshow('Screen', warped)
+            cv2.waitKey(0)
+            cv2.destroyWindow('Screen')
+            cv2.waitKey(1)
+        return warped
+    else:
+        return None
 
 def __calculate_distance__(target_y, screen_length, margin = 15, slider_length = 31):
     # There's a margin of 15px since the targets always appear to have some gap from the edges
@@ -165,13 +174,16 @@ def __calculate_first_arrow_position__(image):
     image = image[0:image.shape[0],int(image.shape[1]/1.5):image.shape[1]]
     final = __hsv_object_detector__(image, low_hsv, high_hsv, 3, True, False, False, False)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    contours = sorted(contours, key=cv2.contourArea, reverse=True)
-    arrow1 = contours[0]
-    M1 = cv2.moments(arrow1)
-    cy1 = int(M1['m01']/M1['m00'])
-    first_target_arrow_y = cy1
-    absolute_distance_in_mm = __calculate_distance__(first_target_arrow_y, image.shape[0])
-    return abs(absolute_distance_in_mm)
+    if len(contours) > 0:
+        contours = sorted(contours, key=cv2.contourArea, reverse=True)
+        arrow1 = contours[0]
+        M1 = cv2.moments(arrow1)
+        cy1 = int(M1['m01']/M1['m00'])
+        first_target_arrow_y = cy1
+        absolute_distance_in_mm = __calculate_distance__(first_target_arrow_y, image.shape[0])
+        return abs(absolute_distance_in_mm)
+    else:
+        return -1
 
 def __calculate_second_arrow_position__(previous,current):
     # Step 5: Detect the second arrow and calculate the relative movement: ArrowPosition (0.0 - 1.0)
@@ -193,12 +205,15 @@ def __calculate_second_arrow_position__(previous,current):
     final = cv2.subtract(cropped_current, cropped_previous)
     #__show_image__('Subtracted', final)
     contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    c = max(contours, key=cv2.contourArea)
-    M = cv2.moments(c)
-    cy = int(M['m01']/M['m00'])
-    second_target_arrow_y = cy
-    absolute_distance_in_mm = __calculate_distance__(second_target_arrow_y, current.shape[0])
-    return abs(absolute_distance_in_mm)
+    if len(contours) > 0:
+        c = max(contours, key=cv2.contourArea)
+        M = cv2.moments(c)
+        cy = int(M['m01']/M['m00'])
+        second_target_arrow_y = cy
+        absolute_distance_in_mm = __calculate_distance__(second_target_arrow_y, current.shape[0])
+        return abs(absolute_distance_in_mm)
+    else:
+        return -1
 
 def __check_if_task_completed__(image, showImage = False):
     low_hsv = (32,67,46)
@@ -211,6 +226,8 @@ def __check_if_task_completed__(image, showImage = False):
         print(white_pixels)
     if white_pixels < 300:
         return False
+    else:
+        return True
 
 
 ########################################
@@ -220,16 +237,28 @@ def __check_if_task_completed__(image, showImage = False):
 ########################################
 def get_target(current_image, previous_image = None, DEBUG_MODE = False):
     absolute_distance_in_mm = -1
-    curent_red_box = __detect_red_box__(current_image, DEBUG_MODE)
-    current_screen = __detect_screen__(curent_red_box, DEBUG_MODE)
+    current_red_box = __detect_red_box__(current_image, DEBUG_MODE)
+    if current_red_box is None:
+        return -1
+    current_screen = __detect_screen__(current_red_box, DEBUG_MODE)
+    if current_screen is None:
+        return -1
     if previous_image is not None:
         is_second_step_needed = __check_if_task_completed__(current_screen, DEBUG_MODE)
         if is_second_step_needed is False:
             absolute_distance_in_mm = -1
         else:
             previous_red_box = __detect_red_box__(previous_image, DEBUG_MODE)
+            if previous_red_box is None:
+                return -1
             previous_screen = __detect_screen__(previous_red_box, DEBUG_MODE)
+            if previous_screen is None:
+                return -1
             absolute_distance_in_mm = __calculate_second_arrow_position__(previous_screen, current_screen)
+            if absolute_distance_in_mm > 30 or absolute_distance_in_mm < 1:
+                return -1
     else:
         absolute_distance_in_mm = __calculate_first_arrow_position__(current_screen)
+        if absolute_distance_in_mm > 30 or absolute_distance_in_mm < 1:
+                return -1
     return absolute_distance_in_mm
