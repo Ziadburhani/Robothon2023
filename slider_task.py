@@ -211,15 +211,18 @@ def __calculate_second_arrow_position__(previous,current):
     cropped_previous = previous[0:min_height, 0:min_width]
     cropped_current = current[0:min_height, 0:min_width]
     final = cv2.subtract(cropped_current, cropped_previous)
-    __show_image__('Subtracted', final)
-    contours, _ = cv2.findContours(final, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    kernel_size = (3, 3)
+    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, kernel_size)
+    opening_img = cv2.morphologyEx(final, cv2.MORPH_OPEN, kernel)
+    __show_image__('Subtracted', opening_img)
+    contours, _ = cv2.findContours(opening_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     if len(contours) > 0:
         c = max(contours, key=cv2.contourArea)
         M = cv2.moments(c)
         cy = int(M['m01']/M['m00'])
         cx = int(M['m10']/M['m00'])
-        cv2.circle(final, (cx,cy),5,(0, 0, 0),-1)
-        __show_image__('detection',final)
+        cv2.circle(opening_img, (cx,cy),5,(0, 0, 0),-1)
+        __show_image__('detection',opening_img)
         second_target_arrow_y = cy
         absolute_distance_in_mm = __calculate_distance__(second_target_arrow_y, current.shape[0])
         return abs(absolute_distance_in_mm)
