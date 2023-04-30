@@ -43,7 +43,9 @@ def slide(cam):
     # take picture here to get slider value
     if (cam.isOpened()):
         print("Capturing slider's target1")
-        ret, img1 = cam.read()
+        for capture in range(0,5):
+            ret, img1 = cam.read()
+            sleep(0.25)
     else:
         print("Camera error")
         exit(1)
@@ -52,6 +54,7 @@ def slide(cam):
     print("First arrow distance = {:.2f} mm".format(target1))
     if (target1 > 2):
         # then grab the slider and move it accordingly
+        print("Sliding to target1")
         sleep(1)
         gripper(50)
         sendToEpson("go_approach_slider 0") # start location 0
@@ -61,7 +64,6 @@ def slide(cam):
         # #sendToEpson("go_slide 16")
         sendToEpson("go_slide " + str(target1))
         sleep(1)
-        # # gripper will go back to Slider_start position
         gripper(50)
         sleep(1)
         sendToEpson("go_tool_up")
@@ -69,23 +71,25 @@ def slide(cam):
         # take picture here to get slider value
         if (cam.isOpened()):
             print("Capturing slider's target2")
-            ret, img2 = cam.read()
+            for capture in range(0,5):
+                ret, img2 = cam.read()
+                sleep(0.25)
         else:
             print("Camera error")
             exit(1)
         target2 = get_target(img2, img1)
         target2 = round(target2,2)
-        print("Second arrow distance = {:.2f} mm".format(target1))  
+        print("Second arrow distance = {:.2f} mm".format(target2))  
         if (target2>2):  
             # then grab the slider and move it accordingly
             sleep(1)
             gripper(50)
-            sendToEpson("go_approach_slider " + str(target2)) # start location
+            sendToEpson("go_approach_slider " + str(target1)) # start location
             sleep(1)
             gripper(70)
             sleep(2)
             # #sendToEpson("go_slide 16")
-            sendToEpson("go_slide " + str(target1))
+            sendToEpson("go_slide " + str(target2))
             sleep(2)
             # # gripper will go back to Slider_start position
             gripper(50)
@@ -164,7 +168,7 @@ sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 
 m5()
 bb()
-#slide(cam)
+slide(cam)
 plug()
 door()
 probe()
