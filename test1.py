@@ -15,6 +15,7 @@ def m5():
 def bb():
     gripper(80)
     sendToEpson("go_press_blue_button")
+    sleep(1)
     
 # --- move sliders
 def slide():
@@ -34,7 +35,7 @@ def slide():
 
 # --- open the door            
 def door():
-    gripper(50)
+    gripper(80)
     sendToEpson("go_open_door")
     
 # --- move the probe's plug
@@ -77,12 +78,12 @@ x1,y1,x2,y2 = get_coord()
 #x1,y1,x2,y2 = 1464,302,741,271
 
 print(x1,y1,x2,y2)
-#sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
+sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 
-# m5()
-# bb()
+m5()
+bb()
 # slide()
-# door()
+door()
 # plug()
 # probe()
 # cable()

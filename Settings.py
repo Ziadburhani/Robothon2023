@@ -17,15 +17,15 @@ sleep(1)
 def gripper(n):
     arduino.communicate("g"+str(n))
     print("Gripper ",n)
-    sleep(2)    
+    sleep(1)    
     return(n)
 
 def calculateXY(xc, yc):
     # take values from calibration result
-    tl_x, tl_y = 284, 318 # take from cal_image_corrected
-    tr_x, tr_y = 1268, 317
-    bl_x, bl_y = 284, 807
-    br_x, br_y = 1270, 808
+    tl_x, tl_y = 280, 330 # take from cal_image_corrected
+    tr_x, tr_y = 1259, 329
+    bl_x, bl_y = 279, 821
+    br_x, br_y = 1262, 819
     
     x_ctr = int(1920/2)
     y_ctr = int(1080/2)

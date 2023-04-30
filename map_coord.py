@@ -244,12 +244,13 @@ def get_coord():
 
                 print("Blue Button:")
                 print("Pixel is at x=" + str(a1) + "  y="+ str(b1) + " r=" + str(r1))
-
                 print("World [" + str(x1) + ","+ str(y1)+ "]")
+                print("go here :x(" + str(x1) + ") :y("+ str(y1) + ") :z(550)")
                 print("-----")
                 print("Knob:")
                 print("Pixel is at x=" + str(a2) + "  y="+ str(b2) + " r=" + str(knob_radius))
                 print("World [" + str(x2) + ","+ str(y2)+ "]")
+                print("go here :x(" + str(x2) + ") :y("+ str(y2) + ") :z(550)")
                 #sendToEpson("T "+str(x1)+" "+str(y1)+" "+str(x2)+" "+str(y2))
                 print("MAKE SURE ROBOT IS READY!")
                 print("Press 'g' to start robot")

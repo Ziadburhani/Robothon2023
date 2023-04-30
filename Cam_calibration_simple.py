@@ -38,11 +38,11 @@ for Xpos in range(Xmax,Xmin-1,-gapX):
         command = "GO " + str(Xpos) + " " + str(Ypos) + " " + str(Zmin) + " 0"  # go to the calibration point
         sendToEpson(command)
         while True:
-            print("Current position is ", Xpos, ",", Ypos)
+            print("Current position is ", Xpos,  ",", Ypos)
             key = input("Place a token under the gripper, press ENTER to align token or other key to move to the next point")        
             if key == "":
                 print("Close gripper") # close gripper to align token
-                gripper(90)
+                gripper(100)
                 print("Open gripper") # open gripper halfway again
                 gripper(50)
                 sleep(0.5)    

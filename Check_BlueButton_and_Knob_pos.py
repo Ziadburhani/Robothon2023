@@ -135,11 +135,14 @@ while(vid.isOpened()):
     # Capture the video frame by frame
     print("Capturing frame")
     ret, img = vid.read()
-    # now = datetime.datetime.now()
-    # filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
-    # cv2.imwrite(filename, img)
+    #now = datetime.datetime.now()
+    #filename = now.strftime("BOARD_%Y%m%d_%H%M%S.png")
+    filename = "last_detected_image.png"
+    cv2.imwrite(filename, img)
     # img = cv2.imread('images/BOARD9.jpg')
 
+    contr = increase_contrast(img)
+    
     # convert to HSV for color detection
     hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
@@ -210,8 +213,6 @@ while(vid.isOpened()):
             # add text label
             cv2.putText(img, "Blue (" + str(a1) + ","+ str(b1) + ") r=" + str(r1), (a1+10,b1+r1+2), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,0),2 )
             cv2.putText(img, "World [" + str(x1) + ","+ str(y1)+ "]", (a1+10,b1+r1+50), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,100),2 )
-
-        contr = increase_contrast(img)
         
         # Find the door first
         x, y, w, h = detect_door(contr)
