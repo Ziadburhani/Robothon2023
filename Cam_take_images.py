@@ -8,8 +8,8 @@ import numpy as np
 print("Starting camera")
 #cam_device = 3 # on Judhi's laptop
 cam_device = 0 # on lab's desktop
-#vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
-vid = cv2.VideoCapture(0) # for other systems
+vid = cv2.VideoCapture(cam_device,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
+#vid = cv2.VideoCapture(0) # for other systems
 
 print("Setting video resolution")
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
@@ -22,7 +22,7 @@ while(vid.isOpened()):
     print("Capturing frame")
     ret, img = vid.read()
     now = datetime.datetime.now()
-    filename = now.strftime("SLIDE_COMPLETE_%Y%m%d_%H%M%S.png")
+    filename = now.strftime("SLIDER_%Y%m%d_%H%M%S.png")
     cv2.imwrite(filename, img)
     img_r = cv2.resize(img,(860,540))
     cv2.imshow("Detected Circle", img_r)

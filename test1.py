@@ -50,46 +50,51 @@ def slide(cam):
     target1 = get_target(img1, None)
     target1 = round(target1,0)
     print("First arrow distance = {:.2f} mm".format(target1))
-    # then grab the slider and move it accordingly
-    sleep(1)
-    gripper(50)
-    sendToEpson("go_approach_slider 0") # start location 0
-    sleep(5) # important
-    gripper(70)
-    sleep(0.5)
-    # #sendToEpson("go_slide 16")
-    sendToEpson("go_slide " + str(target1))
-    sleep(1)
-    # # gripper will go back to Slider_start position
-    gripper(50)
-    sleep(1)
-    sendToEpson("go_tool_up")
-    sendToEpson("go_check_display")
-    # take picture here to get slider value
-    if (cam.isOpened()):
-        print("Capturing slider's target2")
-        ret, img2 = cam.read()
+    if (target1 > 2):
+        # then grab the slider and move it accordingly
+        sleep(1)
+        gripper(50)
+        sendToEpson("go_approach_slider 0") # start location 0
+        sleep(5) # important
+        gripper(70)
+        sleep(0.5)
+        # #sendToEpson("go_slide 16")
+        sendToEpson("go_slide " + str(target1))
+        sleep(1)
+        # # gripper will go back to Slider_start position
+        gripper(50)
+        sleep(1)
+        sendToEpson("go_tool_up")
+        sendToEpson("go_check_display")
+        # take picture here to get slider value
+        if (cam.isOpened()):
+            print("Capturing slider's target2")
+            ret, img2 = cam.read()
+        else:
+            print("Camera error")
+            exit(1)
+        target2 = get_target(img2, img1)
+        target2 = round(target2,2)
+        print("Second arrow distance = {:.2f} mm".format(target1))  
+        if (target2>2):  
+            # then grab the slider and move it accordingly
+            sleep(1)
+            gripper(50)
+            sendToEpson("go_approach_slider " + str(target2)) # start location
+            sleep(1)
+            gripper(70)
+            sleep(2)
+            # #sendToEpson("go_slide 16")
+            sendToEpson("go_slide " + str(target1))
+            sleep(2)
+            # # gripper will go back to Slider_start position
+            gripper(50)
+            sleep(1)
+            sendToEpson("go_tool_up")
+        else:
+            print("target2 is not detected!")
     else:
-        print("Camera error")
-        exit(1)
-    target2 = get_target(img2, img1)
-    target2 = round(target2,2)
-    print("Second arrow distance = {:.2f} mm".format(target1))    
-    # then grab the slider and move it accordingly
-    sleep(1)
-    gripper(50)
-    sendToEpson("go_approach_slider " + str(target2)) # start location
-    sleep(1)
-    gripper(70)
-    sleep(2)
-    # #sendToEpson("go_slide 16")
-    sendToEpson("go_slide " + str(target1))
-    sleep(2)
-    # # gripper will go back to Slider_start position
-    gripper(50)
-    sleep(1)
-    sendToEpson("go_tool_up")
-    
+        print("Target1 is not detected")
 
 # --- open the door            
 def door():
@@ -112,15 +117,36 @@ def plug():
 # --- take probe, probe in, drop probe
 def probe():
     #probing sequence here
+    gripper(50)
+    sleep(1)
     sendToEpson("go_probe1")
+    sleep(1)
+    gripper(100)
+    sendToEpson("go_probe2")
+    sleep(1)
+    gripper(50)
+    sleep(1)
+    sendToEpson("go_probedrop")
     
 # --- wind cable
 def cable():
+    sendToEpson("go_approach_cable")
+    gripper(100)
+    sleep(1)
     sendToEpson("go_wind_cable")
-    
+    sleep(1)
+    gripper(0)
+    sendToEpson("go_catch_probe")
+    gripper(100)
+
 # --- stow
 def stow():
+    gripper(100)
     sendToEpson("go_stow")
+    sleep(1)
+    gripper(50)
+    sendToEpson("go_stow_finished")
+    gripper(100)
     
 # --- press red button
 def rb():
@@ -139,9 +165,10 @@ sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 m5()
 bb()
 #slide(cam)
+plug()
 door()
-#plug()
-# probe()
-# cable()
-# stow()
-# rb()
+probe()
+cable()
+stow()
+rb()
+sendToEpson("M Camera_Pos ")
