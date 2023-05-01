@@ -1,136 +1,92 @@
-> go here :z(900)
+> print here
+ X: -549.055 Y:  125.906 Z:  544.568 U:  -19.887 V:   -0.319 W: -179.689 /R /A /NF /J6F0 /J4F0 /0
+> go here :z(700)
+> reset
+> print camera_pos
+ X: -380.000 Y:  190.000 Z:  750.000 U:  -92.668 V:   -0.153 W: -179.527 /R /A /NF /J6F1 /J4F0 /0
+> print Display_pic
+ X: -129.334 Y:   60.418 Z:  207.480 U:   85.209 V:   -0.154 W: -179.528 /R /A /NF /J6F1 /J4F0 /3
 > 
-> 
-> 
-!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 5
-> 
-!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 5
-> 
-> 
-> go 
-!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
-> > motor On
-!!Error: 3100, Syntax error.
-> motor On
-
-
-> go here :x(-350)
-> go here :v(0)
-> 
-> go here :z(522)
-> go SurfaceCenter
-
-> > go SurfaceCenter +y(100) -x(100)
-!!Error: 3100, Syntax error.
-> 
-!!Error: 3100, Syntax error.
-> 
-> go SurfaceCenter -y(100) +x(100)
-> go SurfaceCenter
-> 
-> 
-> go BottomLeft
-!!Error: 10000, Command aborted by user
-> go BottomRight
-> 
-> go TopRight
-> go SurfaceCenter
-> go CameraPos
-> 
-> go TopLeft
-> 
-> 
-> go SurfaceCenter
-> 
-> 
-> 
-> 
-!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 3
-> 
-!!Error: 4001, Arm reached the limit of motion range., Robot 1, Joint 3
-> 
-> 
-> 
-> 
-> 
-> 
-> motor Off
-> go here :y(150)
-> go here :u(-90)
-> go here :w(-180)
-> 
-> 
-!!Error: 3205, Point is not specified.
-> 
-!!Error: 4031, Cannot execute a motion command when the motor is in the off state.
-> 
-> 
-> go here :y(166)
-> 
-> 
-> go here :x(-319)
-> 
-> 
-> 
-> go BottomRight +y(100)
-> 
-!!Error: 10000, Command aborted by user
-> go BottomLeft -y(100)
-> 
-> go here :x(-319)
-> go here :y(165)
-> 
-> go TopLeft -y(100)
-> go CameraPos
-> go BottomRight +y(100)
-> go here:U(90)
-stop
-!!Error: 3100, Syntax error.
-> > 
-> go here: U(-90)
-> go here: U(0)
-> go here: U(-90)
-!!Error: 4025, Cannot execute a motion command during emergency stop condition.
-> go here: U(-90)
-> go here: U(-90)
-> go here : x(-510)
-> go here:y(200)
-> go here: x(-550)
-
-go here: y(50)
-> 
-!!Error: 3100, Syntax error.
-> go here:z(900)
-> go here:z(850)
-> go here:z(900)
-> go here:x(-550)
-> go here: y(200)
-> go here:x(-510)
-> go here:z(900)
-> go here: x(-319)
->  go here: y(165)
-> go here: v(0)
->  go here: w(-180)
->  go here: z(900)
-> go here:w(180)
-> 
-!!Error: 3100, Syntax error.
-> go here:z(700)
-> 
-> 
-> 
-> go here:x(-500)
-> go here:y(200)
-> 
-!!Error: 2318, Cannot execute a motion command when an error has been detected.
-> 
-!!Error: 2318, Cannot execute a motion command when an error has been detected.
-> go here :u(-90) :v(0) :w(180)
-> 
-> P250 = xy(149.385, 26.285, 600, 79.302)
-> local 1, xy(149.385, 26.285, 600, 79.302): xy(102.389
 !!Error: 2513, Specified point label is not defined.
-> go here:u(-90)
 > 
-!!Error: 2318, Cannot execute a motion command when an error has been detected.
+!!Error: 2513, Specified point label is not defined.
+> 
+!!Error: 2513, Specified point label is not defined.
+> print Approach_Slider
+ X:   16.342 Y:   55.403 Z:   18.293 U:  179.023 V:   -0.165 W: -179.532 /R /A /NF /J6F0 /J4F0 /3
+> go Display_Pic
+> print display_pic
+ X: -129.334 Y:   60.418 Z:  207.480 U:   85.209 V:   -0.154 W: -179.528 /R /A /NF /J6F1 /J4F0 /3
+> p888 = display_pic /J6F0
+> go Display_Pic
+> go p888
+> go Camera_Pos
+> 
+> 
+> go Approach_Slider
+> go Slider_StartPos
+> go here :x(-503.64) :y(318.65)
+> p666 = here 
+> print p666
+ X: -557.452 Y:  279.502 Z:  538.167 U:  -92.669 V:   -0.154 W: -179.527 /R /A /NF /J6F0 /J4F0 /0
+> p667 = here
+> print p667
+ X: -549.584 Y:  131.329 Z:  544.580 U:  -92.668 V:   -0.153 W: -179.527 /R /A /NF /J6F0 /J4F0 /0
+> go Camera_Pos
+> go here :x(-531.58) :y(292.64)
+> go here -z(10)
+> go here :x(-539.33) :y(144.155) :z(550)
+> go here :x(-545.97) :y(291.8) :z(550)
+> 
+> 
+> p666 = here :z(523)
+> go here :x(-558.64) :y(147.79) :z(550)
+> p667 = here :z(523)
+> local 3, (LBB:p666),(lk:p667)
+> go Approach_M5> 
+
+> go here :z(700)
+> go Camera_Pos
+> print here
+ X: -380.000 Y:  190.000 Z:  750.000 U:  -92.668 V:   -0.153 W: -179.527 /R /A /NF /J6F0 /J4F0 /0
+> go Approach_M5
+> print here
+ X: -456.704 Y:  265.403 Z:  531.765 U:   -5.225 V:   -0.164 W: -179.528 /R /A /NF /J6F0 /J4F0 /0
+> go Approach_Button
+> go Camera_Pos
+> print here
+ X: -380.000 Y:  190.000 Z:  750.000 U:  -92.668 V:   -0.153 W: -179.527 /R /A /NF /J6F0 /J4F0 /0
+> p888 = here :u(360-92.668)
+> go p888
+> print p888
+ X: -380.000 Y:  190.000 Z:  750.000 U:  267.332 V:   -0.153 W: -179.527 /R /A /NF /J6F0 /J4F0 /0
+> p888 = here /J6F1
+> go p888
+> go here +z(100)
+> go Display_Pic
+> 
+> 
+> print here
+ X: -354.375 Y:  263.077 Z:  699.000 U: -101.230 V:   -0.155 W: -179.528 /R /A /NF /J6F0 /J4F0 /0
+>
+> go here /J6F1
+> go Approach_Slider
+> go here :v(0)
+> go here :w(-180)
+> go here :z(750)
+> go Camera_Pos
+> 
+> 
+> go Slider_StartPos
+> go here +z(26.5)
+> go here :z(600)
+> 
+> 
+> go here :x(-553.72) :y(294.9) :z(550)
+> go here :x(-541.31) :y(148.89) :z(550)
+> go p32
+> go p42
+> 
+> go Display_Pic
+> 
 > 

@@ -137,10 +137,10 @@ Function main
    		go_probe2
    	EndIf
    	
- 	If LCase$(indata$(0)) = "go_probe_drop" Then
-   		go_probe_drop
+	If LCase$(indata$(0)) = "go_probedrop" Then
+   		go_probedrop
    	EndIf
-   	 	
+   	   	
    	If LCase$(indata$(0)) = "go_approach_cable" Then
    		go_approach_cable
    	EndIf
@@ -157,12 +157,32 @@ Function main
    		go_stow
    	EndIf
 
+	If LCase$(indata$(0)) = "go_stow_finished" Then
+   		go_stow_finished
+   	EndIf
+   	
 	If LCase$(indata$(0)) = "go_press_red_button" Then
    		go_press_red_button
    	EndIf
 	' --------- end tasks -------
    
-   
+    ' ---- demo ---
+ 	If LCase$(indata$(0)) = "approaching_meter" Then
+   		approaching_meter
+   	EndIf
+ 	If LCase$(indata$(0)) = "turn_meter" Then
+   		turn_meter
+   	EndIf
+ 	If LCase$(indata$(0)) = "approaching_probe" Then
+   		approaching_probe
+   	EndIf
+ 	If LCase$(indata$(0)) = "probing" Then
+   		probing
+   	EndIf
+ 	If LCase$(indata$(0)) = "probe_done" Then
+   		probe_done
+   	EndIf
+   	
    
 	P777 = Here
 	Print #201, P777
@@ -198,7 +218,7 @@ Function drawCircle
 	Arc3 Here -X(radius), Here -X(radius) +Y(radius) CP
 	Arc3 Here +X(radius), Here +X(radius) -Y(radius) CP
 Fend
-	
+
 Function go_click_m5
 	Go Approach_M5
 	Go Click_M5
@@ -221,17 +241,21 @@ Function go_press_blue_button
 	Go Approach_Button
 Fend
 Function go_open_door
+	Power High
+	Speed 60
 	Go Approach_Door_OrginalPos
+	Speed 50
 	Go Door_Orginal_Pick
-	Go DOor_Open1
+	Go DOor_Open1 CP
 	Go Door_Open2 CP
 	Go Door_Open3 CP
 	Go Door_Open4 CP
 	Go Door_Open5 CP
-	Go Door_Open6
+	Go Door_Open6 CP
 	Go Door_Open7 CP
-	Go Door_Open8
+	Go Door_Open8 CP
 	Go Door_Finished
+	Speed 40
 Fend
 Function go_probe1
 	' make sure gripper is open g0
@@ -249,27 +273,26 @@ Function go_probe2
 	Go probe_pick6
 	Wait (1)
 	Go Probe_Pick7
-	Go probe_pick4
+	'Go probe_pick4
 	Go probe_place1
 	Go probe_place2
 	Go probe_place3
 Fend
-Function go_probe_drop
-	Go probe_place1
-	Go probe_place2
-	Go probe_place3
+Function go_probedrop
+	' make sure gripper is open g50
+	Go Probe_Place4
 Fend
 Function go_approach_plug1
     Go Approach_Plug_orginalPos
 	Go Plug_OrginalPos
-	'Close the Gripper
-	
+	'Close the Gripper	
 Fend
 Function go_approach_plug2
 	Go Unplug_OrginalPos
+	Go Plug_and_cable1
 	Go Approach_Plug_DestinationPos
 	Go Plug_DestinationPos
-	Go Plug_DestinationTurn
+	' no need this anymore Go Plug_DestinationTurn
 	' Open the Gripper
 Fend
 Function go_approach_plug3
@@ -280,8 +303,11 @@ Function go_approach_cable
 	' must open g50
 	Go Approach_Cable
 	Go Approach_Grabbing_Cable
+	' should close after
 Fend
 Function go_wind_cable
+	' gripper should be closed 100
+	Speed 20
 	Go Cable1
 	Go Cable2
 	Go Cable3
@@ -289,48 +315,35 @@ Function go_wind_cable
 	Go Cable5
 	Go Cable6
 	Go Cable7
-	Go Cable8
-	Go Cable9
-	Go Cable10
-	Go Cable11
-	Go Cable12
-	Go Cable4
-	Go Cable5
-	Go Cable6
-	Go Cable7
-	Go Cable8
-	Go Cable9
-	Go Cable10
-	Go Cable11
-	'Go Cable12
-	'Go Cable4
-	'Go Cable5
-	'Go Cable6
-	'Go Cable7
-	'Go AlignProbe1
-	'Go AlignProbe2
-	'Go AlignProbe3
 	' open g70 from here and continue with catch probe
 Fend
 Function go_catch_probe
-	'Go CatchProbe1
-	'Go CatchProbe2
-	' close g80 here and continue with stow
+	' open gripper 0
+	Go cable_finished
+	Go Catching_Probe1
+	Go catching_probe2
+	' close g100 here and continue with stow
 Fend
 Function go_stow
+	' make sure gripper is closed g100
+	Go Catching_Probe3
+	Go Catching_Probe4
+	
 	Go Stow1
 	Go Stow2
 	Go Stow3
 	Go Stow4
+	Wait (1)
 	Go Stow5
-	'Go Stow6
-	'Wait (1)
-	'Go Stow7
-	' open g0
+	Wait (1)
+Fend
+Function go_stow_finished
+	' make sure gripper is open g50
+	Go Stow_Finished
 Fend
 Function go_press_red_button
 	' make sure gripper is closed g80
-	Go Stow_Finished
+	Speed 60
 	Go Approach_Button
 	Go Press_Red
 	Wait (0.5)
@@ -338,26 +351,69 @@ Function go_press_red_button
 Fend
 Function go_slide(distance As Real)
 	Real d
-	If distance >= 0 And distance <= 31 Then
-		For d = distance - 2 To distance + 3
-			Go Slider_StartPos +X(d) CP
+	If distance >= 2 And distance <= 28 Then
+		For d = distance - 2 To distance + 5
+			Go Slider_StartPos +X(d) :Z(-2.49) CP
 			Wait (0.3)
 		Next
-		Go Slider_StartPos
+		For d = 5 To distance
+			Go Slider_StartPos +X(d) :Z(-2.49) CP
+			Wait (0.3)
+		Next
+		Go Slider_StartPos +X(d)
 	EndIf
 Fend
 Function go_check_display
-	Go Display_Pic
+'	Go Display_Pic
+	Go Display_Pic2
+	
 Fend
 Function go_approach_slider(StartPoint As Real)
 	' make sure gripper is open
 	If StartPoint >= 0 And StartPoint < 31 Then
 		Go Approach_Slider +X(StartPoint)
-		Wait (1)
-		Go Approach_Slider +X(StartPoint) -Z(26.5)
+		Wait (0.5)
+		Go Approach_Slider +X(StartPoint) -Z(29)
 	EndIf
 Fend
 Function go_tool_up
 	' make sure the gripper is open 
 		Go Here +Z(26.5)
 Fend
+Function approaching_meter
+	Go start
+	Go approach_meter
+	Go meter_down
+Fend
+
+Function turn_meter
+	' g70
+	Go meter_on
+Fend
+
+Function approaching_probe
+	' g0
+	Go meter_on_up
+	Go probe_approach
+	Go probe_pick
+Fend
+
+Function probing
+	' g100
+	Go probe_up
+	Go point_approach
+	Go point_approach2
+	Go point_touch
+	Wait (2)
+	Go point_approach2
+	Go point_approach
+	Go probe_up
+	Go probe_pick
+Fend
+
+Function probe_done
+	' g0
+	Go probe_up
+Fend
+
+

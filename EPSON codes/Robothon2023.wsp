@@ -1,5 +1,5 @@
-ENVT0100,LM:2023/04/25 16:28:12:633,DS:0000002867,CS:02114,MA:E4-54-E8-53-F8-B1,EI:           
-sActiveChild="Main.prg"
+ENVT0100,LM:2023/05/01 09:12:20:333,DS:0000002898,CS:07756,MA:E4-54-E8-53-F8-B1,EI:           
+sActiveChild="Robot Manager"
 bMdiMaximized=False
 nProgramFileCount=1
 ProgramFile1 {
@@ -7,10 +7,10 @@ ProgramFile1 {
 	bOpened=True
 	nWinState=0
 	Window {
-		nLeft=0
-		nTop=0
-		nWidth=0
-		nHeight=0
+		nLeft=167
+		nTop=-13
+		nWidth=501
+		nHeight=721
 	}
 }
 nIncludeFileCount=0
@@ -29,26 +29,26 @@ PointFile1 {
 nForceFileCount=0
 sActiveWindow="main.prg"
 CmdWindow {
-	bOpened=False
+	bOpened=True
 	Window {
-		nLeft=0
-		nTop=0
-		nWidth=0
-		nHeight=0
+		nLeft=703
+		nTop=-3
+		nWidth=972
+		nHeight=492
 	}
 	nWinState=0
 }
 RunWindow {
-	bOpened=False
+	bOpened=True
 	Window {
-		nLeft=0
-		nTop=0
-		nWidth=0
-		nHeight=0
+		nLeft=415
+		nTop=130
+		nWidth=679
+		nHeight=373
 	}
 	nWinState=0
 	nNumOfDisplays=1
-	nSplitterDistance=0
+	nSplitterDistance=363
 	Display1 {
 		nCamera=0
 		sSequences="1"
@@ -121,11 +121,11 @@ Macros {
 	}
 }
 RobotMgr {
-	bOpened=False
+	bOpened=True
 	Window {
-		nLeft=0
-		nTop=0
-		nWidth=748
+		nLeft=-5
+		nTop=140
+		nWidth=1097
 		nHeight=521
 	}
 }

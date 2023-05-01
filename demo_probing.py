@@ -1,0 +1,21 @@
+from Settings import *
+sleep(2)
+gripper(0)
+sendToEpson("approaching_meter")
+sleep(1)
+gripper(70)
+sleep(1)
+sendToEpson("turn_meter")
+sleep(1)
+gripper(0)
+sleep(1)
+sendToEpson("approaching_probe")
+sleep(1)
+gripper(100)
+sleep(1)
+sendToEpson("probing")
+sleep(1)
+gripper(0)
+sendToEpson("probe_done")
+
+
