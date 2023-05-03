@@ -1,0 +1,50 @@
+ENVT0100,LM:2023/05/03 12:14:21:000,DS:0000001348,CS:14117,MA:FC-69-47-93-CA-EF,EI:           
+General {
+	sDate="2023/05/03 12:14:20:000"
+	sVersion="7. 4. 53. 4"
+	sSerial="VT60000072"
+	nFileVersion=200
+	nMnpCount=1
+	nCurrentMnpNo=1
+	nPrjFileCount=8
+	nPCInfoFileCount=0
+	nRcType=3
+	nControllerType=1
+	sController=""
+	nHwInfo=458754
+	nEnableDU1=0
+	nEnableDU2=0
+	nEnableDU3=0
+	nPRM=1580609587
+	nMCD=32
+}
+Files {
+	sF000="/home/user/RCTemp/Mounted Volume/InitFileSrc.txt"
+	sF001="/home/user/RCTemp/MaintenanceSetting.dat"
+	sF002="/home/user/RCTemp/CurrentMnp01.PRM"
+	sF003="/home/user/RCTemp/Mounted Volume/System/MCSys01.MCD"
+}
+PrjFiles {
+	sF000="/home/user/RCTemp/Temp/Project/Robothon2023.vis"
+	sF001="/home/user/RCTemp/Temp/Project/UserErrors.dat"
+	sF002="/home/user/RCTemp/Temp/Project/robot1.pts"
+	sF003="/home/user/RCTemp/Temp/Project/IOLabels.dat"
+	sF004="/home/user/RCTemp/Temp/Project/Robothon2023.fg"
+	sF005="/home/user/RCTemp/Temp/Project/Robothon2023.sprj"
+	sF006="/home/user/RCTemp/Temp/Project/Robothon2023.obj"
+	sF007="/home/user/RCTemp/Temp/Project/Main.prg"
+}
+Robot {
+	Robot01 {
+		sMnpModel="VT6-A901S"
+		nJointType01=65537
+		nJointType02=65538
+		nJointType03=65539
+		nJointType04=65540
+		nJointType05=65541
+		nJointType06=65542
+		nJointType07=0
+		nJointType08=0
+		nJointType09=0
+	}
+}

@@ -1,0 +1,158 @@
+ENVT0100,LM:2023/04/30 11:23:49:000,DS:0000002325,CS:23589,MA:FC-69-47-93-CA-EF,EI:           
+SRCMC {
+	Status {
+		AutoDetect {
+			IO {
+				Port01 {
+					nExist=1
+					nType=1
+					nHandExist=0
+				}
+				Port02 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port03 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port04 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port05 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port16 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port17 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port18 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port64 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port32 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port41 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+				Port42 {
+					nExist=0
+					nType=0
+					nHandExist=0
+				}
+			}
+			PG {
+				PG01 {
+					nExist=0
+				}
+				PG02 {
+					nExist=0
+				}
+				PG03 {
+					nExist=0
+				}
+				PG04 {
+					nExist=0
+				}
+			}
+			AIO {
+				AIO01 {
+					nExist=0
+				}
+				AIO02 {
+					nExist=0
+				}
+				AIO03 {
+					nExist=0
+				}
+				AIO04 {
+					nExist=0
+				}
+			}
+			EUROMAP {
+				EM6701 {
+					nExist=0
+					nType=0
+				}
+				EM6702 {
+					nExist=0
+					nType=0
+				}
+			}
+			SRAM {
+				nBase_Address=83886080
+				nSize=512
+			}
+			I2C {
+				nHandle=1
+			}
+			DB01 {
+				Axis1 {
+					nMotor_Type=13
+					nAmp_Type=2
+				}
+				Axis2 {
+					nMotor_Type=12
+					nAmp_Type=2
+				}
+				Axis3 {
+					nMotor_Type=11
+					nAmp_Type=2
+				}
+				Axis4 {
+					nMotor_Type=10
+					nAmp_Type=2
+				}
+				Axis5 {
+					nMotor_Type=10
+					nAmp_Type=2
+				}
+				Axis6 {
+					nMotor_Type=10
+					nAmp_Type=2
+				}
+				Axis7 {
+					nMotor_Type=255
+					nAmp_Type=7
+				}
+				Axis8 {
+					nMotor_Type=255
+					nAmp_Type=7
+				}
+			}
+		}
+		nMotion_Control_DLL_Version=4352
+		nKinematics_VxD_Version=1536
+		nMotion_Control_VxD_Version=1792
+		nServo_Software_Version=0
+		nACPU_Version_DU1=0
+		nACPU_Version_DU2=0
+		nPulse_Generator_VxD_Version=768
+		nMotion_I.O_Control_VxD_Version=1024
+		nOscilloScope_VxD_Version=768
+		sInitialize_Status="MC Initialize Ok"
+	}
+}
