@@ -1,5 +1,5 @@
 import cv2
-from time import sleep
+from time import *
 import numpy as np
 from Settings import gripper
 from SendToEpson import sendToEpson # connect to EPSON Robot and send command via TCP/IP
@@ -21,10 +21,11 @@ def ConnectCamera():
     vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
     vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
     sleep(1)
-    if(vid.isOpened()):
-            print("=======Ready to capture=======")  
-            ret, img = vid.read() # take a sample frame
-            return vid
+    return vid
+    # if(vid.isOpened()):
+    #         print("=======Ready to capture=======")  
+    #         ret, img = vid.read() # take a sample frame
+    #        return vid
 
 # --- click M5 button
 def m5():
@@ -40,66 +41,102 @@ def bb():
 # --- move sliders
 def slide(cam):
     sendToEpson("go_check_display")
+    sleep(5)
     # take picture here to get slider value
-    if (cam.isOpened()):
-        print("Capturing slider's target1")
-        for capture in range(0,5):
-            ret, img1 = cam.read()
-            sleep(0.25)
+    print("Capturing slider's target1")
+    while(cam.isOpened()):
+        t_end = time() + 5
+        while time() < t_end:
+            ret, img = cam.read()
+            cv2.waitKey(20)    
+        ret, img = cam.read()
+        cv2.imshow('i', img)
+        cv2.waitKey(500)
+        cv2.destroyAllWindows()
+        k = ord('q')
+        if k == ord('q'):
+            first_image = img
+            first_arrow_distance = get_target(first_image, None, DEBUG_MODE=True)
+            if first_arrow_distance != -1:
+                print("First arrow distance = {:.2f} mm".format(first_arrow_distance))
+                break
+            else:
+                print("Error occured with the first target.")
+                break
+        if k == ord('c'):
+            break
     else:
         print("Camera error")
         exit(1)
-    target1 = get_target(img1, None)
-    target1 = 15.5
-    target1 = round(target1,0)
-    print("First arrow distance = {:.2f} mm".format(target1))
-    if (target1 > 2):
+    #target1 = get_target(img1, None)
+    #target1 = 15.5
+    target1 = round(first_arrow_distance,1)
+    print("First arrow distance = {:.1f} mm".format(target1))
+    if (29 > target1 > 2 ):
         # then grab the slider and move it accordingly
         print("Sliding to target1")
         sleep(1)
         gripper(50)
         sendToEpson("go_approach_slider 0") # start location 0
-        sleep(1) # important
+        sleep(3) # important
         gripper(70)
         sleep(0.5)
         # #sendToEpson("go_slide 16")
         sendToEpson("go_slide " + str(target1))
-        sleep(1)
+        sleep(4)
         gripper(50)
         sleep(1)
         sendToEpson("go_tool_up")
         sendToEpson("go_check_display")
         # take picture here to get slider value
-        if (cam.isOpened()):
-            print("Capturing slider's target2")
-            for capture in range(0,5):
-                ret, img2 = cam.read()
-                sleep(0.5)
+        cv2.destroyAllWindows()
+        cv2.waitKey(1)
+        #print("Manual slider movement NOW!")
+        sleep(5)
+        print("Capturing slider's target2")
+        while(cam.isOpened()):
+            t_end = time() + 5
+            while time() < t_end:
+                ret, img = cam.read()
+                cv2.waitKey(20)
+            ret, img2 = cam.read()
+            cv2.imshow('i', img)
+            cv2.waitKey(500)
+            cv2.destroyAllWindows()
+            k = ord('q')
+            if k == ord('q'):
+                second_image = img
+                second_arrow_distance = get_target(second_image, first_image, DEBUG_MODE=True)
+                if second_arrow_distance != -1:
+                    print("Second arrow distance = {:.2f} mm".format(second_arrow_distance))
+                    break
+                else:
+                    print("Second target not detected. Moving on.")
+                    break
+            if k == ord('c'):
+                break
         else:
             print("Camera error")
             exit(1)
-        target2 = get_target(img2, img1)
-        target2 = round(target2,2)
-        print("Second arrow distance = {:.2f} mm".format(target2))  
-        if (target2>0):  
+        
+        target2 = round(second_arrow_distance,1)
+        print("Second arrow distance = {:.1f} mm".format(target2))  
+        if (29 > target2 > 2):  
             # then grab the slider and move it accordingly
             sleep(1)
             gripper(50)
             sendToEpson("go_approach_slider " + str(target1)) # start location
-            sleep(1)
+            sleep(3)
             gripper(70)
             sleep(2)
             # #sendToEpson("go_slide 16")
             sendToEpson("go_slide " + str(target2))
-            sleep(2)
-            # # gripper will go back to Slider_start position
+            sleep(4)
             gripper(50)
             sleep(1)
             sendToEpson("go_tool_up")
         else:
             print("target2 is not detected!")
-    else:
-        print("Target1 is not detected")
 
 # --- open the door            
 def door():
@@ -125,7 +162,7 @@ def probe():
     gripper(50)
     sleep(1)
     sendToEpson("go_probe1")
-    sleep(1)
+    sleep(3)
     gripper(100)
     sendToEpson("go_probe2")
     sleep(1)
@@ -155,6 +192,8 @@ def stow():
     
 # --- press red button
 def rb():
+    gripper(80)
+    sendToEpson("M Stow_Finished")
     sendToEpson("go_press_red_button")
     
 # ==== main actions
@@ -167,13 +206,13 @@ x1,y1,x2,y2 = get_coord(cam) #test coord was: x1,y1,x2,y2 = 1464,302,741,271
 print(x1,y1,x2,y2)
 sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 
-m5()
-bb()
-slide(cam)
-plug()
-door()
+# m5()
+# bb()
+# slide(cam)
+# plug()
+# door()
 probe()
 cable()
-stow()
-rb()
+# stow()
+# rb()
 sendToEpson("M Camera_Pos ")

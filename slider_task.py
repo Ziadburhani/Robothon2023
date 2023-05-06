@@ -9,7 +9,7 @@ import numpy as np
 
 def __show_image__(title, file):
     cv2.imshow(title, file)
-    cv2.waitKey(0)
+    cv2.waitKey(500)
     cv2.destroyWindow(title)
     cv2.waitKey(1)
 
@@ -77,7 +77,7 @@ def __hsv_object_detector__(image, low_hsv, high_hsv, kSize = 3, opening = True,
     canny_img = opening_img
     if canny is True:
         canny_img = cv2.Canny(opening_img, 100, 200)
-    #__show_image__('c',canny_img)
+    __show_image__('c',canny_img)
     if find_contours is True:
         contours, _ = cv2.findContours(canny_img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
         c = contours
@@ -102,10 +102,7 @@ def __detect_red_box__(image, showImage = False):
         box = np.int0(box)
         warped = __four_point_transform__(image, box)
         if showImage is True:
-            cv2.imshow('RedBox', warped)
-            cv2.waitKey(0)
-            cv2.destroyWindow('RedBox')
-            cv2.waitKey(1)
+            __show_image__('RedBox', warped)
         return warped
     else:
         return None
@@ -128,10 +125,7 @@ def __detect_screen__(image, showImage = False):
         box = np.int0(box)
         warped = __four_point_transform__(image, box)
         if showImage is True:
-            cv2.imshow('Screen', warped)
-            cv2.waitKey(0)
-            cv2.destroyWindow('Screen')
-            cv2.waitKey(1)
+            __show_image__('Screen', warped)
         return warped
     else:
         return None
@@ -151,9 +145,9 @@ def __calculate_distance__(target_y, screen_length, margin = 8, slider_length = 
     normalised_position = 1 - normalised_position
 
     distance = normalised_position * slider_length
-    # print(effective_target_y)
-    # print(effective_slider_length)
-    # print(normalised_position)
+    print(effective_target_y)
+    print(effective_slider_length)
+    print(normalised_position)
     return distance
 
 def __remove_padding__(image, padding = 5):
@@ -184,9 +178,9 @@ def __calculate_first_arrow_position__(image):
         arrow1 = contours[0]
         M1 = cv2.moments(arrow1)
         cy1 = int(M1['m01']/M1['m00'])
-        # cx1 = int(M1['m10']/M1['m00'])
-        # cv2.circle(final, (cx1,cy1),5,(0, 0, 0),-1)
-        # __show_image__('detection',final)
+        cx1 = int(M1['m10']/M1['m00'])
+        cv2.circle(final, (cx1,cy1),5,(0, 0, 0),-1)
+        __show_image__('detection',final)
         first_target_arrow_y = cy1
         absolute_distance_in_mm = __calculate_distance__(first_target_arrow_y, image.shape[0])
         return abs(absolute_distance_in_mm)
