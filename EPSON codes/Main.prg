@@ -337,12 +337,15 @@ Function go_catch_probe
 	' open gripper 0
 	Go cable_finished
 	Go Catching_Probe1
+	Go Probe_Place3A
 	Go catching_probe2
+	Go catching_probe2a ' Z down
 	' close g100 here and continue with stow
 Fend
 Function go_stow
 	Speed 20
 	' make sure gripper is closed g100
+	Go Catching_Probe2 ' Z up
 	Go Catching_Probe3
 	Go Catching_Probe4
 	
@@ -371,11 +374,11 @@ Function go_slide(distance As Real)
 	Speed 20
 	Real d
 	If distance >= 2 And distance <= 28 Then
-		For d = distance - 1 To distance + 1.4 Step 0.2
+		For d = distance - 0.5 To distance + 1.6 Step 0.2
 			Go Slider_StartPos +X(d) :Z(-2.49) CP
-			Wait (0.4)
+			Wait (0.3)
 		Next
-		Wait (1)
+		Wait (0.5)
 		Go Slider_StartPos +X(d) :Z(-2.49)
 	EndIf
 Fend

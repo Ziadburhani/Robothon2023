@@ -292,6 +292,7 @@ Function go_probe2
 Fend
 Function go_probedrop
 	' make sure gripper is open g50
+	Go probe_place3A  ' slightly above probe_place3
 	Go Probe_Place4
 Fend
 Function go_approach_plug1
@@ -336,12 +337,15 @@ Function go_catch_probe
 	' open gripper 0
 	Go cable_finished
 	Go Catching_Probe1
+	Go Probe_Place3A
 	Go catching_probe2
+	Go catching_probe2a ' Z down
 	' close g100 here and continue with stow
 Fend
 Function go_stow
 	Speed 20
 	' make sure gripper is closed g100
+	Go Catching_Probe2 ' Z up
 	Go Catching_Probe3
 	Go Catching_Probe4
 	

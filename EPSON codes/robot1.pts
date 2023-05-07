@@ -1,10 +1,10 @@
-ENVT0100,LM:2023/05/07 07:16:36:098,DS:0000026398,CS:00521,MA:E4-54-E8-53-F8-B1,EI:           
+ENVT0100,LM:2023/05/07 11:21:32:815,DS:0000026671,CS:12594,MA:E4-54-E8-53-F8-B1,EI:           
 sVersion="2.0.0"
 bDisplayR=False
 bDisplayS=False
 bDisplayT=False
 nNumberOfJoints=6
-nNumberOfPoints=83
+nNumberOfPoints=84
 Point1 {
 	nNumber=0
 	sLabel="Home_Pos"
@@ -453,7 +453,7 @@ Point18 {
 	sDescription=""
 	nUndefined=0
 	rX=111.139
-	rY=81.683
+	rY=79.998
 	rZ=-2.09
 	rU=0.007
 	rV=-0.32
@@ -479,8 +479,8 @@ Point19 {
 	sDescription=""
 	nUndefined=0
 	rX=111.139
-	rY=81.683
-	rZ=22.062
+	rY=79.998
+	rZ=23.517
 	rU=0.007
 	rV=-0.32
 	rW=-179.687
@@ -504,8 +504,8 @@ Point20 {
 	sLabel="Approach_Plug_DestinationPos"
 	sDescription=""
 	nUndefined=0
-	rX=87.593
-	rY=83.1
+	rX=85.338
+	rY=79.843
 	rZ=19.031
 	rU=0.007
 	rV=-0.32
@@ -530,12 +530,12 @@ Point21 {
 	sLabel="Plug_DestinationPos"
 	sDescription=""
 	nUndefined=0
-	rX=87.594
-	rY=83.1
-	rZ=-1.969
+	rX=85.338
+	rY=79.843
+	rZ=0.031
 	rU=0.007
 	rV=-0.32
-	rW=-179.686
+	rW=-179.687
 	rR=0
 	rS=0
 	rT=0
@@ -921,8 +921,8 @@ Point36 {
 	sDescription=""
 	nUndefined=0
 	rX=132.996
-	rY=220.632
-	rZ=3.094
+	rY=220.961
+	rZ=1.051
 	rU=179.996
 	rV=-0.3
 	rW=-179.681
@@ -936,7 +936,7 @@ Point36 {
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
-	nJ6Flag=0
+	nJ6Flag=1
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False
@@ -946,9 +946,9 @@ Point37 {
 	sLabel="Probe_Pick1"
 	sDescription=""
 	nUndefined=0
-	rX=155.913
-	rY=220.631
-	rZ=3.094
+	rX=158.425
+	rY=220.961
+	rZ=1.051
 	rU=179.996
 	rV=-0.3
 	rW=-179.681
@@ -962,7 +962,7 @@ Point37 {
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
-	nJ6Flag=0
+	nJ6Flag=1
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False
@@ -972,9 +972,9 @@ Point38 {
 	sLabel="Probe_Pick2"
 	sDescription=""
 	nUndefined=0
-	rX=155.913
-	rY=220.631
-	rZ=127.911
+	rX=158.425
+	rY=220.961
+	rZ=56.204
 	rU=179.996
 	rV=-0.3
 	rW=-179.681
@@ -988,7 +988,7 @@ Point38 {
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
-	nJ6Flag=0
+	nJ6Flag=1
 	rJ1Angle=0
 	rJ4Angle=0
 	bSimVisible=False
@@ -1001,16 +1001,16 @@ Point39 {
 	rX=57.381
 	rY=359.691
 	rZ=104.769
-	rU=10.863
-	rV=89.383
-	rW=99.352
+	rU=0
+	rV=90
+	rW=88.49
 	rR=0
 	rS=0
 	rT=0
 	nLocal=3
 	nHand=1
 	nElbow=1
-	nWrist=1
+	nWrist=2
 	nJ1Flag=0
 	nJ2Flag=0
 	nJ4Flag=0
@@ -1024,12 +1024,12 @@ Point40 {
 	sLabel="Probe_Pick4"
 	sDescription=""
 	nUndefined=0
-	rX=46.804
-	rY=349.886
-	rZ=-8.374
-	rU=10.901
-	rV=89.383
-	rW=99.391
+	rX=49.39
+	rY=343.705
+	rZ=7.001
+	rU=0
+	rV=90
+	rW=88.49
 	rR=0
 	rS=0
 	rT=0
@@ -1050,12 +1050,12 @@ Point41 {
 	sLabel="Probe_Pick5"
 	sDescription=""
 	nUndefined=0
-	rX=48.782
-	rY=344.644
-	rZ=-87.215
-	rU=10.91
-	rV=89.383
-	rW=99.4
+	rX=49.391
+	rY=343.705
+	rZ=-87.452
+	rU=0
+	rV=90
+	rW=88.49
 	rR=0
 	rS=0
 	rT=0
@@ -1076,12 +1076,12 @@ Point42 {
 	sLabel="Probe_Pick6"
 	sDescription=""
 	nUndefined=0
-	rX=48.782
-	rY=344.644
-	rZ=-100.205
-	rU=10.913
-	rV=89.383
-	rW=99.404
+	rX=49.39
+	rY=343.705
+	rZ=-100.274
+	rU=0
+	rV=90
+	rW=88.49
 	rR=0
 	rS=0
 	rT=0
@@ -1102,12 +1102,12 @@ Point43 {
 	sLabel="Probe_Pick7"
 	sDescription=""
 	nUndefined=0
-	rX=52.082
-	rY=345.418
-	rZ=47.347
-	rU=10.995
-	rV=89.394
-	rW=99.378
+	rX=49.39
+	rY=343.705
+	rZ=47.515
+	rU=0
+	rV=90
+	rW=88.49
 	rR=0
 	rS=0
 	rT=0
@@ -1544,12 +1544,12 @@ Point60 {
 	sLabel="Catching_Probe2"
 	sDescription=""
 	nUndefined=0
-	rX=-703.582
-	rY=139.464
-	rZ=437.787
-	rU=-92.668
-	rV=-0.153
-	rW=-179.527
+	rX=-719.324
+	rY=50.68
+	rZ=456.805
+	rU=-94.509
+	rV=-0.302
+	rW=-179.681
 	rR=0
 	rS=0
 	rT=0
@@ -1596,16 +1596,16 @@ Point62 {
 	sLabel="Catching_Probe4"
 	sDescription=""
 	nUndefined=0
-	rX=207.119
-	rY=236.988
-	rZ=43.914
-	rU=89.539
+	rX=-635.676
+	rY=69.185
+	rZ=561.766
+	rU=-87.509
 	rV=-0.302
 	rW=-179.681
 	rR=0
 	rS=0
 	rT=0
-	nLocal=3
+	nLocal=0
 	nHand=1
 	nElbow=1
 	nWrist=1
@@ -1644,12 +1644,38 @@ Point63 {
 	bSimVisible=False
 }
 Point64 {
+	nNumber=92
+	sLabel="Catching_probe2a"
+	sDescription=""
+	nUndefined=0
+	rX=-719.324
+	rY=50.68
+	rZ=439.897
+	rU=-94.509
+	rV=-0.302
+	rW=-179.681
+	rR=0
+	rS=0
+	rT=0
+	nLocal=0
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ1Flag=0
+	nJ2Flag=0
+	nJ4Flag=0
+	nJ6Flag=0
+	rJ1Angle=0
+	rJ4Angle=0
+	bSimVisible=False
+}
+Point65 {
 	nNumber=93
 	sLabel="Stow1"
 	sDescription=""
 	nUndefined=0
-	rX=180.499
-	rY=221.162
+	rX=181.178
+	rY=240.477
 	rZ=17.667
 	rU=157.291
 	rV=-0.301
@@ -1669,7 +1695,7 @@ Point64 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point65 {
+Point66 {
 	nNumber=94
 	sLabel="Stow2"
 	sDescription=""
@@ -1695,7 +1721,7 @@ Point65 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point66 {
+Point67 {
 	nNumber=95
 	sLabel="Stow3"
 	sDescription=""
@@ -1721,13 +1747,13 @@ Point66 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point67 {
+Point68 {
 	nNumber=96
 	sLabel="Stow4"
 	sDescription=""
 	nUndefined=0
-	rX=93.862
-	rY=219.257
+	rX=88.28
+	rY=217.968
 	rZ=3.364
 	rU=178.346
 	rV=-0.301
@@ -1747,15 +1773,15 @@ Point67 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point68 {
+Point69 {
 	nNumber=97
 	sLabel="Stow5"
 	sDescription=""
 	nUndefined=0
-	rX=68.862
-	rY=219.256
+	rX=67.825
+	rY=217.968
 	rZ=3.364
-	rU=178.347
+	rU=178.346
 	rV=-0.301
 	rW=-179.682
 	rR=0
@@ -1773,7 +1799,7 @@ Point68 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point69 {
+Point70 {
 	nNumber=100
 	sLabel="Stow_Finished"
 	sDescription=""
@@ -1799,7 +1825,7 @@ Point69 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point70 {
+Point71 {
 	nNumber=110
 	sLabel="start"
 	sDescription=""
@@ -1825,7 +1851,7 @@ Point70 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point71 {
+Point72 {
 	nNumber=111
 	sLabel="approach_meter"
 	sDescription=""
@@ -1851,7 +1877,7 @@ Point71 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point72 {
+Point73 {
 	nNumber=112
 	sLabel="meter_down"
 	sDescription=""
@@ -1877,7 +1903,7 @@ Point72 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point73 {
+Point74 {
 	nNumber=113
 	sLabel="meter_on"
 	sDescription=""
@@ -1903,7 +1929,7 @@ Point73 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point74 {
+Point75 {
 	nNumber=114
 	sLabel="meter_on_up"
 	sDescription=""
@@ -1929,7 +1955,7 @@ Point74 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point75 {
+Point76 {
 	nNumber=115
 	sLabel="probe_approach"
 	sDescription=""
@@ -1955,7 +1981,7 @@ Point75 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point76 {
+Point77 {
 	nNumber=116
 	sLabel="probe_pick"
 	sDescription=""
@@ -1981,7 +2007,7 @@ Point76 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point77 {
+Point78 {
 	nNumber=117
 	sLabel="probe_up"
 	sDescription=""
@@ -2007,7 +2033,7 @@ Point77 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point78 {
+Point79 {
 	nNumber=140
 	sLabel="WorldKnob"
 	sDescription=""
@@ -2033,7 +2059,7 @@ Point78 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point79 {
+Point80 {
 	nNumber=141
 	sLabel="WorldBlue"
 	sDescription=""
@@ -2059,7 +2085,7 @@ Point79 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point80 {
+Point81 {
 	nNumber=142
 	sLabel="point_approach"
 	sDescription=""
@@ -2085,7 +2111,7 @@ Point80 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point81 {
+Point82 {
 	nNumber=143
 	sLabel="point_approach2"
 	sDescription=""
@@ -2111,7 +2137,7 @@ Point81 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point82 {
+Point83 {
 	nNumber=144
 	sLabel="point_touch"
 	sDescription=""
@@ -2137,7 +2163,7 @@ Point82 {
 	rJ4Angle=0
 	bSimVisible=False
 }
-Point83 {
+Point84 {
 	nNumber=201
 	sLabel="C1"
 	sDescription=""
