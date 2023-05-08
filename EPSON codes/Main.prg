@@ -10,8 +10,10 @@ Function main
 	Speed 20
 	SpeedR 20
 	Accel 20, 20
+	AccelR 20, 20
 	SpeedS 20
 	AccelS 20, 20
+	AutoLJM On
 	
 ' going to camera position
   Go Camera_Pos
@@ -76,6 +78,13 @@ Function main
 		P332 = Here :X(px1) :Y(py1) :Z(ZOffset) ' blue	
 		P333 = Here :X(px2) :Y(py2) :Z(ZOffset) ' knob
 		Local 3,(LBB:P332),(LK:P333) ' map those points to Local BB and Local Knob at z=521
+		Power High
+		Speed 20
+		SpeedR 20
+		Accel 20, 20
+		AccelR 20, 20
+		SpeedS 20
+		AccelS 20, 20
    EndIf
    
  
@@ -220,7 +229,9 @@ Function drawCircle
 Fend
 
 Function go_click_m5
+	Speed 60
 	Go Approach_M5
+	Speed 20
 	Go Click_M5
 	Wait (0.2)
 	Go Approach_M5
@@ -255,7 +266,7 @@ Function go_open_door
 	Go Door_Open7 CP
 	Go Door_Open8 CP
 	Go Door_Finished
-	Speed 40
+	Speed 30
 Fend
 Function go_probe1
 	' make sure gripper is open g0
@@ -276,13 +287,16 @@ Function go_probe2
 	'Go probe_pick4
 	Go probe_place1
 	Go probe_place2
+	Go Probe_Place3A
 	Go probe_place3
 Fend
 Function go_probedrop
 	' make sure gripper is open g50
+	Go probe_place3A  ' slightly above probe_place3
 	Go Probe_Place4
 Fend
 Function go_approach_plug1
+	Speed 20
     Go Approach_Plug_orginalPos
 	Go Plug_OrginalPos
 	'Close the Gripper	
@@ -307,7 +321,7 @@ Function go_approach_cable
 Fend
 Function go_wind_cable
 	' gripper should be closed 100
-	Speed 20
+	Speed 5
 	Go Cable1
 	Go Cable2
 	Go Cable3
@@ -317,15 +331,21 @@ Function go_wind_cable
 	Go Cable7
 	' open g70 from here and continue with catch probe
 Fend
+
 Function go_catch_probe
+	Speed 40
 	' open gripper 0
 	Go cable_finished
 	Go Catching_Probe1
+	Go Probe_Place3A
 	Go catching_probe2
+	Go catching_probe2a ' Z down
 	' close g100 here and continue with stow
 Fend
 Function go_stow
+	Speed 20
 	' make sure gripper is closed g100
+	Go Catching_Probe2 ' Z up
 	Go Catching_Probe3
 	Go Catching_Probe4
 	
@@ -339,6 +359,7 @@ Function go_stow
 Fend
 Function go_stow_finished
 	' make sure gripper is open g50
+	Speed 20
 	Go Stow_Finished
 Fend
 Function go_press_red_button
@@ -350,17 +371,15 @@ Function go_press_red_button
 	Go Approach_Button
 Fend
 Function go_slide(distance As Real)
+	Speed 20
 	Real d
 	If distance >= 2 And distance <= 28 Then
-		For d = distance - 2 To distance + 5
+		For d = distance - 0.5 To distance + 1.6 Step 0.2
 			Go Slider_StartPos +X(d) :Z(-2.49) CP
 			Wait (0.3)
 		Next
-		For d = 5 To distance
-			Go Slider_StartPos +X(d) :Z(-2.49) CP
-			Wait (0.3)
-		Next
-		Go Slider_StartPos +X(d)
+		Wait (0.5)
+		Go Slider_StartPos +X(d) :Z(-2.49)
 	EndIf
 Fend
 Function go_check_display
@@ -373,7 +392,7 @@ Function go_approach_slider(StartPoint As Real)
 	If StartPoint >= 0 And StartPoint < 31 Then
 		Go Approach_Slider +X(StartPoint)
 		Wait (0.5)
-		Go Approach_Slider +X(StartPoint) -Z(29)
+        Go Approach_Slider +X(StartPoint) -Z(29)
 	EndIf
 Fend
 Function go_tool_up

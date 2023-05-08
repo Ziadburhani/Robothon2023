@@ -41,11 +41,11 @@ def bb():
 # --- move sliders
 def slide(cam):
     sendToEpson("go_check_display")
-    sleep(5)
+    sleep(1)
     # take picture here to get slider value
     print("Capturing slider's target1")
     while(cam.isOpened()):
-        t_end = time() + 5
+        t_end = time() + 4
         while time() < t_end:
             ret, img = cam.read()
             cv2.waitKey(20)    
@@ -78,12 +78,12 @@ def slide(cam):
         sleep(1)
         gripper(50)
         sendToEpson("go_approach_slider 0") # start location 0
-        sleep(3) # important
+        sleep(1) # important
         gripper(70)
         sleep(0.5)
         # #sendToEpson("go_slide 16")
         sendToEpson("go_slide " + str(target1))
-        sleep(4)
+        sleep(1)
         gripper(50)
         sleep(1)
         sendToEpson("go_tool_up")
@@ -92,16 +92,16 @@ def slide(cam):
         cv2.destroyAllWindows()
         cv2.waitKey(1)
         #print("Manual slider movement NOW!")
-        sleep(5)
+        sleep(1)
         print("Capturing slider's target2")
         while(cam.isOpened()):
-            t_end = time() + 5
+            t_end = time() + 3
             while time() < t_end:
                 ret, img = cam.read()
                 cv2.waitKey(20)
             ret, img2 = cam.read()
             cv2.imshow('i', img)
-            cv2.waitKey(500)
+            cv2.waitKey(200)
             cv2.destroyAllWindows()
             k = ord('q')
             if k == ord('q'):
@@ -126,12 +126,12 @@ def slide(cam):
             sleep(1)
             gripper(50)
             sendToEpson("go_approach_slider " + str(target1)) # start location
-            sleep(3)
+            sleep(1)
             gripper(70)
-            sleep(2)
+            sleep(1)
             # #sendToEpson("go_slide 16")
             sendToEpson("go_slide " + str(target2))
-            sleep(4)
+            sleep(1)
             gripper(50)
             sleep(1)
             sendToEpson("go_tool_up")
@@ -147,11 +147,11 @@ def door():
 def plug():
     gripper(50)
     sendToEpson("go_approach_plug1")
-    sleep(1.5)
+    sleep(1)
     gripper(80)
-    sleep(0.8)
+    sleep(0.5)
     sendToEpson("go_approach_plug2")
-    sleep(1.5)
+    sleep(1)
     gripper(50)
     sleep(0.5)
     sendToEpson("go_approach_plug3")
@@ -160,14 +160,15 @@ def plug():
 def probe():
     #probing sequence here
     gripper(50)
-    sleep(1)
+    sleep(0.5)
     sendToEpson("go_probe1")
-    sleep(3)
+    sleep(1)
     gripper(100)
+    sleep(1)
     sendToEpson("go_probe2")
-    sleep(1)
+    sleep(0.5)
     gripper(50)
-    sleep(1)
+    sleep(0.5)
     sendToEpson("go_probedrop")
     
 # --- wind cable
@@ -185,7 +186,7 @@ def cable():
 def stow():
     gripper(100)
     sendToEpson("go_stow")
-    sleep(1)
+    sleep(0.5)
     gripper(50)
     sendToEpson("go_stow_finished")
     gripper(100)
@@ -206,13 +207,13 @@ x1,y1,x2,y2 = get_coord(cam) #test coord was: x1,y1,x2,y2 = 1464,302,741,271
 print(x1,y1,x2,y2)
 sendToEpson("local " + str(x1) + " " + str(y1) + " " + str(x2) + " " + str(y2) )
 
-# m5()
-# bb()
-# slide(cam)
-# plug()
-# door()
+m5()
+bb()
+slide(cam)
+plug()
+door()
 probe()
 cable()
-# stow()
-# rb()
+stow()
+rb()
 sendToEpson("M Camera_Pos ")
