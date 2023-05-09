@@ -253,6 +253,7 @@ Function go_press_blue_button
 Fend
 Function go_open_door
 	Power High
+	AutoLJM On
 	Speed 60
 	Go Approach_Door_OrginalPos
 	Speed 50
@@ -269,12 +270,14 @@ Function go_open_door
 	Speed 30
 Fend
 Function go_probe1
+	AutoLJM On
 	' make sure gripper is open g0
 	Go Approach_probe
 	Go Probe_Pick0
 	' close the gripper here
 Fend
 Function go_probe2
+	AutoLJM On
 	Go probe_pick1
 	Go probe_pick2
 	Go probe_pick3
@@ -374,11 +377,11 @@ Function go_slide(distance As Real)
 	Speed 20
 	Real d
 	If distance >= 2 And distance <= 28 Then
-		For d = distance - 1 To distance + 1.4 Step 0.2
+		For d = distance - 0.5 To distance + 1.6 Step 0.2
 			Go Slider_StartPos +X(d) :Z(-2.49) CP
-			Wait (0.4)
+			Wait (0.3)
 		Next
-		Wait (1)
+		Wait (0.5)
 		Go Slider_StartPos +X(d) :Z(-2.49)
 	EndIf
 Fend

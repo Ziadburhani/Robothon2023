@@ -253,6 +253,7 @@ Function go_press_blue_button
 Fend
 Function go_open_door
 	Power High
+	AutoLJM On
 	Speed 60
 	Go Approach_Door_OrginalPos
 	Speed 50
@@ -269,12 +270,14 @@ Function go_open_door
 	Speed 30
 Fend
 Function go_probe1
+	AutoLJM On
 	' make sure gripper is open g0
 	Go Approach_probe
 	Go Probe_Pick0
 	' close the gripper here
 Fend
 Function go_probe2
+	AutoLJM On
 	Go probe_pick1
 	Go probe_pick2
 	Go probe_pick3
@@ -283,8 +286,8 @@ Function go_probe2
 	Wait (2)
 	Go probe_pick6
 	Wait (1)
-	Go Probe_Pick7
-	'Go probe_pick4
+	Go Probe_Pick5
+	Go probe_pick3
 	Go probe_place1
 	Go probe_place2
 	Go Probe_Place3A
