@@ -1,13 +1,16 @@
 import cv2
 import numpy as np
 import math
+from time import sleep
 
 # world coordinate parameter
-Xmax = -350
+Xmax = -450
 Xmin = -550
-Ymax = 350
-Ymin = 50
-gap = 100
+Ymax = 275
+Ymin = 75
+Zmin = 523 # change this value, find it out by jogging the arm so the gripper is about 5mm above the surface
+gapY = 200
+gapX = 100
 
 world_points = [x for x in range(12)]
 pixel_points = [x for x in range(12)]
@@ -29,11 +32,14 @@ def rotate_point(x, y, angle_deg):
 #img = cv2.imread('original_cal.png', cv2.IMREAD_COLOR)
 
 # define a video capture object
-vid = cv2.VideoCapture(0)
+#vid = cv2.VideoCapture(0)
+vid = cv2.VideoCapture(0,cv2.CAP_DSHOW) # activate Windows Direct Show for faster camera setup
+
 vid.set(cv2.CAP_PROP_FRAME_WIDTH, 1920) # max 3840 for 4K, 1920 for FHD
 vid.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080) # max 2160 for 4K, 1080 for FHD
     # Capture the video frame
     # by frame
+sleep(4)
 ret, img = vid.read()
   
 # Convert to grayscale.
@@ -88,11 +94,11 @@ if detected_circles is not None:
         cv2.putText(img, "(" + str(wx) + ","+ str(wy) + ")", (a-r-80,b+r-50), cv2.FONT_HERSHEY_SIMPLEX,0.5,(0,0,255),2 )
         print(str(i) + ": " + str(a) + "\t\t"+ str(b) + "\t\t" + str(wx) + "\t\t" + str(wy) )
 
-        wy = wy + gap
+        wy = wy + gapY
         if column > 3:
             column = 0
             wy = Ymin
-            wx = wx + gap
+            wx = wx + gapX
 
     origin_x = pixel_points[0][0]
     origin_y = pixel_points[0][1]

@@ -9,10 +9,10 @@ import numpy as np
 
 def calculateXY(xc, yc):
     # take values from calibration result
-    tl_x, tl_y = 384, 327 # take from cal_image_corrected
-    tr_x, tr_y = 1369, 327
-    bl_x, bl_y = 384, 821
-    br_x, br_y = 1371, 820
+    tl_x, tl_y = 380, 333 # take from cal_image_corrected
+    tr_x, tr_y = 1360, 330
+    bl_x, bl_y = 379, 823
+    br_x, br_y = 1364, 820
     
     x_ctr = int(1920/2)
     y_ctr = int(1080/2)

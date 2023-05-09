@@ -196,8 +196,9 @@ def get_coord(vid):
             for pt in detected_blue_circles[0]:
                 a1, b1, r1 = pt[0], pt[1], pt[2]
                 x1, y1 = Settings.calculateXY(a1, b1)
-                # compensate for blue button here
-                x1 = x1 + 0.5
+                # compensate for blue button here ####################################
+                x1 = x1 + 0
+                y1 = y1 + 0
                 # Draw the circle
                 cv2.circle(img, (a1, b1), r1, (0, 255, 0), 2)
                 # Draw the center of the circle
@@ -209,7 +210,7 @@ def get_coord(vid):
                 y1 = round(y1, 2)
                 cv2.putText(img, "Blue (" + str(a1) + ","+ str(b1) + ") r=" + str(r1), (a1+10,b1+r1+2), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,0),2 )
                 cv2.putText(img, "World [" + str(x1) + ","+ str(y1)+ "]", (a1+10,b1+r1-50), cv2.FONT_HERSHEY_SIMPLEX,1,(255,100,100),2 )
-
+                print("go here :x(" + str(x1) + ") :y("+ str(y1) + ") :z(550)")
             #contr = increase_contrast(img)
             
             # Find the door first
@@ -222,8 +223,8 @@ def get_coord(vid):
                 knob_center, knob_radius  = detect_knob(img, x, y, w, h)
                 a2,b2 = knob_center
                 x2, y2 = Settings.calculateXY(a2, b2)
-                # compensate knob position here
-                x2 = x2 + 1.5
+                # compensate knob position here #########################################
+                x2 = x2 + 0.5
                 y2 = y2 + 0.5
                 # Draw both and show the image, just for fun.
                 if knob_radius != 0:
@@ -231,6 +232,7 @@ def get_coord(vid):
                     cv2.circle(img, knob_center, knob_radius, (0, 255, 0), 3)
                     cv2.putText(img, "Knob (" + str(a2) + ","+ str(b2) + ") r=" + str(knob_radius), (a2+knob_radius+2,b2+10), cv2.FONT_HERSHEY_SIMPLEX,1,(0,255,0),2 )
                     cv2.putText(img, "World [" + str(x2) + ","+ str(y2)+ "]", (a2+10,b2+knob_radius+50), cv2.FONT_HERSHEY_SIMPLEX,1,(0,50,255),2 )
+                    
                 # add label for human input to start the robot OR quit OR recapture image
                 cv2.putText(img, "Press 'g' = start robot, 'q' = quit, other key = recapture", (50,100), cv2.FONT_HERSHEY_SIMPLEX,1.5,(0,0,255),2)
                 
